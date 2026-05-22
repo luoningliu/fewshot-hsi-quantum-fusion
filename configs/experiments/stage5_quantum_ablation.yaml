@@ -1,0 +1,15 @@
+stage: stage5_quantum_ablation
+datasets:
+  - configs/data/indian_pines.yaml
+  - configs/data/pavia_university.yaml
+  - configs/data/salinas.yaml
+models:
+  - trainable_qnn
+  - random_qnn
+  - frozen_qnn
+  - no_entanglement_qnn
+  - residual_qnn
+  - data_reuploading_qnn
+output:
+  root: result/stage5_quantum_ablation
+

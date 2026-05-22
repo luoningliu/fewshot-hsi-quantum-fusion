@@ -1,0 +1,9 @@
+stage: stage7_multiseed
+seeds: [0, 1, 2, 3, 4]
+models:
+  - hybridsn
+  - hybridsn_mlp
+  - hybridsn_qnn
+output:
+  root: result/stage7_multiseed
+

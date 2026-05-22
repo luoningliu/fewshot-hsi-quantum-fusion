@@ -1,0 +1,8 @@
+stage: stage6_quantum_sweep
+qubits: [4, 6, 8, 10]
+layers: [1, 2, 4, 6]
+encoding: [angle, amplitude, data_reuploading]
+entanglement: [none, linear, ring, full]
+output:
+  root: result/stage6_quantum_sweep
+

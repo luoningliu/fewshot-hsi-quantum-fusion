@@ -1,0 +1,4 @@
+stage: stage8_feature_analysis
+output:
+  root: result/stage8_feature_analysis
+

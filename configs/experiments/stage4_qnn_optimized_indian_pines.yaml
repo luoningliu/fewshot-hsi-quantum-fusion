@@ -1,0 +1,26 @@
+stage: stage4_qnn_sweep
+dataset: configs/data/indian_pines.yaml
+embedding_path: result/stage4_qnn_classifier/indian_pines/hybridsn_embeddings.npz
+output:
+  root: result/stage4_qnn_optimized_indian_pines
+training:
+  seed: 42
+  epochs: 10
+  batch_size: 16
+  weight_decay: 0.0001
+  device: auto
+  subset:
+    train_per_class: 30
+    validation_per_class: 30
+    test_per_class: 100
+qnn_grid:
+  head_type: [qnn, residual_qnn]
+  qubits: [6]
+  layers: [1, 2]
+  learning_rate: [0.01, 0.03]
+  entanglement: [linear, ring]
+  normalize_input: true
+  angle_scale: 3.141592653589793
+  backend: lightning.qubit
+  diff_method: adjoint
+

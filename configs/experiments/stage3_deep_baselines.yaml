@@ -1,0 +1,20 @@
+stage: stage3_deep_baselines
+datasets:
+  - configs/data/indian_pines.yaml
+  - configs/data/pavia_university.yaml
+  - configs/data/salinas.yaml
+models:
+  - cnn1d
+  - cnn2d
+  - cnn3d
+  - hybridsn
+training:
+  seed: 42
+  epochs: 15
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 4
+  device: auto
+output:
+  root: result/stage3_deep_baselines

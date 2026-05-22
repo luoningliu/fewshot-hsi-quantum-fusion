@@ -1,0 +1,6 @@
+stage: stage1_data_protocol
+datasets:
+  - configs/data/synthetic_hsi.yaml
+output:
+  root: result/stage1_data_protocol_synthetic_hsi
+

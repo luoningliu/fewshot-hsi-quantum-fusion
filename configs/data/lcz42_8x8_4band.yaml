@@ -1,0 +1,52 @@
+dataset_name: LCZ42
+target_cities:
+  - Berlin
+  - Munich
+  - Cologne
+target_bands:
+  - B2
+  - B3
+  - B4
+  - B8
+target_size: [8, 8]
+samples_per_class: 2000
+random_seed: 42
+num_folds: 5
+holdout_split:
+  train: 0.70
+  validation: 0.15
+  test: 0.15
+
+class_names:
+  0: Compact built-up area
+  1: Open built-up area
+  2: Large low-rise / Heavy industry
+  3: Vegetation
+  4: Water
+
+# Confirm this mapping against the actual LCZ42 label encoding before final experiments.
+# Numeric LCZ classes usually use 1-10 for built types and 11-17 or A-G for natural types.
+label_mapping:
+  1: 0
+  2: 0
+  3: 0
+  4: 1
+  5: 1
+  6: 1
+  8: 2
+  10: 2
+  11: 3
+  12: 3
+  13: 3
+  14: 3
+  15: 3
+  16: 3
+  17: 4
+  A: 3
+  B: 3
+  C: 3
+  D: 3
+  E: 3
+  F: 3
+  G: 4
+

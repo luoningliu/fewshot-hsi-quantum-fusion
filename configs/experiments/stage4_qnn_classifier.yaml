@@ -1,0 +1,39 @@
+stage: stage4_qnn_classifier
+datasets:
+  - configs/data/indian_pines.yaml
+  - configs/data/pavia_university.yaml
+  - configs/data/salinas.yaml
+models:
+  - hybridsn_linear
+  - hybridsn_mlp
+  - hybridsn_bottleneck
+  - hybridsn_qnn
+training:
+  seed: 42
+  encoder_epochs: 8
+  head_epochs: 15
+  qnn_epochs: 3
+  batch_size: 256
+  qnn_batch_size: 16
+  learning_rate: 0.001
+  qnn_learning_rate: 0.01
+  weight_decay: 0.0001
+  patience: 4
+  device: auto
+  reuse_existing: true
+  # QNN simulation is CPU-heavy. First Stage 4 run trains/evaluates QNN on Indian Pines only;
+  # classical heads run on all datasets.
+  qnn_datasets:
+    - indian_pines
+  qnn_subset:
+    train_per_class: 30
+    validation_per_class: 30
+    test_per_class: 100
+qnn:
+  qubits: 6
+  layers: 2
+  entanglement: ring
+  backend: lightning.qubit
+  diff_method: adjoint
+output:
+  root: result/stage4_qnn_classifier

@@ -1,0 +1,42 @@
+seed: 42
+dataset:
+  config: configs/data/indian_pines.yaml
+embedding_path: result/hybridsn_qnn_optimized_indian_pines/hybridsn_embeddings_tuned.npz
+hybridsn_reference: result/hybridsn_tuning_indian_pines/best_metrics.json
+training:
+  seeds:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+  epochs: 12
+  patience: 5
+  batch_size: 16
+  device: auto
+heads:
+  - model: linear_probe
+    learning_rate: 0.003
+    weight_decay: 0.0001
+  - model: mlp_probe
+    hidden_dim: 128
+    dropout: 0.3
+    learning_rate: 0.003
+    weight_decay: 0.0001
+  - model: residual_qnn
+    qubits: 4
+    layers: 1
+    entanglement: linear
+    learning_rate: 0.003
+    weight_decay: 0.0001
+    angle_scale: 3.141592653589793
+  - model: gated_residual_qnn
+    qubits: 4
+    layers: 1
+    entanglement: linear
+    gate_mode: scalar
+    learning_rate: 0.003
+    weight_decay: 0.0001
+    angle_scale: 3.141592653589793
+output:
+  root: result/frozen_hybridsn_head_comparison_indian_pines

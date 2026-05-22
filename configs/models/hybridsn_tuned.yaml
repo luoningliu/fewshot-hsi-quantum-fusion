@@ -1,0 +1,8 @@
+model: hybridsn
+architecture: hybridsn_base
+input: patch
+input_format: HWD
+pca_components: 30
+patch_size: 9
+embedding_dim: 128
+dropout: 0.4

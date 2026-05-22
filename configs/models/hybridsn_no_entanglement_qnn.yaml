@@ -1,0 +1,6 @@
+model: hybridsn_no_entanglement_qnn
+embedding_dim: 128
+qubits: 6
+layers: 2
+entanglement: none
+

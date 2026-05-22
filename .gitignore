@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+*.pdf
+data/**/raw/*
+data/**/processed/*
+data/lcz42/raw/*
+data/lcz42/processed/*
+data/lcz42/splits/*
+result/*
+!data/**/raw/.gitkeep
+!data/**/processed/.gitkeep
+!data/lcz42/raw/.gitkeep
+!data/lcz42/processed/.gitkeep
+!data/lcz42/splits/.gitkeep
+!result/.gitkeep

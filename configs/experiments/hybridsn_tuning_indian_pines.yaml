@@ -1,0 +1,57 @@
+seed: 42
+dataset:
+  config: configs/data/indian_pines.yaml
+training:
+  epochs: 45
+  early_stopping_patience: 10
+  scheduler_patience: 4
+search:
+  patch_size:
+    - 7
+    - 9
+    - 11
+  pca_components:
+    - 15
+    - 30
+    - 50
+  architectures:
+    - hybridsn_small
+    - hybridsn_base
+  stage_a_fixed:
+    learning_rate: 0.001
+    batch_size: 32
+    weight_decay: 0.0001
+    dropout: 0.4
+    loss_name: cross_entropy
+    class_weight_mode: none
+    embedding_dim: 128
+    seed: 42
+  stage_a_limit: 8
+  stage_b_top_k: 3
+  learning_rate:
+    - 0.001
+    - 0.0005
+    - 0.0003
+  batch_size:
+    - 16
+    - 32
+    - 64
+  weight_decay:
+    - 0.0
+    - 0.0001
+    - 0.0005
+  dropout:
+    - 0.3
+    - 0.4
+    - 0.5
+  losses:
+    - name: cross_entropy
+      class_weight_mode: none
+    - name: weighted_ce
+      class_weight_mode: inverse_sqrt
+  stage_b_limit: 9
+  confirmation_seeds:
+    - 0
+    - 1
+output:
+  root: result/hybridsn_tuning_indian_pines

@@ -1,0 +1,8 @@
+stage: stage1_data_protocol
+datasets:
+  - configs/data/indian_pines.yaml
+  - configs/data/pavia_university.yaml
+  - configs/data/salinas.yaml
+output:
+  root: result/stage1_data_protocol
+

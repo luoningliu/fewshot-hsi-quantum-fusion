@@ -1,0 +1,24 @@
+dataset_id: synthetic_hsi
+display_name: Synthetic HSI
+data_path: data/synthetic_hsi/raw/synthetic_hsi.mat
+gt_path: data/synthetic_hsi/raw/synthetic_hsi_gt.mat
+data_key: synthetic_hsi
+gt_key: synthetic_hsi_gt
+background_label: 0
+num_classes: 4
+class_names:
+  1: Class 1
+  2: Class 2
+  3: Class 3
+  4: Class 4
+pca_components: 6
+patch_size: 5
+split:
+  seed: 42
+  train: 0.10
+  validation: 0.10
+  test: 0.80
+output:
+  processed_npz: data/synthetic_hsi/processed/synthetic_hsi_pca6_patch5.npz
+  split_json: data/synthetic_hsi/splits/split_seed42.json
+

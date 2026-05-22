@@ -1,0 +1,7 @@
+model: hybridsn_random_qnn
+embedding_dim: 128
+qubits: 6
+layers: 2
+entanglement: ring
+trainable_qnn: false
+

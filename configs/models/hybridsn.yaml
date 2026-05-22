@@ -1,0 +1,12 @@
+model: hybridsn
+input: patch
+input_format: HWD
+architecture: hybridsn_base
+pca_components: 30
+patch_size: 9
+embedding_dim: 128
+dropout: 0.4
+epochs: 200
+batch_size: 64
+learning_rate: 0.001
+weight_decay: 0.0001

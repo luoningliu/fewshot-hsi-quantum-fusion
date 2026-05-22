@@ -1,0 +1,4 @@
+stage: stage10_final_report
+output:
+  root: result/final_report
+

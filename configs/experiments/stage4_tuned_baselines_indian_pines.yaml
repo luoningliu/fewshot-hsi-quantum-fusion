@@ -1,0 +1,27 @@
+stage: stage4_tuned_baselines
+dataset: configs/data/indian_pines.yaml
+embedding_path: result/stage4_qnn_classifier/indian_pines/hybridsn_embeddings.npz
+output:
+  root: result/stage4_tuned_baselines_indian_pines
+training:
+  seed: 42
+  epochs: 30
+  batch_size: 256
+  weight_decay: 0.0001
+  patience: 8
+  selection_metric: validation_Macro-F1
+  device: auto
+linear_grid:
+  learning_rate: [0.001, 0.003, 0.01]
+mlp_grid:
+  hidden_dim: [64, 128, 256]
+  dropout: [0.0, 0.2, 0.5]
+  learning_rate: [0.001, 0.003, 0.01]
+bottleneck_grid:
+  bottleneck_dim: [4, 6, 8, 16, 32]
+  activation: [tanh, relu]
+  learning_rate: [0.001, 0.003, 0.01]
+svm_grid:
+  C: [1, 10, 100, 1000]
+  gamma: [scale, 0.01, 0.1, 1]
+

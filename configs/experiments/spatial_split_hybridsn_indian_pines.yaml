@@ -1,0 +1,24 @@
+seed: 42
+dataset:
+  config: configs/data/indian_pines.yaml
+spatial_split:
+  grid_rows: 5
+  grid_cols: 5
+  seeds: [0, 1]
+  train_block_fraction: 0.20
+  validation_block_fraction: 0.12
+model:
+  architecture: hybridsn_small
+  patch_size: 11
+  pca_components: 30
+  embedding_dim: 128
+  dropout: 0.5
+training:
+  epochs: 25
+  patience: 6
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0
+  device: auto
+output:
+  root: result/spatial_split_hybridsn_indian_pines

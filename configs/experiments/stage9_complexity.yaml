@@ -1,0 +1,4 @@
+stage: stage9_complexity
+output:
+  root: result/stage9_complexity
+

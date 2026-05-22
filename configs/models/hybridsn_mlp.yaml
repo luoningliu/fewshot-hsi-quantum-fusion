@@ -1,0 +1,5 @@
+model: hybridsn_mlp
+embedding_dim: 128
+hidden_dim: 128
+dropout: 0.2
+

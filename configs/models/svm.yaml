@@ -1,0 +1,5 @@
+model: svm_rbf
+kernel: rbf
+C: 100.0
+gamma: scale
+

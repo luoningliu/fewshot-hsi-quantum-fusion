@@ -1,0 +1,4 @@
+model: knn
+n_neighbors: 5
+weights: distance
+

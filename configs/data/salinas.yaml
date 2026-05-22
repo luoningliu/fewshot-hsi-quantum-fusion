@@ -1,0 +1,36 @@
+dataset_id: salinas
+display_name: Salinas
+data_path: data/salinas/raw/Salinas.mat
+gt_path: data/salinas/raw/Salinas_gt.mat
+data_key: salinas
+gt_key: salinas_gt
+background_label: 0
+num_classes: 16
+class_names:
+  1: Brocoli_green_weeds_1
+  2: Brocoli_green_weeds_2
+  3: Fallow
+  4: Fallow_rough_plow
+  5: Fallow_smooth
+  6: Stubble
+  7: Celery
+  8: Grapes_untrained
+  9: Soil_vinyard_develop
+  10: Corn_senesced_green_weeds
+  11: Lettuce_romaine_4wk
+  12: Lettuce_romaine_5wk
+  13: Lettuce_romaine_6wk
+  14: Lettuce_romaine_7wk
+  15: Vinyard_untrained
+  16: Vinyard_vertical_trellis
+pca_components: 30
+patch_size: 9
+split:
+  seed: 42
+  train: 0.10
+  validation: 0.10
+  test: 0.80
+output:
+  processed_npz: data/salinas/processed/salinas_pca30_patch9.npz
+  split_json: data/salinas/splits/split_seed42.json
+

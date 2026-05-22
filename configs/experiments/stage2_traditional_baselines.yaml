@@ -1,0 +1,12 @@
+stage: stage2_traditional_baselines
+datasets:
+  - configs/data/indian_pines.yaml
+  - configs/data/pavia_university.yaml
+  - configs/data/salinas.yaml
+models:
+  - svm_rbf
+  - random_forest
+  - knn
+output:
+  root: result/stage2_traditional_baselines
+

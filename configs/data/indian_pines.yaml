@@ -1,0 +1,36 @@
+dataset_id: indian_pines
+display_name: Indian Pines
+data_path: data/indian_pines/raw/Indian_pines.mat
+gt_path: data/indian_pines/raw/Indian_pines_gt.mat
+data_key: indian_pines
+gt_key: indian_pines_gt
+background_label: 0
+num_classes: 16
+class_names:
+  1: Alfalfa
+  2: Corn-notill
+  3: Corn-mintill
+  4: Corn
+  5: Grass-pasture
+  6: Grass-trees
+  7: Grass-pasture-mowed
+  8: Hay-windrowed
+  9: Oats
+  10: Soybean-notill
+  11: Soybean-mintill
+  12: Soybean-clean
+  13: Wheat
+  14: Woods
+  15: Buildings-Grass-Trees-Drives
+  16: Stone-Steel-Towers
+pca_components: 30
+patch_size: 9
+split:
+  seed: 42
+  train: 0.10
+  validation: 0.10
+  test: 0.80
+output:
+  processed_npz: data/indian_pines/processed/indian_pines_pca30_patch9.npz
+  split_json: data/indian_pines/splits/split_seed42.json
+
