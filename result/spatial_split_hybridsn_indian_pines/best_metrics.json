@@ -1,0 +1,21 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "hybridsn_spatial_split",
+  "OA": 0.3315804434337692,
+  "AA": 0.1935528718415218,
+  "Kappa": 0.2145609968530987,
+  "Macro-F1": 0.13032030953004825,
+  "Weighted-F1": 0.24018695097810358,
+  "best_run": {
+    "seed": 0,
+    "best_val_macro_f1": 0.16276527559057435,
+    "best_val_oa": 0.6074709124311084,
+    "best_val_aa": 0.19765712188741746,
+    "epochs_ran": 8,
+    "training_time_seconds": 60.496479988098145,
+    "train_size": 1580,
+    "validation_size": 1633,
+    "test_size": 7036,
+    "pca_evr_sum": 0.9695965647697449
+  }
+}

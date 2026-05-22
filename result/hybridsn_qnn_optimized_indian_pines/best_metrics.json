@@ -1,0 +1,34 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "gated_residual_qnn",
+  "selected_by": "validation_Macro-F1",
+  "source_encoder": "HybridSN tuned frozen encoder",
+  "OA": 0.9860975609756097,
+  "AA": 0.9502374257574848,
+  "Kappa": 0.9841508091539216,
+  "Macro-F1": 0.9635400790601724,
+  "Weighted-F1": 0.9859333013688075,
+  "best_run": {
+    "run_id": "qnn_02_gated_residual_qnn",
+    "model": "gated_residual_qnn",
+    "qubits": 4,
+    "layers": 1,
+    "entanglement": "linear",
+    "gate_mode": "scalar",
+    "learning_rate": 0.003,
+    "weight_decay": 0.0001,
+    "angle_scale": 3.141592653589793,
+    "best_val_macro_f1": 0.9911309985354329,
+    "best_val_oa": 0.9863414634146341,
+    "best_val_aa": 0.9911244733480472,
+    "epochs_ran": 12,
+    "training_time_seconds": 38.999496936798096
+  },
+  "hybridsn_tuned_reference": {
+    "OA": 0.9880487804878049,
+    "AA": 0.9727273075851515,
+    "Kappa": 0.9863777243449459,
+    "Macro-F1": 0.9719193098768711,
+    "Weighted-F1": 0.9880609098332948
+  }
+}

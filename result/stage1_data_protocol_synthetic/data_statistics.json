@@ -1,0 +1,40 @@
+{
+  "dataset_name": "LCZ42",
+  "num_samples": 60,
+  "input_shape": [
+    8,
+    8,
+    4
+  ],
+  "target_cities": [
+    "Berlin",
+    "Munich",
+    "Cologne"
+  ],
+  "target_bands": [
+    "B2",
+    "B3",
+    "B4",
+    "B8"
+  ],
+  "target_size": [
+    8,
+    8
+  ],
+  "samples_per_class_requested": 12,
+  "samples_per_class_actual": {
+    "0": 12,
+    "1": 12,
+    "2": 12,
+    "3": 12,
+    "4": 12
+  },
+  "class_names": {
+    "0": "Compact built-up area",
+    "1": "Open built-up area",
+    "2": "Large low-rise / Heavy industry",
+    "3": "Vegetation",
+    "4": "Water"
+  },
+  "processed_npz": "data/lcz42/processed/synthetic_lcz42_8x8_4band_stage1.npz"
+}

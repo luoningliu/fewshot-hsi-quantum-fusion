@@ -1,0 +1,11 @@
+{
+  "dataset_id": "pavia_university",
+  "model": "cnn3d",
+  "OA": 0.787037578166092,
+  "AA": 0.6249516117276253,
+  "Kappa": 0.7042812096828347,
+  "Macro-F1": 0.6151563290094387,
+  "Weighted-F1": 0.7383838109257632,
+  "training_time_seconds": 75.59158611297607,
+  "device": "cpu"
+}

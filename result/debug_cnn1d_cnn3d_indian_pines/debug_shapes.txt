@@ -1,0 +1,69 @@
+README inspection: Stage 3 reports abnormal Indian Pines CNN baselines.
+Before metrics: 1D-CNN OA=13.98%, Macro-F1=2.03%; 3D-CNN OA=27.00%, Macro-F1=4.48%.
+device: cpu
+train label min/max: 0/15
+train class distribution: [5, 143, 83, 24, 48, 73, 3, 48, 2, 97, 245, 59, 20, 126, 39, 9]
+validation label min/max: 0/15
+validation class distribution: [4, 143, 83, 24, 48, 73, 3, 48, 2, 97, 245, 59, 21, 127, 39, 9]
+test label min/max: 0/15
+test class distribution: [37, 1142, 664, 189, 387, 584, 22, 382, 16, 778, 1965, 475, 164, 1012, 308, 75]
+pca_fit_scope: train_only
+PCA explained variance ratio sum: 0.962278
+1D spectral input shape before model: (10249, 30)
+3D patch input shape before model: (10249, 9, 9, 30)
+1D model Conv1d input shape: [B, 1, 30]
+3D model Conv3d input shape: [B, 1, 30, 9, 9]
+
+[cnn1d] debug samples
+train[757] x shape: (30,), y: 1, x min/max/mean/std: -1.654056/5.340694/0.362934/1.319520
+train[441] x shape: (30,), y: 10, x min/max/mean/std: -7.992506/6.522991/-0.186872/2.074535
+train[771] x shape: (30,), y: 10, x min/max/mean/std: -1.955236/9.223035/0.537312/1.851331
+train[99] x shape: (30,), y: 13, x min/max/mean/std: -19.418781/1.694719/-1.027661/3.626115
+train[555] x shape: (30,), y: 10, x min/max/mean/std: -0.923102/10.143479/0.757560/1.989990
+validation[629] x shape: (30,), y: 10, x min/max/mean/std: -1.631141/10.629918/0.475672/2.174289
+validation[479] x shape: (30,), y: 5, x min/max/mean/std: -13.570341/2.133968/-0.792646/2.658773
+validation[985] x shape: (30,), y: 13, x min/max/mean/std: -21.034796/9.282830/-0.288405/4.408061
+validation[588] x shape: (30,), y: 10, x min/max/mean/std: -2.811516/11.226356/0.521547/2.453532
+validation[262] x shape: (30,), y: 13, x min/max/mean/std: -20.251570/1.170873/-1.186674/3.836986
+test[1798] x shape: (30,), y: 13, x min/max/mean/std: -19.379700/2.304378/-0.816142/3.668428
+test[633] x shape: (30,), y: 11, x min/max/mean/std: -7.032691/6.515261/0.254713/1.953968
+test[4503] x shape: (30,), y: 10, x min/max/mean/std: -2.185454/10.679145/0.230614/2.306150
+test[4119] x shape: (30,), y: 9, x min/max/mean/std: -6.734779/5.088274/-0.240659/1.819755
+test[7423] x shape: (30,), y: 13, x min/max/mean/std: -20.611958/13.533633/0.032274/4.722127
+
+[cnn3d] debug samples
+train[757] x shape: (9, 9, 30), y: 1, x min/max/mean/std: -15.179083/11.909796/0.112022/1.965601
+train[441] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -12.917289/13.085178/0.030692/2.055692
+train[771] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -9.843392/13.226452/0.330001/2.037264
+train[99] x shape: (9, 9, 30), y: 13, x min/max/mean/std: -21.103380/13.130063/-0.440397/3.079736
+train[555] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -5.048974/11.280685/0.435109/1.978268
+validation[629] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -12.492064/11.355875/0.145451/1.973812
+validation[479] x shape: (9, 9, 30), y: 5, x min/max/mean/std: -15.500301/12.375883/-0.383832/2.274796
+validation[985] x shape: (9, 9, 30), y: 13, x min/max/mean/std: -22.341822/13.656556/-0.471505/4.067552
+validation[588] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -5.675395/14.259279/0.382226/2.070390
+validation[262] x shape: (9, 9, 30), y: 13, x min/max/mean/std: -20.869347/5.807528/-0.809795/3.746854
+test[1798] x shape: (9, 9, 30), y: 13, x min/max/mean/std: -21.028584/5.049996/-0.815315/3.723063
+test[633] x shape: (9, 9, 30), y: 11, x min/max/mean/std: -16.115288/13.033823/-0.191133/2.345577
+test[4503] x shape: (9, 9, 30), y: 10, x min/max/mean/std: -4.809095/12.946794/0.432125/2.129656
+test[4119] x shape: (9, 9, 30), y: 9, x min/max/mean/std: -13.712610/7.886536/-0.122412/2.066152
+test[7423] x shape: (9, 9, 30), y: 13, x min/max/mean/std: -22.260849/13.533633/-0.381756/4.238414
+
+[cnn1d] first batch and sanity checks
+cnn1d tiny subset overfit: accuracy=1.0000, loss 2.804230->0.685700
+model: cnn1d
+x batch shape: (64, 30)
+y batch shape: (64,)
+y min/max: 1/14
+logits shape: (64, 16)
+loss: 2.792750
+total_grad_norm: 1.380837
+
+[cnn3d] first batch and sanity checks
+cnn3d tiny subset overfit: accuracy=1.0000, loss 2.795187->0.521154
+model: cnn3d
+x batch shape: (32, 9, 9, 30)
+y batch shape: (32,)
+y min/max: 1/14
+logits shape: (32, 16)
+loss: 2.775642
+total_grad_norm: 1.122974

@@ -1,0 +1,25 @@
+device: cpu
+embedding_path: result/hybridsn_qnn_optimized_indian_pines/hybridsn_embeddings_tuned.npz
+embedding shape: (10249, 128)
+label min/max: 0/15
+split counts: train=1024, validation=1025, test=8200
+linear_probe_seed0: x=(16, 128) logits=(16, 16) y=(16,) grad=5.091826
+mlp_probe_seed0: x=(16, 128) logits=(16, 16) y=(16,) grad=4.041668
+residual_qnn_seed0: x=(16, 128) logits=(16, 16) y=(16,) grad=6.096545
+gated_residual_qnn_seed0: x=(16, 128) logits=(16, 16) y=(16,) grad=6.894244
+linear_probe_seed1: x=(16, 128) logits=(16, 16) y=(16,) grad=5.397131
+mlp_probe_seed1: x=(16, 128) logits=(16, 16) y=(16,) grad=4.156582
+residual_qnn_seed1: x=(16, 128) logits=(16, 16) y=(16,) grad=8.547032
+gated_residual_qnn_seed1: x=(16, 128) logits=(16, 16) y=(16,) grad=5.465424
+linear_probe_seed2: x=(16, 128) logits=(16, 16) y=(16,) grad=4.898934
+mlp_probe_seed2: x=(16, 128) logits=(16, 16) y=(16,) grad=3.527921
+residual_qnn_seed2: x=(16, 128) logits=(16, 16) y=(16,) grad=7.445179
+gated_residual_qnn_seed2: x=(16, 128) logits=(16, 16) y=(16,) grad=6.327844
+linear_probe_seed3: x=(16, 128) logits=(16, 16) y=(16,) grad=5.869295
+mlp_probe_seed3: x=(16, 128) logits=(16, 16) y=(16,) grad=4.274029
+residual_qnn_seed3: x=(16, 128) logits=(16, 16) y=(16,) grad=6.797416
+gated_residual_qnn_seed3: x=(16, 128) logits=(16, 16) y=(16,) grad=4.827598
+linear_probe_seed4: x=(16, 128) logits=(16, 16) y=(16,) grad=4.512148
+mlp_probe_seed4: x=(16, 128) logits=(16, 16) y=(16,) grad=4.654604
+residual_qnn_seed4: x=(16, 128) logits=(16, 16) y=(16,) grad=7.390243
+gated_residual_qnn_seed4: x=(16, 128) logits=(16, 16) y=(16,) grad=6.198963

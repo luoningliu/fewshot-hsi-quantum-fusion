@@ -1,0 +1,32 @@
+{
+  "datasets": [
+    "indian_pines"
+  ],
+  "models": [
+    "svm_rbf",
+    "random_forest",
+    "knn",
+    "cnn1d",
+    "cnn2d",
+    "cnn3d"
+  ],
+  "data_root": "data",
+  "shots": [
+    1
+  ],
+  "seeds": [
+    0
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "batch_size": 16,
+  "eval_batch_size": 128,
+  "epochs": 2,
+  "patience": 2,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "monitor": "macro_f1",
+  "seed": 42,
+  "device": "auto",
+  "output_dir": "result/other_baselines_fewshot_smoke"
+}

@@ -1,0 +1,11 @@
+architecture: hybridsn_base
+patch_size: 11
+pca_components: 30
+learning_rate: 0.001
+batch_size: 16
+weight_decay: 0.0
+dropout: 0.5
+loss_name: weighted_ce
+class_weight_mode: inverse_sqrt
+embedding_dim: 128
+seed: 0

@@ -1,0 +1,4 @@
+run_id,model,learning_rate,weight_decay,best_val_macro_f1,best_val_oa,best_val_aa,epochs_ran,training_time_seconds,qubits,layers,entanglement,angle_scale,gate_mode
+qnn_00_linear_probe,linear_probe,0.003,0.0001,0.9793233616865498,0.9882926829268293,0.9914353212847982,12,0.7380650043487549,,,,,
+qnn_01_residual_qnn,residual_qnn,0.003,0.0001,0.9801842905052447,0.9853658536585366,0.9750748420856319,12,38.934706926345825,4.0,1.0,linear,3.141592653589793,
+qnn_02_gated_residual_qnn,gated_residual_qnn,0.003,0.0001,0.9911309985354329,0.9863414634146341,0.9911244733480472,12,38.999496936798096,4.0,1.0,linear,3.141592653589793,scalar

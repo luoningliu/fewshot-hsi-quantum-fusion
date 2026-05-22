@@ -1,0 +1,22 @@
+{
+  "dataset": "indian_pines",
+  "model": "cnn3d",
+  "shot": 1,
+  "seed": 4,
+  "OA": 0.21435653380924052,
+  "AA": 0.2405631826880502,
+  "Kappa": 0.13992544370645577,
+  "Macro-F1": 0.14426931537024973,
+  "Weighted-F1": 0.12688568589594965,
+  "best_epoch": 54,
+  "train_time_seconds": 14.767024993896484,
+  "test_time_seconds": 9.736942052841187,
+  "trainable_parameters": 4016,
+  "train_size": 16,
+  "validation_size": 147,
+  "test_size": 10086,
+  "pca_evr_sum": 0.9598935842514038,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 19,
+  "pca_bands": 30
+}

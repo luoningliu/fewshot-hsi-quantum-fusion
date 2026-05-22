@@ -1,0 +1,62 @@
+{
+  "seed": 0,
+  "dataset": {
+    "config": "configs/data/indian_pines.yaml"
+  },
+  "spatial_split": {
+    "grid_rows": 5,
+    "grid_cols": 5,
+    "train_block_fraction": 0.2,
+    "validation_block_fraction": 0.12
+  },
+  "model": {
+    "architecture": "hybridsn_small",
+    "patch_size": 11,
+    "pca_components": 30,
+    "embedding_dim": 128,
+    "dropout": 0.5
+  },
+  "encoder_training": {
+    "epochs": 12,
+    "patience": 4,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0
+  },
+  "head_training": {
+    "epochs": 10,
+    "patience": 4,
+    "batch_size": 16,
+    "learning_rate": 0.003,
+    "weight_decay": 0.0001,
+    "device": "auto"
+  },
+  "heads": [
+    {
+      "model": "linear_probe"
+    },
+    {
+      "model": "mlp_probe",
+      "hidden_dim": 64,
+      "dropout": 0.3
+    },
+    {
+      "model": "residual_qnn",
+      "qubits": 4,
+      "layers": 1,
+      "entanglement": "linear",
+      "angle_scale": 3.141592653589793
+    },
+    {
+      "model": "gated_residual_qnn",
+      "qubits": 4,
+      "layers": 1,
+      "entanglement": "linear",
+      "gate_mode": "scalar",
+      "angle_scale": 3.141592653589793
+    }
+  ],
+  "output": {
+    "root": "result/spatial_split_qnn_heads_indian_pines"
+  }
+}

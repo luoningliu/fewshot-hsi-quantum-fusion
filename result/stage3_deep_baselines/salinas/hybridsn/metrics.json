@@ -1,0 +1,11 @@
+{
+  "dataset_id": "salinas",
+  "model": "hybridsn",
+  "OA": 0.9875531128764087,
+  "AA": 0.9927688818741311,
+  "Kappa": 0.9861414031998419,
+  "Macro-F1": 0.9929997886531869,
+  "Weighted-F1": 0.9875582859916008,
+  "training_time_seconds": 447.50560903549194,
+  "device": "cpu"
+}

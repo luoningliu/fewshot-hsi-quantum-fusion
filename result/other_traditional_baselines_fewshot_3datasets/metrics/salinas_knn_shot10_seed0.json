@@ -1,0 +1,21 @@
+{
+  "dataset": "salinas",
+  "model": "knn",
+  "shot": 10,
+  "seed": 0,
+  "OA": 0.806891040532253,
+  "AA": 0.8826532758337924,
+  "Kappa": 0.7860547778310717,
+  "Macro-F1": 0.8667033017277275,
+  "Weighted-F1": 0.8071685740570455,
+  "best_epoch": 0,
+  "train_time_seconds": 0.002274751663208008,
+  "test_time_seconds": 0.03505516052246094,
+  "trainable_parameters": null,
+  "train_size": 160,
+  "validation_size": 160,
+  "test_size": 53809,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

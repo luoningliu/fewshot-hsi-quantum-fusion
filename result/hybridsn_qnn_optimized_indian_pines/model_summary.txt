@@ -1,0 +1,17 @@
+GatedResidualQNNClassifier(
+  (qnn_head): QNNClassifier(
+    (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (project): Linear(in_features=128, out_features=4, bias=True)
+    (qnn): PennyLaneQNNLayer()
+    (classifier): Linear(in_features=4, out_features=16, bias=True)
+  )
+  (linear_head): Linear(in_features=128, out_features=16, bias=True)
+  (gate): Sequential(
+    (0): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (1): Linear(in_features=128, out_features=1, bias=True)
+    (2): Sigmoid()
+  )
+)
+
+Total parameters: 3313
+Trainable parameters: 3313

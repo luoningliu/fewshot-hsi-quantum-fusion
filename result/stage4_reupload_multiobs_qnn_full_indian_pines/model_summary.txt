@@ -1,0 +1,12 @@
+ResidualDataReuploadingMultiObservableQNNClassifier(
+  (linear_head): Linear(in_features=128, out_features=16, bias=True)
+  (qnn_head): DataReuploadingMultiObservableQNNClassifier(
+    (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (project): Linear(in_features=128, out_features=6, bias=True)
+    (qnn): DataReuploadingMultiObservableQNNLayer()
+    (classifier): Linear(in_features=12, out_features=16, bias=True)
+  )
+)
+
+Total parameters: 3362
+Trainable parameters: 3362

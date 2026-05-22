@@ -1,0 +1,15 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "hybridsn_qnn",
+  "OA": 0.20444444444444446,
+  "AA": 0.1725,
+  "Kappa": 0.14080000000000004,
+  "Macro-F1": 0.07084350549751087,
+  "Weighted-F1": 0.08396267318223509,
+  "training_time_seconds": 11.012741088867188,
+  "device": "cpu",
+  "note": "qnn_stratified_subset",
+  "subset_train": 363,
+  "subset_validation": 363,
+  "subset_test": 1350
+}

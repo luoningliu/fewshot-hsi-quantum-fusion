@@ -1,0 +1,13 @@
+{
+  "dataset_id": "indian_pines",
+  "family": "mlp",
+  "model": "mlp_h256_d0.5_lr0.001",
+  "learning_rate": 0.001,
+  "OA": 0.7942682926829269,
+  "AA": 0.656055115739548,
+  "Kappa": 0.764719917050734,
+  "Macro-F1": 0.6555275949570403,
+  "Weighted-F1": 0.7883583544327323,
+  "training_time_seconds": 0.623784065246582,
+  "device": "cpu"
+}

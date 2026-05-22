@@ -1,0 +1,17 @@
+class_id,original_label,class_name,count
+0,0,Brocoli_green_weeds_1,2009
+1,1,Brocoli_green_weeds_2,3726
+2,2,Fallow,1976
+3,3,Fallow_rough_plow,1394
+4,4,Fallow_smooth,2678
+5,5,Stubble,3959
+6,6,Celery,3579
+7,7,Grapes_untrained,11271
+8,8,Soil_vinyard_develop,6203
+9,9,Corn_senesced_green_weeds,3278
+10,10,Lettuce_romaine_4wk,1068
+11,11,Lettuce_romaine_5wk,1927
+12,12,Lettuce_romaine_6wk,916
+13,13,Lettuce_romaine_7wk,1070
+14,14,Vinyard_untrained,7268
+15,15,Vinyard_vertical_trellis,1807

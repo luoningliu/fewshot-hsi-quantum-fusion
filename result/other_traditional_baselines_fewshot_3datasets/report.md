@@ -1,0 +1,45 @@
+# Other Baselines Few-shot HSI Classification
+
+All models use the same all-way few-shot sampler as HybridSN-small.
+
+- Traditional baselines use center PCA spectral vectors.
+- CNN1D uses center PCA spectral vectors.
+- CNN2D and CNN3D use PCA spatial-spectral patches.
+- PCA is fitted on the full image without labels to match the current HybridSN-small few-shot protocol.
+
+## Summary
+
+| dataset          | model         |   shot |   runs |   mean_OA |   std_OA |   mean_AA |   std_AA |   mean_Kappa |   std_Kappa |   mean_Macro-F1 |   std_Macro-F1 |   mean_Weighted-F1 |   std_Weighted-F1 |   mean_best_epoch | trainable_parameters   |
+|:-----------------|:--------------|-------:|-------:|----------:|---------:|----------:|---------:|-------------:|------------:|----------------:|---------------:|-------------------:|------------------:|------------------:|:-----------------------|
+| indian_pines     | knn           |      1 |      5 |     26.57 |     4.43 |     40.45 |     3.83 |        19.87 |        3.82 |           27.87 |           2.86 |              26.35 |              4.66 |                 0 |                        |
+| indian_pines     | random_forest |      1 |      5 |     14.19 |     2    |     21.22 |     1    |         8.29 |        1.83 |           13.71 |           1.72 |              14.26 |              1.85 |                 0 |                        |
+| indian_pines     | svm_rbf       |      1 |      5 |     26.57 |     4.43 |     40.45 |     3.83 |        19.87 |        3.82 |           27.87 |           2.86 |              26.35 |              4.66 |                 0 |                        |
+| indian_pines     | knn           |      5 |      5 |     37.01 |     1.74 |     48.89 |     0.78 |        29.63 |        1.72 |           34.4  |           1.64 |              38.44 |              1.94 |                 0 |                        |
+| indian_pines     | random_forest |      5 |      5 |     37.77 |     2.47 |     48.64 |     1.08 |        30.54 |        2.17 |           34.79 |           1.38 |              39.19 |              2.38 |                 0 |                        |
+| indian_pines     | svm_rbf       |      5 |      5 |     39.43 |     0.81 |     52.16 |     1.72 |        32.52 |        1.04 |           39.6  |           0.91 |              41.54 |              0.83 |                 0 |                        |
+| indian_pines     | knn           |     10 |      5 |     40.1  |     2.49 |     53.46 |     1.01 |        33.16 |        2.43 |           38.34 |           1.04 |              42    |              2.25 |                 0 |                        |
+| indian_pines     | random_forest |     10 |      5 |     42.04 |     1.53 |     54.04 |     0.55 |        35.29 |        1.58 |           39.14 |           1.47 |              43.57 |              1.52 |                 0 |                        |
+| indian_pines     | svm_rbf       |     10 |      5 |     41.59 |     1.35 |     55.58 |     1.08 |        35.07 |        1.54 |           42.26 |           1.08 |              43.53 |              1.41 |                 0 |                        |
+| pavia_university | knn           |      1 |      5 |     51.91 |     4.57 |     63.12 |     1.78 |        41.72 |        3.84 |           55.01 |           2.41 |              52.79 |              4.75 |                 0 |                        |
+| pavia_university | random_forest |      1 |      5 |     32.03 |     5.91 |     37.97 |     2.91 |        19.46 |        4.95 |           32.14 |           4.71 |              34.02 |              5.94 |                 0 |                        |
+| pavia_university | svm_rbf       |      1 |      5 |     51.91 |     4.57 |     63.12 |     1.78 |        41.72 |        3.84 |           55.01 |           2.41 |              52.79 |              4.75 |                 0 |                        |
+| pavia_university | knn           |      5 |      5 |     58.81 |     3.43 |     70.11 |     1.69 |        49.82 |        2.92 |           63.08 |           0.95 |              60.39 |              3.14 |                 0 |                        |
+| pavia_university | random_forest |      5 |      5 |     59.62 |     4.46 |     69.89 |     2.24 |        50.05 |        4.34 |           62.75 |           1.87 |              60.97 |              4.03 |                 0 |                        |
+| pavia_university | svm_rbf       |      5 |      5 |     60.16 |     3.5  |     73.27 |     0.53 |        51.78 |        3.47 |           66.4  |           1.41 |              61.73 |              3.57 |                 0 |                        |
+| pavia_university | knn           |     10 |      5 |     63.76 |     5.78 |     74.2  |     1.19 |        55.1  |        5.63 |           67.56 |           2.15 |              64.88 |              5.49 |                 0 |                        |
+| pavia_university | random_forest |     10 |      5 |     67.08 |     4.76 |     75.92 |     0.9  |        58.94 |        4.95 |           69.8  |           1.71 |              68.46 |              4.13 |                 0 |                        |
+| pavia_university | svm_rbf       |     10 |      5 |     70.01 |     5.48 |     77.26 |     2.11 |        62.07 |        5.83 |           72.26 |           2.16 |              71.06 |              4.98 |                 0 |                        |
+| salinas          | knn           |      1 |      5 |     69.96 |     2.28 |     75.6  |     1.74 |        66.81 |        2.49 |           72    |           2.12 |              68.85 |              3.43 |                 0 |                        |
+| salinas          | random_forest |      1 |      5 |     32.68 |     1.34 |     35.15 |     1.79 |        27.43 |        1.45 |           31.17 |           1.24 |              32.84 |              2.02 |                 0 |                        |
+| salinas          | svm_rbf       |      1 |      5 |     69.96 |     2.28 |     75.6  |     1.74 |        66.81 |        2.49 |           72    |           2.12 |              68.85 |              3.43 |                 0 |                        |
+| salinas          | knn           |      5 |      5 |     74.7  |     2.58 |     83.14 |     0.97 |        72.13 |        2.75 |           80.01 |           1.91 |              73.61 |              3.34 |                 0 |                        |
+| salinas          | random_forest |      5 |      5 |     77.46 |     1.19 |     84.85 |     1.3  |        75.01 |        1.36 |           83.55 |           1.12 |              77.39 |              1.19 |                 0 |                        |
+| salinas          | svm_rbf       |      5 |      5 |     78.84 |     0.63 |     87.34 |     0.76 |        76.57 |        0.72 |           85.56 |           1.05 |              78.75 |              0.73 |                 0 |                        |
+| salinas          | knn           |     10 |      5 |     79.34 |     1.29 |     87.47 |     0.56 |        77.13 |        1.41 |           85.67 |           0.75 |              79.26 |              1.37 |                 0 |                        |
+| salinas          | random_forest |     10 |      5 |     80.85 |     1.62 |     89.06 |     0.7  |        78.76 |        1.74 |           88.32 |           0.71 |              80.67 |              1.8  |                 0 |                        |
+| salinas          | svm_rbf       |     10 |      5 |     82.62 |     1.26 |     90.2  |     0.32 |        80.71 |        1.36 |           89.21 |           0.36 |              82.62 |              1.3  |                 0 |                        |
+
+
+## Failed Runs
+
+None.

@@ -1,0 +1,9 @@
+{
+  "dataset_id": "pavia_university",
+  "model": "random_forest",
+  "OA": 0.884869382268716,
+  "AA": 0.8205327647689091,
+  "Kappa": 0.8432817603243501,
+  "Macro-F1": 0.8529200550234788,
+  "Weighted-F1": 0.8775049387409407
+}

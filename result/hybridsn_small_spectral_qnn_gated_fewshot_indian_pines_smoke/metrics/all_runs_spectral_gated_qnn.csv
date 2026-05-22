@@ -1,0 +1,2 @@
+dataset,model,shot,seed,OA,AA,Kappa,Macro-F1,Weighted-F1,best_epoch,train_time_seconds,test_time_seconds,trainable_parameters,encoder_feature_dim,spectral_dim,train_size,validation_size,test_size
+indian_pines,hybridsn_small_spectral_qnn_gated_fusion,1,0,0.06087646242316082,0.1356010583068781,0.021176368757525155,0.03258353033919187,0.08075532176139005,2,0.7212190628051758,13.559684991836548,1055,32,30,16,147,10086

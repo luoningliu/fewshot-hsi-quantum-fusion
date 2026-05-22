@@ -1,0 +1,11 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "hybridsn_linear",
+  "OA": 0.703780487804878,
+  "AA": 0.5366743579480115,
+  "Kappa": 0.6610358191120707,
+  "Macro-F1": 0.5264609282852201,
+  "Weighted-F1": 0.6904547660036918,
+  "training_time_seconds": 44.42671489715576,
+  "device": "cpu"
+}

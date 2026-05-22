@@ -1,0 +1,2 @@
+dataset_id,model,qubits,layers,learning_rate,entanglement,OA,AA,Kappa,Macro-F1,Weighted-F1,training_time_seconds,train_size,validation_size,test_size,device
+indian_pines,residual_qnn_full,6,2,0.01,linear,0.7834146341463415,0.7896108736858571,0.755470272163743,0.7740833242966624,0.7839292394252398,197.47374272346497,1024,1025,8200,cpu

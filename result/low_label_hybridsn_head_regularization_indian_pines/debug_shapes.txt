@@ -1,0 +1,64 @@
+device: cpu
+embedding_path: result/hybridsn_qnn_optimized_indian_pines/hybridsn_embeddings_tuned.npz
+embedding shape: (10249, 128)
+base train size: 1024
+fraction=0.01 seed=0 train_subset=16
+linear_probe_f0.01_seed0: x=(16, 128) logits=(16, 16) grad=2.982139
+mlp_probe_f0.01_seed0: x=(16, 128) logits=(16, 16) grad=2.762787
+residual_qnn_f0.01_seed0: x=(16, 128) logits=(16, 16) grad=4.988253
+gated_residual_qnn_f0.01_seed0: x=(16, 128) logits=(16, 16) grad=3.639470
+fraction=0.01 seed=1 train_subset=16
+linear_probe_f0.01_seed1: x=(16, 128) logits=(16, 16) grad=2.965849
+mlp_probe_f0.01_seed1: x=(16, 128) logits=(16, 16) grad=2.813849
+residual_qnn_f0.01_seed1: x=(16, 128) logits=(16, 16) grad=4.894416
+gated_residual_qnn_f0.01_seed1: x=(16, 128) logits=(16, 16) grad=3.480586
+fraction=0.01 seed=2 train_subset=16
+linear_probe_f0.01_seed2: x=(16, 128) logits=(16, 16) grad=2.999097
+mlp_probe_f0.01_seed2: x=(16, 128) logits=(16, 16) grad=2.755483
+residual_qnn_f0.01_seed2: x=(16, 128) logits=(16, 16) grad=4.366071
+gated_residual_qnn_f0.01_seed2: x=(16, 128) logits=(16, 16) grad=3.389779
+fraction=0.03 seed=0 train_subset=31
+linear_probe_f0.03_seed0: x=(16, 128) logits=(16, 16) grad=4.007030
+mlp_probe_f0.03_seed0: x=(16, 128) logits=(16, 16) grad=4.061718
+residual_qnn_f0.03_seed0: x=(16, 128) logits=(16, 16) grad=6.115296
+gated_residual_qnn_f0.03_seed0: x=(16, 128) logits=(16, 16) grad=4.730360
+fraction=0.03 seed=1 train_subset=31
+linear_probe_f0.03_seed1: x=(16, 128) logits=(16, 16) grad=4.371496
+mlp_probe_f0.03_seed1: x=(16, 128) logits=(16, 16) grad=3.371425
+residual_qnn_f0.03_seed1: x=(16, 128) logits=(16, 16) grad=6.173002
+gated_residual_qnn_f0.03_seed1: x=(16, 128) logits=(16, 16) grad=4.460351
+fraction=0.03 seed=2 train_subset=31
+linear_probe_f0.03_seed2: x=(16, 128) logits=(16, 16) grad=4.833363
+mlp_probe_f0.03_seed2: x=(16, 128) logits=(16, 16) grad=3.383054
+residual_qnn_f0.03_seed2: x=(16, 128) logits=(16, 16) grad=5.869591
+gated_residual_qnn_f0.03_seed2: x=(16, 128) logits=(16, 16) grad=4.735466
+fraction=0.05 seed=0 train_subset=51
+linear_probe_f0.05_seed0: x=(16, 128) logits=(16, 16) grad=5.087110
+mlp_probe_f0.05_seed0: x=(16, 128) logits=(16, 16) grad=3.438726
+residual_qnn_f0.05_seed0: x=(16, 128) logits=(16, 16) grad=6.103883
+gated_residual_qnn_f0.05_seed0: x=(16, 128) logits=(16, 16) grad=7.703031
+fraction=0.05 seed=1 train_subset=51
+linear_probe_f0.05_seed1: x=(16, 128) logits=(16, 16) grad=4.540431
+mlp_probe_f0.05_seed1: x=(16, 128) logits=(16, 16) grad=3.610211
+residual_qnn_f0.05_seed1: x=(16, 128) logits=(16, 16) grad=7.055670
+gated_residual_qnn_f0.05_seed1: x=(16, 128) logits=(16, 16) grad=5.267822
+fraction=0.05 seed=2 train_subset=51
+linear_probe_f0.05_seed2: x=(16, 128) logits=(16, 16) grad=4.503317
+mlp_probe_f0.05_seed2: x=(16, 128) logits=(16, 16) grad=3.634063
+residual_qnn_f0.05_seed2: x=(16, 128) logits=(16, 16) grad=6.416028
+gated_residual_qnn_f0.05_seed2: x=(16, 128) logits=(16, 16) grad=4.459784
+fraction=0.1 seed=0 train_subset=102
+linear_probe_f0.1_seed0: x=(16, 128) logits=(16, 16) grad=4.482242
+mlp_probe_f0.1_seed0: x=(16, 128) logits=(16, 16) grad=3.888930
+residual_qnn_f0.1_seed0: x=(16, 128) logits=(16, 16) grad=6.874911
+gated_residual_qnn_f0.1_seed0: x=(16, 128) logits=(16, 16) grad=4.677971
+fraction=0.1 seed=1 train_subset=102
+linear_probe_f0.1_seed1: x=(16, 128) logits=(16, 16) grad=4.641027
+mlp_probe_f0.1_seed1: x=(16, 128) logits=(16, 16) grad=3.716426
+residual_qnn_f0.1_seed1: x=(16, 128) logits=(16, 16) grad=8.337075
+gated_residual_qnn_f0.1_seed1: x=(16, 128) logits=(16, 16) grad=6.407774
+fraction=0.1 seed=2 train_subset=102
+linear_probe_f0.1_seed2: x=(16, 128) logits=(16, 16) grad=5.648673
+mlp_probe_f0.1_seed2: x=(16, 128) logits=(16, 16) grad=3.615997
+residual_qnn_f0.1_seed2: x=(16, 128) logits=(16, 16) grad=7.198199
+gated_residual_qnn_f0.1_seed2: x=(16, 128) logits=(16, 16) grad=4.611140

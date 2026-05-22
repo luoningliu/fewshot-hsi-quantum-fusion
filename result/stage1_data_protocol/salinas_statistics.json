@@ -1,0 +1,35 @@
+{
+  "dataset_id": "salinas",
+  "display_name": "Salinas",
+  "raw_cube_shape": [
+    512,
+    217,
+    224
+  ],
+  "gt_shape": [
+    512,
+    217
+  ],
+  "num_labeled_samples": 54129,
+  "num_classes": 16,
+  "patch_shape": [
+    9,
+    9,
+    30
+  ],
+  "spectral_shape": [
+    30
+  ],
+  "pca_components": 30,
+  "pca_explained_variance_ratio_sum": 0.9986383318901062,
+  "split_counts": {
+    "train": 5412,
+    "validation": 5413,
+    "test": 43304
+  },
+  "processed_npz": "data/salinas/processed/salinas_pca30_patch9.npz",
+  "split_json": "data/salinas/splits/split_seed42.json",
+  "result_split_json": "result/stage1_data_protocol/salinas_split_seed42.json",
+  "class_distribution_csv": "result/stage1_data_protocol/salinas_class_distribution.csv",
+  "band_statistics_csv": "result/stage1_data_protocol/salinas_band_statistics.csv"
+}

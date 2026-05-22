@@ -1,0 +1,2 @@
+dataset,shot,runs,mean_OA,std_OA,mean_AA,std_AA,mean_Kappa,std_Kappa,mean_Macro-F1,std_Macro-F1,mean_Weighted-F1,std_Weighted-F1,mean_best_epoch,trainable_parameters
+indian_pines,1,1,0.08120166567519334,0.0,0.0625,0.0,0.0,0.0,0.0093878954607978,0.0,0.012197003977621888,0.0,1.0,99488

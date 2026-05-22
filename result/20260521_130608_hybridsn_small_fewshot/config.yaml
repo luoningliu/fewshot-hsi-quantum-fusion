@@ -1,0 +1,36 @@
+{
+  "dataset": "indian_pines",
+  "datasets": [
+    "indian_pines"
+  ],
+  "data_root": "./data",
+  "shots": [
+    1
+  ],
+  "seeds": [
+    0
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "conv3d_channels": [
+    8,
+    16,
+    16
+  ],
+  "conv2d_channels": 32,
+  "hidden_dim": 64,
+  "dropout": 0.4,
+  "batch_size": 16,
+  "epochs": 2,
+  "patience": 2,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "class_weight": "none",
+  "class_balanced_sampler": false,
+  "monitor": "macro_f1",
+  "device": "auto",
+  "output_root": "./result",
+  "run_dir": "",
+  "seed": 42,
+  "debug": true
+}

@@ -1,0 +1,3 @@
+| dataset   | model                        |   shot |   runs |   mean_OA |   std_OA |   mean_AA |   std_AA |   mean_Kappa |   std_Kappa |   mean_Macro-F1 |   std_Macro-F1 |   mean_Weighted-F1 |   std_Weighted-F1 |   mean_best_epoch |   trainable_parameters |
+|:----------|:-----------------------------|-------:|-------:|----------:|---------:|----------:|---------:|-------------:|------------:|----------------:|---------------:|-------------------:|------------------:|------------------:|-----------------------:|
+| salinas   | spectral_qnn_gated_prototype |      5 |      2 |     85.73 |     0.54 |     93.33 |     0.89 |        84.14 |        0.57 |           92.93 |           0.92 |              85.77 |              0.45 |              23.5 |                   2176 |

@@ -1,0 +1,24 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "embedding_mlp",
+  "selected_by": "validation_Macro-F1",
+  "source_encoder": "frozen tuned HybridSN embedding plus center-pixel PCA spectral branch",
+  "pca_evr_sum": 0.9622784852981567,
+  "OA": 0.9871951219512195,
+  "AA": 0.953914791991408,
+  "Kappa": 0.9854017620734422,
+  "Macro-F1": 0.9631173257922198,
+  "Weighted-F1": 0.9870968557531785,
+  "best_run": {
+    "run_id": "embedding_mlp_seed1",
+    "model": "embedding_mlp",
+    "seed": 1,
+    "best_val_macro_f1": 0.9950778442703239,
+    "best_val_oa": 0.9921951219512195,
+    "best_val_aa": 0.995168762533532,
+    "epochs_ran": 9,
+    "training_time_seconds": 0.58347487449646,
+    "parameters": 9552,
+    "trainable_parameters": 9552
+  }
+}

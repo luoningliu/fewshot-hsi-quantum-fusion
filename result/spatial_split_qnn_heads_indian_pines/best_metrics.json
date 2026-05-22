@@ -1,0 +1,17 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "mlp_h64",
+  "OA": 0.35901080159181353,
+  "AA": 0.2068237215649677,
+  "Kappa": 0.25677900406237386,
+  "Macro-F1": 0.1377519515148504,
+  "Weighted-F1": 0.26483826685013834,
+  "best_run": {
+    "run_id": "mlp_h64",
+    "best_val_macro_f1": 0.14158658604149865,
+    "best_val_oa": 0.5658297611757501,
+    "best_val_aa": 0.19109182074083553,
+    "epochs_ran": 10,
+    "training_time_seconds": 0.8431186676025391
+  }
+}

@@ -1,0 +1,18 @@
+stage: stage1_data_protocol
+
+input:
+  type: npz
+  path: data/lcz42/raw/synthetic_lcz42_sentinel2.npz
+  manifest_path: data/lcz42/raw/manifest.csv
+  base_dir: data/lcz42/raw
+
+data:
+  dataset_config: configs/data/lcz42_8x8_4band.yaml
+  overrides:
+    samples_per_class: 12
+
+output:
+  root: result/stage1_data_protocol_synthetic
+  processed_npz: data/lcz42/processed/synthetic_lcz42_8x8_4band_stage1.npz
+  splits_dir: data/lcz42/splits/synthetic
+

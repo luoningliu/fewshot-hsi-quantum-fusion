@@ -1,0 +1,121 @@
+{
+  "spectral_branch": {
+    "dataset_id": "indian_pines",
+    "model": "embedding_mlp",
+    "selected_by": "validation_Macro-F1",
+    "source_encoder": "frozen tuned HybridSN embedding plus center-pixel PCA spectral branch",
+    "pca_evr_sum": 0.9622784852981567,
+    "OA": 0.9871951219512195,
+    "AA": 0.953914791991408,
+    "Kappa": 0.9854017620734422,
+    "Macro-F1": 0.9631173257922198,
+    "Weighted-F1": 0.9870968557531785,
+    "best_run": {
+      "run_id": "embedding_mlp_seed1",
+      "model": "embedding_mlp",
+      "seed": 1,
+      "best_val_macro_f1": 0.9950778442703239,
+      "best_val_oa": 0.9921951219512195,
+      "best_val_aa": 0.995168762533532,
+      "epochs_ran": 9,
+      "training_time_seconds": 0.58347487449646,
+      "parameters": 9552,
+      "trainable_parameters": 9552
+    }
+  },
+  "parameter_efficiency": {
+    "dataset_id": "indian_pines",
+    "model": "mlp_h64",
+    "OA": 0.9871951219512195,
+    "AA": 0.953914791991408,
+    "Kappa": 0.9854017620734422,
+    "Macro-F1": 0.9631173257922198,
+    "Weighted-F1": 0.9870968557531785,
+    "best_run": {
+      "run_id": "mlp_h64_seed1",
+      "model": "mlp_h64",
+      "seed": 1,
+      "best_val_macro_f1": 0.9950778442703239,
+      "best_val_oa": 0.9921951219512195,
+      "best_val_aa": 0.995168762533532,
+      "epochs_ran": 10,
+      "training_time_seconds": 0.5401129722595215,
+      "params": 9552
+    }
+  },
+  "spatial_qnn_heads": {
+    "dataset_id": "indian_pines",
+    "model": "mlp_h64",
+    "OA": 0.35901080159181353,
+    "AA": 0.2068237215649677,
+    "Kappa": 0.25677900406237386,
+    "Macro-F1": 0.1377519515148504,
+    "Weighted-F1": 0.26483826685013834,
+    "best_run": {
+      "run_id": "mlp_h64",
+      "best_val_macro_f1": 0.14158658604149865,
+      "best_val_oa": 0.5658297611757501,
+      "best_val_aa": 0.19109182074083553,
+      "epochs_ran": 10,
+      "training_time_seconds": 0.8431186676025391
+    }
+  },
+  "spatial_hybridsn": {
+    "dataset_id": "indian_pines",
+    "model": "hybridsn_spatial_split",
+    "OA": 0.3315804434337692,
+    "AA": 0.1935528718415218,
+    "Kappa": 0.2145609968530987,
+    "Macro-F1": 0.13032030953004825,
+    "Weighted-F1": 0.24018695097810358,
+    "best_run": {
+      "seed": 0,
+      "best_val_macro_f1": 0.16276527559057435,
+      "best_val_oa": 0.6074709124311084,
+      "best_val_aa": 0.19765712188741746,
+      "epochs_ran": 8,
+      "training_time_seconds": 60.496479988098145,
+      "train_size": 1580,
+      "validation_size": 1633,
+      "test_size": 7036,
+      "pca_evr_sum": 0.9695965647697449
+    }
+  },
+  "tuned_hybridsn": {
+    "dataset_id": "indian_pines",
+    "model": "HybridSN tuned",
+    "OA": 0.9880487804878049,
+    "AA": 0.9727273075851515,
+    "Kappa": 0.9863777243449459,
+    "Macro-F1": 0.9719193098768711,
+    "Weighted-F1": 0.9880609098332948,
+    "selected_by": "validation_Macro-F1",
+    "best_config": {
+      "architecture": "hybridsn_base",
+      "patch_size": 11,
+      "pca_components": 30,
+      "learning_rate": 0.001,
+      "batch_size": 16,
+      "weight_decay": 0.0,
+      "dropout": 0.5,
+      "loss_name": "weighted_ce",
+      "class_weight_mode": "inverse_sqrt",
+      "embedding_dim": 128,
+      "seed": 0
+    },
+    "confirmation_mean_std": {
+      "best_val_oa": {
+        "mean": 0.9902439024390244,
+        "std": 0.0009756097560975618
+      },
+      "best_val_aa": {
+        "mean": 0.993463826351638,
+        "std": 0.0006310255213486382
+      },
+      "best_val_macro_f1": {
+        "mean": 0.9901537713916557,
+        "std": 0.0019310183237117862
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "dataset": "salinas",
+  "model": "svm_rbf",
+  "shot": 5,
+  "seed": 2,
+  "OA": 0.7982334057043181,
+  "AA": 0.8792211612733283,
+  "Kappa": 0.7757416693603196,
+  "Macro-F1": 0.8748746116504995,
+  "Weighted-F1": 0.7998797731682613,
+  "best_epoch": 0,
+  "train_time_seconds": 0.00431060791015625,
+  "test_time_seconds": 0.236464262008667,
+  "trainable_parameters": null,
+  "train_size": 80,
+  "validation_size": 160,
+  "test_size": 53889,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

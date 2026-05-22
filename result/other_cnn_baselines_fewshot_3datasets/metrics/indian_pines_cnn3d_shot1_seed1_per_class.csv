@@ -1,0 +1,17 @@
+class_id,class_name,precision,recall,f1,support
+0,Alfalfa,0.0,0.0,0.0,36
+1,Corn-notill,0.0,0.0,0.0,1417
+2,Corn-mintill,0.0,0.0,0.0,819
+3,Corn,0.0,0.0,0.0,226
+4,Grass-pasture,0.07871581450653983,0.701271186440678,0.14154372460979261,472
+5,Grass-trees,0.0,0.0,0.0,719
+6,Grass-pasture-mowed,0.0,0.0,0.0,22
+7,Hay-windrowed,0.0,0.0,0.0,467
+8,Oats,0.0,0.0,0.0,16
+9,Soybean-notill,0.0,0.0,0.0,961
+10,Soybean-mintill,0.0,0.0,0.0,2444
+11,Soybean-clean,0.0,0.0,0.0,582
+12,Wheat,0.0,0.0,0.0,194
+13,Woods,0.12055772827750383,0.5653907496012759,0.1987386124737211,1254
+14,Buildings-Grass-Trees-Drives,0.0,0.0,0.0,375
+15,Stone-Steel-Towers,0.0,0.0,0.0,82

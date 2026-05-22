@@ -1,0 +1,2 @@
+dataset,model,shot,runs,mean_OA,std_OA,mean_AA,std_AA,mean_Kappa,std_Kappa,mean_Macro-F1,std_Macro-F1,mean_Weighted-F1,std_Weighted-F1,mean_best_epoch,trainable_parameters
+indian_pines,hybridsn_small_spectral_qnn_gated_fusion,1,1,0.06087646242316082,0.0,0.1356010583068781,0.0,0.021176368757525155,0.0,0.03258353033919187,0.0,0.08075532176139005,0.0,2.0,1055

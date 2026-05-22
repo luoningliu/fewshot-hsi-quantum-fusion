@@ -1,0 +1,2 @@
+dataset,model,shot,runs,mean_OA,std_OA,mean_AA,std_AA,mean_Kappa,std_Kappa,mean_Macro-F1,std_Macro-F1,mean_Weighted-F1,std_Weighted-F1,mean_best_epoch,trainable_parameters
+pavia_university,spectral_qnn_gated_prototype,10,1,0.8252183303596582,0.0,0.8593215815095012,0.0,0.778157609243428,0.0,0.8205843596773512,0.0,0.8367318162791108,0.0,10.0,1455

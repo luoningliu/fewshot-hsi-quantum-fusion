@@ -1,0 +1,13 @@
+{
+  "dataset_id": "indian_pines",
+  "family": "bottleneck",
+  "model": "bottleneck_b6_tanh_lr0.003",
+  "learning_rate": 0.003,
+  "OA": 0.4276829268292683,
+  "AA": 0.3423813431643328,
+  "Kappa": 0.35933738385216085,
+  "Macro-F1": 0.2762445994809722,
+  "Weighted-F1": 0.3173620711163307,
+  "training_time_seconds": 0.18927216529846191,
+  "device": "cpu"
+}

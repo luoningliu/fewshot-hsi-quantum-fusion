@@ -1,0 +1,19 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "residual_qnn_q6_l1_lr0.01_entlinear",
+  "head_type": "residual_qnn",
+  "qubits": 6,
+  "layers": 1,
+  "learning_rate": 0.01,
+  "entanglement": "linear",
+  "OA": 0.7474074074074074,
+  "AA": 0.7079110360360361,
+  "Kappa": 0.7279502929402406,
+  "Macro-F1": 0.6929200945565286,
+  "Weighted-F1": 0.7321061647863828,
+  "training_time_seconds": 17.078034162521362,
+  "subset_train": 363,
+  "subset_validation": 363,
+  "subset_test": 1350,
+  "device": "cpu"
+}

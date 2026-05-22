@@ -1,0 +1,22 @@
+{
+  "dataset": "pavia_university",
+  "model": "cnn2d",
+  "shot": 10,
+  "seed": 0,
+  "OA": 0.8885341346605315,
+  "AA": 0.8986677407519158,
+  "Kappa": 0.8553827218961123,
+  "Macro-F1": 0.8504647854252781,
+  "Weighted-F1": 0.8916900571850831,
+  "best_epoch": 100,
+  "train_time_seconds": 10.737710952758789,
+  "test_time_seconds": 10.091569185256958,
+  "trainable_parameters": 27753,
+  "train_size": 90,
+  "validation_size": 90,
+  "test_size": 42596,
+  "pca_evr_sum": 0.9996427893638611,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 19,
+  "pca_bands": 30
+}

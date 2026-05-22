@@ -1,0 +1,4 @@
+Linear(in_features=128, out_features=16, bias=True)
+
+Total parameters: 2064
+Trainable parameters: 2064

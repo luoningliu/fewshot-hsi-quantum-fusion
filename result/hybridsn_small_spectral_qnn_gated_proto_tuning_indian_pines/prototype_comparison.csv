@@ -1,0 +1,5 @@
+shot,model,runs,OA_mean,OA_std,AA_mean,AA_std,Kappa_mean,Kappa_std,Macro_F1_mean,Macro_F1_std,Weighted_F1_mean,Weighted_F1_std,Delta_OA_vs_HybridSN_small,Delta_Macro_F1_vs_HybridSN_small,trainable_parameters
+5,HybridSN-small,5,72.0192,1.67,82.66,1.45,68.66,1.90,63.8053,2.17,73.27,2.06,0.0000,0.0000,99488
+5,Spectral QNN Gated Fusion + Prototype Loss,5,72.0511,1.50,82.52,0.68,68.68,1.66,64.1211,1.73,72.84,2.03,0.0319,0.3159,2176
+10,HybridSN-small,5,80.1227,2.56,88.64,0.94,77.64,2.79,71.5332,2.02,80.87,2.70,0.0000,0.0000,99488
+10,Spectral QNN Gated Fusion + Prototype Loss,5,80.8847,2.40,88.87,1.32,78.49,2.62,71.8224,1.92,81.61,2.43,0.7620,0.2893,2176

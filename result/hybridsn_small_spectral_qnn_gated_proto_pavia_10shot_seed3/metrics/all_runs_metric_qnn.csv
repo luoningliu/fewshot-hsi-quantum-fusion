@@ -1,0 +1,2 @@
+dataset,model,shot,seed,OA,AA,Kappa,Macro-F1,Weighted-F1,best_epoch,train_time_seconds,test_time_seconds,trainable_parameters,train_size,validation_size,test_size
+pavia_university,spectral_qnn_gated_prototype,10,3,0.8617710583153347,0.8986694431447445,0.8225965892181857,0.8736389848740118,0.8654558308419753,8,35.89230489730835,76.4485731124878,1455,90,90,42596

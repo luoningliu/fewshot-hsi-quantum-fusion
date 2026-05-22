@@ -1,0 +1,37 @@
+{
+  "datasets": [
+    "indian_pines",
+    "pavia_university",
+    "salinas"
+  ],
+  "models": [
+    "svm_rbf",
+    "random_forest",
+    "knn"
+  ],
+  "data_root": "data",
+  "shots": [
+    1,
+    5,
+    10
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "batch_size": 64,
+  "eval_batch_size": 256,
+  "epochs": 120,
+  "patience": 20,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "monitor": "macro_f1",
+  "seed": 42,
+  "device": "auto",
+  "output_dir": "result/other_traditional_baselines_fewshot_3datasets"
+}

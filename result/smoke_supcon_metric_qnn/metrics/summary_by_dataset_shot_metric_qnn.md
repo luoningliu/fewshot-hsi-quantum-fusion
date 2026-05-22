@@ -1,0 +1,3 @@
+| dataset      | model                     |   shot |   runs |   mean_OA |   std_OA |   mean_AA |   std_AA |   mean_Kappa |   std_Kappa |   mean_Macro-F1 |   std_Macro-F1 |   mean_Weighted-F1 |   std_Weighted-F1 |   mean_best_epoch |   trainable_parameters |
+|:-------------|:--------------------------|-------:|-------:|----------:|---------:|----------:|---------:|-------------:|------------:|----------------:|---------------:|-------------------:|------------------:|------------------:|-----------------------:|
+| indian_pines | spectral_qnn_gated_supcon |      5 |      1 |     28.41 |        0 |     38.01 |        0 |        21.35 |           0 |           20.62 |              0 |              26.81 |                 0 |                 2 |                   2176 |

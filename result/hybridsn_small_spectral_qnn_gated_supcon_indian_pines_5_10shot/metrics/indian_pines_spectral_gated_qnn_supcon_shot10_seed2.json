@@ -1,0 +1,20 @@
+{
+  "dataset": "indian_pines",
+  "model": "hybridsn_small_spectral_qnn_gated_fusion_supcon",
+  "shot": 10,
+  "seed": 2,
+  "loss_mode": "supcon",
+  "metric_weight": 0.2,
+  "temperature": 0.2,
+  "pca_evr_sum": 0.9598935842514038,
+  "best_epoch": 17,
+  "test_loss": 0.5858098396158247,
+  "train_time_seconds": 29.430467128753662,
+  "test_time_seconds": 18.316531896591187,
+  "trainable_parameters": 2176,
+  "OA": 0.8438725243792098,
+  "AA": 0.9039820197152244,
+  "Kappa": 0.8234861474761146,
+  "Macro-F1": 0.7444772419553803,
+  "Weighted-F1": 0.8544749911242434
+}

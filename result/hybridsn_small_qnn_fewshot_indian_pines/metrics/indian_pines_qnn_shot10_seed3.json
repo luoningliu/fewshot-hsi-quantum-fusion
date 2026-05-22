@@ -1,0 +1,23 @@
+{
+  "dataset": "indian_pines",
+  "model": "hybridsn_small_frozen_encoder_residual_qnn",
+  "shot": 10,
+  "seed": 3,
+  "num_classes": 16,
+  "pca_fit_scope": "full_image_unsupervised",
+  "pca_evr_sum": 0.9598935842514038,
+  "patch_size": 19,
+  "pca_bands": 30,
+  "best_epoch": 29,
+  "test_loss": 0.7664835854527386,
+  "train_time_seconds": 19.31512999534607,
+  "test_time_seconds": 13.492015838623047,
+  "qnn_trainable_parameters": 816,
+  "encoder_checkpoint": "result/hybridsn_small_fewshot_3datasets/checkpoints/indian_pines_shot10_seed3.pt",
+  "feature_path": "result/hybridsn_small_qnn_fewshot_indian_pines/features/indian_pines_shot10_seed3_embeddings.npz",
+  "OA": 0.8002412787775208,
+  "AA": 0.8887300225636828,
+  "Kappa": 0.7752900120449405,
+  "Macro-F1": 0.7113511024556789,
+  "Weighted-F1": 0.8083673740360295
+}

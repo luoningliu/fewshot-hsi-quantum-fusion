@@ -1,0 +1,18 @@
+source,family,model,OA,AA,Kappa,Macro-F1,Weighted-F1,training_time_seconds,tuned,note
+stage4_tuned_baselines,tuned_mlp,mlp_h256_d0.0_lr0.003,84.05,77.19,81.73,78.55,83.77,0.55,True,best in tuning grid
+stage4_residual_qnn_full,qnn,Residual QNN full,78.34,78.96,75.55,77.41,78.39,197.47,True,LayerNorm + pi*tanh + residual; best by validation Macro-F1
+stage4_reupload_multiobs_qnn_full,qnn,Residual Reupload Multiobs QNN full,78.73,74.25,75.32,76.13,77.08,265.38,True,data re-uploading + Z and ZZ readout + residual
+stage4_tuned_baselines,tuned_bottleneck,bottleneck_b32_relu_lr0.01,81.6,75.52,79.03,75.68,81.4,0.42,True,best in tuning grid
+stage4_tuned_baselines,tuned_linear,linear_lr0.01,80.05,70.63,76.94,73.33,79.43,0.32,True,best in tuning grid
+stage3_deep,deep,hybridsn,81.0,68.69,78.27,69.97,80.48,90.39,False,initial deep baseline
+stage3_deep,deep,cnn2d,75.77,59.93,72.06,60.95,74.51,4.42,False,initial deep baseline
+stage4_tuned_baselines,tuned_svm_rbf,svm_C10_gammascale,68.4,56.13,63.48,58.36,67.07,0.44,True,best in tuning grid
+stage2_traditional,traditional,svm_rbf,66.07,56.11,61.2,57.57,65.54,,False,PCA spectral vector baseline
+stage4_heads_initial,hybridsn_head,hybridsn_mlp,73.38,56.29,69.55,57.15,72.46,0.25,False,
+stage4_heads_initial,hybridsn_head,hybridsn_linear,70.38,53.67,66.1,52.65,69.05,44.43,False,
+stage2_traditional,traditional,knn,60.71,47.74,54.48,47.93,58.05,,False,PCA spectral vector baseline
+stage2_traditional,traditional,random_forest,63.29,47.36,56.81,47.46,59.21,,False,PCA spectral vector baseline
+stage4_heads_initial,hybridsn_head,hybridsn_bottleneck,46.74,23.57,38.74,18.53,40.31,0.19,False,
+stage4_heads_initial,hybridsn_head,hybridsn_qnn,20.44,17.25,14.08,7.08,8.4,11.01,False,qnn_stratified_subset
+stage3_deep,deep,cnn3d,27.0,12.11,10.48,4.48,12.47,9.72,False,initial deep baseline
+stage3_deep,deep,cnn1d,13.98,10.57,2.29,2.03,3.99,1.59,False,initial deep baseline

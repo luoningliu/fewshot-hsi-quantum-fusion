@@ -1,0 +1,14 @@
+CNN1D(
+  (features): Sequential(
+    (0): Conv1d(1, 16, kernel_size=(5,), stride=(1,), padding=(2,))
+    (1): ReLU(inplace=True)
+    (2): MaxPool1d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (3): Conv1d(16, 32, kernel_size=(3,), stride=(1,), padding=(1,))
+    (4): ReLU(inplace=True)
+    (5): AdaptiveAvgPool1d(output_size=1)
+  )
+  (classifier): Linear(in_features=32, out_features=16, bias=True)
+)
+
+Total parameters: 2192
+Trainable parameters: 2192

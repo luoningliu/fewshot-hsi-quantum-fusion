@@ -1,0 +1,24 @@
+# Other Baselines Few-shot HSI Classification
+
+All models use the same all-way few-shot sampler as HybridSN-small.
+
+- Traditional baselines use center PCA spectral vectors.
+- CNN1D uses center PCA spectral vectors.
+- CNN2D and CNN3D use PCA spatial-spectral patches.
+- PCA is fitted on the full image without labels to match the current HybridSN-small few-shot protocol.
+
+## Summary
+
+| dataset      | model         |   shot |   runs |   mean_OA |   std_OA |   mean_AA |   std_AA |   mean_Kappa |   std_Kappa |   mean_Macro-F1 |   std_Macro-F1 |   mean_Weighted-F1 |   std_Weighted-F1 |   mean_best_epoch | trainable_parameters   |
+|:-------------|:--------------|-------:|-------:|----------:|---------:|----------:|---------:|-------------:|------------:|----------------:|---------------:|-------------------:|------------------:|------------------:|:-----------------------|
+| indian_pines | cnn1d         |      1 |      1 |     21.43 |        0 |      7.15 |        0 |         3.19 |           0 |            3.61 |              0 |              12.09 |                 0 |                 2 | 7568.0                 |
+| indian_pines | cnn2d         |      1 |      1 |     25.35 |        0 |     14.42 |        0 |        13.82 |           0 |            9.57 |              0 |              15.15 |                 0 |                 2 | 28208.0                |
+| indian_pines | cnn3d         |      1 |      1 |     10.22 |        0 |      6.39 |        0 |        -0.06 |           0 |            2.12 |              0 |               3.82 |                 0 |                 2 | 4016.0                 |
+| indian_pines | knn           |      1 |      1 |     27.33 |        0 |     33.33 |        0 |        21.38 |           0 |           23.6  |              0 |              24.79 |                 0 |                 0 |                        |
+| indian_pines | random_forest |      1 |      1 |     17.36 |        0 |     20.55 |        0 |        11.28 |           0 |           12.88 |              0 |              13.72 |                 0 |                 0 |                        |
+| indian_pines | svm_rbf       |      1 |      1 |     27.33 |        0 |     33.33 |        0 |        21.38 |           0 |           23.6  |              0 |              24.79 |                 0 |                 0 |                        |
+
+
+## Failed Runs
+
+None.

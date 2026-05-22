@@ -1,0 +1,21 @@
+{
+  "dataset": "pavia_university",
+  "model": "knn",
+  "shot": 5,
+  "seed": 1,
+  "OA": 0.5716798386529397,
+  "AA": 0.6895268883694283,
+  "Kappa": 0.4845916334112401,
+  "Macro-F1": 0.6290731428944083,
+  "Weighted-F1": 0.5950465210083626,
+  "best_epoch": 0,
+  "train_time_seconds": 0.0013799667358398438,
+  "test_time_seconds": 0.020593881607055664,
+  "trainable_parameters": null,
+  "train_size": 45,
+  "validation_size": 90,
+  "test_size": 42641,
+  "pca_evr_sum": 0.9996427893638611,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

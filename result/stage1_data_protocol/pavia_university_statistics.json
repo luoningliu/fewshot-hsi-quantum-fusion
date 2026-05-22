@@ -1,0 +1,35 @@
+{
+  "dataset_id": "pavia_university",
+  "display_name": "Pavia University",
+  "raw_cube_shape": [
+    610,
+    340,
+    103
+  ],
+  "gt_shape": [
+    610,
+    340
+  ],
+  "num_labeled_samples": 42776,
+  "num_classes": 9,
+  "patch_shape": [
+    9,
+    9,
+    30
+  ],
+  "spectral_shape": [
+    30
+  ],
+  "pca_components": 30,
+  "pca_explained_variance_ratio_sum": 0.9996788501739502,
+  "split_counts": {
+    "train": 4277,
+    "validation": 4277,
+    "test": 34222
+  },
+  "processed_npz": "data/pavia_university/processed/pavia_university_pca30_patch9.npz",
+  "split_json": "data/pavia_university/splits/split_seed42.json",
+  "result_split_json": "result/stage1_data_protocol/pavia_university_split_seed42.json",
+  "class_distribution_csv": "result/stage1_data_protocol/pavia_university_class_distribution.csv",
+  "band_statistics_csv": "result/stage1_data_protocol/pavia_university_band_statistics.csv"
+}

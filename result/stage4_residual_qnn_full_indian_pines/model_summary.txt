@@ -1,0 +1,12 @@
+ResidualQNNClassifier(
+  (qnn_head): QNNClassifier(
+    (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+    (project): Linear(in_features=128, out_features=6, bias=True)
+    (qnn): PennyLaneQNNLayer()
+    (classifier): Linear(in_features=6, out_features=16, bias=True)
+  )
+  (linear_head): Linear(in_features=128, out_features=16, bias=True)
+)
+
+Total parameters: 3242
+Trainable parameters: 3242

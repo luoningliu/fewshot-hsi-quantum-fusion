@@ -1,0 +1,37 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "HybridSN tuned",
+  "OA": 0.9880487804878049,
+  "AA": 0.9727273075851515,
+  "Kappa": 0.9863777243449459,
+  "Macro-F1": 0.9719193098768711,
+  "Weighted-F1": 0.9880609098332948,
+  "selected_by": "validation_Macro-F1",
+  "best_config": {
+    "architecture": "hybridsn_base",
+    "patch_size": 11,
+    "pca_components": 30,
+    "learning_rate": 0.001,
+    "batch_size": 16,
+    "weight_decay": 0.0,
+    "dropout": 0.5,
+    "loss_name": "weighted_ce",
+    "class_weight_mode": "inverse_sqrt",
+    "embedding_dim": 128,
+    "seed": 0
+  },
+  "confirmation_mean_std": {
+    "best_val_oa": {
+      "mean": 0.9902439024390244,
+      "std": 0.0009756097560975618
+    },
+    "best_val_aa": {
+      "mean": 0.993463826351638,
+      "std": 0.0006310255213486382
+    },
+    "best_val_macro_f1": {
+      "mean": 0.9901537713916557,
+      "std": 0.0019310183237117862
+    }
+  }
+}

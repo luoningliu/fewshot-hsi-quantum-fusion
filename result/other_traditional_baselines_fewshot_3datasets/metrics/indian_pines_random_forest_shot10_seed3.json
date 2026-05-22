@@ -1,0 +1,21 @@
+{
+  "dataset": "indian_pines",
+  "model": "random_forest",
+  "shot": 10,
+  "seed": 3,
+  "OA": 0.40735900271438624,
+  "AA": 0.5349539069789124,
+  "Kappa": 0.33740605597820206,
+  "Macro-F1": 0.3982110985972173,
+  "Weighted-F1": 0.4192479686966157,
+  "best_epoch": 0,
+  "train_time_seconds": 0.15121722221374512,
+  "test_time_seconds": 0.05238699913024902,
+  "trainable_parameters": null,
+  "train_size": 160,
+  "validation_size": 142,
+  "test_size": 9947,
+  "pca_evr_sum": 0.9598935842514038,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

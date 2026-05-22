@@ -1,0 +1,20 @@
+{
+  "dataset": "salinas",
+  "model": "hybridsn_small_spectral_qnn_gated_fusion_prototype",
+  "shot": 10,
+  "seed": 1,
+  "loss_mode": "prototype",
+  "metric_weight": 0.2,
+  "temperature": 0.2,
+  "pca_evr_sum": 0.9982954859733582,
+  "best_epoch": 16,
+  "test_loss": 0.26650626674992606,
+  "train_time_seconds": 130.34892916679382,
+  "test_time_seconds": 91.78174424171448,
+  "trainable_parameters": 2176,
+  "OA": 0.9300488765819844,
+  "AA": 0.9736451368458335,
+  "Kappa": 0.922444735214556,
+  "Macro-F1": 0.9669381617252665,
+  "Weighted-F1": 0.9306117385595905
+}

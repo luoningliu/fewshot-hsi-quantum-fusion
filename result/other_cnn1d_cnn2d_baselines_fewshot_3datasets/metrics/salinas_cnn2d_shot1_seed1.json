@@ -1,0 +1,22 @@
+{
+  "dataset": "salinas",
+  "model": "cnn2d",
+  "shot": 1,
+  "seed": 1,
+  "OA": 0.7148629362593368,
+  "AA": 0.7484919724879586,
+  "Kappa": 0.6804352002393899,
+  "Macro-F1": 0.7245298740375217,
+  "Weighted-F1": 0.680354240259006,
+  "best_epoch": 69,
+  "train_time_seconds": 5.729911804199219,
+  "test_time_seconds": 17.288918018341064,
+  "trainable_parameters": 28208,
+  "train_size": 16,
+  "validation_size": 160,
+  "test_size": 53953,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 19,
+  "pca_bands": 30
+}

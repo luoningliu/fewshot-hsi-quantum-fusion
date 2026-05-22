@@ -1,0 +1,8 @@
+device: cpu
+split counts: {'train': 1024, 'validation': 1025, 'test': 8200}
+x raw shape: (32, 9, 9, 30)
+x model shape: (32, 1, 30, 9, 9)
+y shape: (32,)
+y min/max: 2/14
+logits shape: (32, 16)
+tiny subset overfit accuracy: 0.9688, loss 2.762352->0.202235

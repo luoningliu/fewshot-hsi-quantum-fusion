@@ -1,0 +1,8 @@
+device: cpu
+HybridSN checkpoint: result/hybridsn_tuning_indian_pines/best_val_macro_f1.pt
+patch shape: (10249, 11, 11, 30)
+embedding shape: (10249, 128)
+label min/max: 0/15
+qnn_00_linear_probe x/logits/y: (16, 128) (16, 16) (16,) grad=6.171160
+qnn_01_residual_qnn x/logits/y: (16, 128) (16, 16) (16,) grad=6.409362
+qnn_02_gated_residual_qnn x/logits/y: (16, 128) (16, 16) (16,) grad=6.564184

@@ -1,0 +1,2 @@
+dataset,model,shot,runs,mean_OA,std_OA,mean_AA,std_AA,mean_Kappa,std_Kappa,mean_Macro-F1,std_Macro-F1,mean_Weighted-F1,std_Weighted-F1,mean_best_epoch,trainable_parameters
+salinas,spectral_qnn_gated_prototype,10,2,0.9148841271906187,0.03549592075675073,0.9579963413755602,0.014760364507561685,0.905099300897362,0.039705715396895325,0.9518607110428182,0.01496136060816633,0.9135223846163718,0.03729215983029144,7.5,2176

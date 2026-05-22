@@ -1,0 +1,46 @@
+{
+  "data_root": "data",
+  "shots": [
+    5,
+    10
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "conv3d_channels": [
+    8,
+    16,
+    16
+  ],
+  "conv2d_channels": 32,
+  "hidden_dim": 64,
+  "dropout": 0.4,
+  "batch_size": 16,
+  "test_batch_size": 128,
+  "feature_batch_size": 128,
+  "epochs": 60,
+  "patience": 10,
+  "lr": 0.003,
+  "weight_decay": 0.0001,
+  "qubits": 4,
+  "qnn_layers": 1,
+  "entanglement": "linear",
+  "gate_mode": "classwise",
+  "backend": "lightning.qubit",
+  "diff_method": "adjoint",
+  "angle_scale": 3.141592653589793,
+  "device": "auto",
+  "seed": 42,
+  "split_dir": "result/hybridsn_small_fewshot_3datasets/split_indices",
+  "encoder_checkpoint_dir": "result/hybridsn_small_fewshot_3datasets/checkpoints",
+  "baseline_summary": "result/hybridsn_small_fewshot_indian_pines_only/metrics/summary_by_shot.csv",
+  "output_dir": "result/hybridsn_small_spectral_qnn_gated_fewshot_indian_pines_q4l1_classwise",
+  "rebuild_features": false,
+  "debug": false
+}

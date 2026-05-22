@@ -1,0 +1,21 @@
+{
+  "dataset": "pavia_university",
+  "model": "random_forest",
+  "shot": 1,
+  "seed": 4,
+  "OA": 0.29800595168357663,
+  "AA": 0.4188351836582838,
+  "Kappa": 0.20016109541705673,
+  "Macro-F1": 0.3551626400242491,
+  "Weighted-F1": 0.29902518834045655,
+  "best_epoch": 0,
+  "train_time_seconds": 0.2329542636871338,
+  "test_time_seconds": 0.0989837646484375,
+  "trainable_parameters": null,
+  "train_size": 9,
+  "validation_size": 90,
+  "test_size": 42677,
+  "pca_evr_sum": 0.9996427893638611,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

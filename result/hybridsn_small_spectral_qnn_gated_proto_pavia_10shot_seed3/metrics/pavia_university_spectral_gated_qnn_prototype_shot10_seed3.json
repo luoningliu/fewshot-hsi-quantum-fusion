@@ -1,0 +1,20 @@
+{
+  "dataset": "pavia_university",
+  "model": "hybridsn_small_spectral_qnn_gated_fusion_prototype",
+  "shot": 10,
+  "seed": 3,
+  "loss_mode": "prototype",
+  "metric_weight": 0.2,
+  "temperature": 0.2,
+  "pca_evr_sum": 0.9996427893638611,
+  "best_epoch": 8,
+  "test_loss": 0.7686255344796913,
+  "train_time_seconds": 35.89230489730835,
+  "test_time_seconds": 76.4485731124878,
+  "trainable_parameters": 1455,
+  "OA": 0.8617710583153347,
+  "AA": 0.8986694431447445,
+  "Kappa": 0.8225965892181857,
+  "Macro-F1": 0.8736389848740118,
+  "Weighted-F1": 0.8654558308419753
+}

@@ -1,0 +1,42 @@
+{
+  "dataset": null,
+  "datasets": [
+    "pavia_university",
+    "salinas"
+  ],
+  "data_root": "data",
+  "shots": [
+    5,
+    10
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "conv3d_channels": [
+    8,
+    16,
+    16
+  ],
+  "conv2d_channels": 32,
+  "hidden_dim": 64,
+  "dropout": 0.4,
+  "batch_size": 64,
+  "epochs": 120,
+  "patience": 20,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "class_weight": "none",
+  "class_balanced_sampler": false,
+  "monitor": "macro_f1",
+  "device": "auto",
+  "output_root": "result",
+  "run_dir": "result/hybridsn_small_fewshot_pavia_salinas_5_10shot",
+  "seed": 42,
+  "debug": false
+}

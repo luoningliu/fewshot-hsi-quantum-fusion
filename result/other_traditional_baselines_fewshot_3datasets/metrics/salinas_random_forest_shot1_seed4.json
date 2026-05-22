@@ -1,0 +1,21 @@
+{
+  "dataset": "salinas",
+  "model": "random_forest",
+  "shot": 1,
+  "seed": 4,
+  "OA": 0.32732192834504104,
+  "AA": 0.3759375047878423,
+  "Kappa": 0.2758400877025572,
+  "Macro-F1": 0.3135279215137586,
+  "Weighted-F1": 0.3212057032823601,
+  "best_epoch": 0,
+  "train_time_seconds": 0.1417243480682373,
+  "test_time_seconds": 0.1837787628173828,
+  "trainable_parameters": null,
+  "train_size": 16,
+  "validation_size": 160,
+  "test_size": 53953,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

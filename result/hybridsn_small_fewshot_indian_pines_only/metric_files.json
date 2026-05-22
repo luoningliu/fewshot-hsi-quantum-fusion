@@ -1,0 +1,19 @@
+{
+  "source_metric_files": [
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot10_seed0.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot10_seed1.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot10_seed2.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot10_seed3.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot10_seed4.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot1_seed0.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot1_seed1.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot1_seed2.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot1_seed3.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot1_seed4.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot5_seed0.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot5_seed1.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot5_seed2.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot5_seed3.json",
+    "result/hybridsn_small_fewshot_3datasets/metrics/indian_pines_shot5_seed4.json"
+  ]
+}

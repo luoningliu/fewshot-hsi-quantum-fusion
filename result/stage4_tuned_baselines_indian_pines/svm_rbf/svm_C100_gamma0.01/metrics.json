@@ -1,0 +1,15 @@
+{
+  "dataset_id": "indian_pines",
+  "family": "svm_rbf",
+  "model": "svm_C100_gamma0.01",
+  "C": 100.0,
+  "gamma": 0.01,
+  "validation_Macro-F1": 0.5515611944953748,
+  "OA": 0.6654878048780488,
+  "AA": 0.55815713232625,
+  "Kappa": 0.6166482242203788,
+  "Macro-F1": 0.5752512326130628,
+  "Weighted-F1": 0.6581346167145984,
+  "training_time_seconds": 0.49352502822875977,
+  "device": "cpu"
+}

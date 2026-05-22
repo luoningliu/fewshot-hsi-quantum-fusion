@@ -1,0 +1,10 @@
+class_id,class_name,precision,recall,f1,support
+0,Asphalt,0.0,0.0,0.0,6620
+1,Meadows,0.0,0.0,0.0,18638
+2,Gravel,0.0,0.0,0.0,2088
+3,Trees,0.07318008581221985,1.0,0.13637988028231932,3053
+4,Painted metal sheets,0.8778705636743215,0.6304347826086957,0.7338568935427574,1334
+5,Bare Soil,0.0,0.0,0.0,5018
+6,Bitumen,0.0,0.0,0.0,1319
+7,Self-Blocking Bricks,0.0,0.0,0.0,3671
+8,Shadows,0.0,0.0,0.0,936

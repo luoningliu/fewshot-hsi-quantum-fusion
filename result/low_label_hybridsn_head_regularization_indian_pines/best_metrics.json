@@ -1,0 +1,24 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "mlp_probe",
+  "train_fraction": 0.05,
+  "selected_by": "validation_Macro-F1",
+  "source_encoder": "frozen tuned HybridSN encoder",
+  "OA": 0.985609756097561,
+  "AA": 0.976964291285839,
+  "Kappa": 0.9835878728288788,
+  "Macro-F1": 0.9715897760002514,
+  "Weighted-F1": 0.9856265224093378,
+  "best_run": {
+    "run_id": "mlp_probe_f0.05_seed2",
+    "model": "mlp_probe",
+    "train_fraction": 0.05,
+    "train_size": 51,
+    "seed": 2,
+    "best_val_macro_f1": 0.9931515060076226,
+    "best_val_oa": 0.9892682926829268,
+    "best_val_aa": 0.992347718544738,
+    "epochs_ran": 18,
+    "training_time_seconds": 0.3539547920227051
+  }
+}

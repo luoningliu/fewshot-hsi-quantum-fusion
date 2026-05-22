@@ -1,0 +1,19 @@
+{
+  "dataset": "indian_pines",
+  "model": "hybridsn_small_spectral_qnn_gated_fusion_proto_loss",
+  "shot": 5,
+  "seed": 0,
+  "prototype_weight": 0.2,
+  "prototype_temperature": 0.2,
+  "pca_evr_sum": 0.9598935842514038,
+  "best_epoch": 21,
+  "test_loss": 1.1319654681448545,
+  "train_time_seconds": 51.71920394897461,
+  "test_time_seconds": 17.91514778137207,
+  "trainable_parameters": 2176,
+  "OA": 0.7321428571428571,
+  "AA": 0.8339330322118603,
+  "Kappa": 0.7007317652537602,
+  "Macro-F1": 0.6656739977325936,
+  "Weighted-F1": 0.7473202864081167
+}

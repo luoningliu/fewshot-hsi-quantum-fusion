@@ -1,0 +1,22 @@
+device: cpu
+embedding shape: (10249, 128)
+spectral shape: (10249, 30)
+patch shape: (10249, 11, 11, 30)
+pca_evr_sum: 0.962278
+label min/max: 0/15
+split counts: train=1024, validation=1025, test=8200
+embedding_linear_seed0: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=5.091826
+embedding_mlp_seed0: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=3.478486
+spectral_mlp_fusion_seed0: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.761604
+spectral_qnn_fusion_seed0: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=9.652543
+spectral_gated_qnn_fusion_seed0: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=8.056171
+embedding_linear_seed1: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=5.397131
+embedding_mlp_seed1: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=3.644260
+spectral_mlp_fusion_seed1: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.806420
+spectral_qnn_fusion_seed1: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.662245
+spectral_gated_qnn_fusion_seed1: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.084601
+embedding_linear_seed2: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=4.898934
+embedding_mlp_seed2: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=3.603327
+spectral_mlp_fusion_seed2: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=8.822307
+spectral_qnn_fusion_seed2: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.215672
+spectral_gated_qnn_fusion_seed2: z=(16, 128) spectral=(16, 30) logits=(16, 16) y=(16,) grad=6.873927

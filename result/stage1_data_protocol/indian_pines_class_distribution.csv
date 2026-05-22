@@ -1,0 +1,17 @@
+class_id,original_label,class_name,count
+0,0,Alfalfa,46
+1,1,Corn-notill,1428
+2,2,Corn-mintill,830
+3,3,Corn,237
+4,4,Grass-pasture,483
+5,5,Grass-trees,730
+6,6,Grass-pasture-mowed,28
+7,7,Hay-windrowed,478
+8,8,Oats,20
+9,9,Soybean-notill,972
+10,10,Soybean-mintill,2455
+11,11,Soybean-clean,593
+12,12,Wheat,205
+13,13,Woods,1265
+14,14,Buildings-Grass-Trees-Drives,386
+15,15,Stone-Steel-Towers,93

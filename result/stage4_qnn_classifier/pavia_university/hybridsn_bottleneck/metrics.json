@@ -1,0 +1,11 @@
+{
+  "dataset_id": "pavia_university",
+  "model": "hybridsn_bottleneck",
+  "OA": 0.8523172228391094,
+  "AA": 0.5437196171590339,
+  "Kappa": 0.7989333195517664,
+  "Macro-F1": 0.49941187869790227,
+  "Weighted-F1": 0.7967508143043978,
+  "training_time_seconds": 0.736098051071167,
+  "device": "cpu"
+}

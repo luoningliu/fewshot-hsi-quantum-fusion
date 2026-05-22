@@ -1,0 +1,8 @@
+QNNClassifier(
+  (project): Linear(in_features=128, out_features=6, bias=True)
+  (qnn): PennyLaneQNNLayer()
+  (classifier): Linear(in_features=6, out_features=16, bias=True)
+)
+
+Total parameters: 922
+Trainable parameters: 922

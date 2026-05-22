@@ -1,0 +1,10 @@
+TunableBottleneckClassifier(
+  (net): Sequential(
+    (0): Linear(in_features=128, out_features=4, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=4, out_features=16, bias=True)
+  )
+)
+
+Total parameters: 596
+Trainable parameters: 596

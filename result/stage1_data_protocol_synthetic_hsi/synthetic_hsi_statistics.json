@@ -1,0 +1,35 @@
+{
+  "dataset_id": "synthetic_hsi",
+  "display_name": "Synthetic HSI",
+  "raw_cube_shape": [
+    32,
+    28,
+    12
+  ],
+  "gt_shape": [
+    32,
+    28
+  ],
+  "num_labeled_samples": 550,
+  "num_classes": 4,
+  "patch_shape": [
+    5,
+    5,
+    6
+  ],
+  "spectral_shape": [
+    6
+  ],
+  "pca_components": 6,
+  "pca_explained_variance_ratio_sum": 0.9776003956794739,
+  "split_counts": {
+    "train": 55,
+    "validation": 55,
+    "test": 440
+  },
+  "processed_npz": "data/synthetic_hsi/processed/synthetic_hsi_pca6_patch5.npz",
+  "split_json": "data/synthetic_hsi/splits/split_seed42.json",
+  "result_split_json": "result/stage1_data_protocol_synthetic_hsi/synthetic_hsi_split_seed42.json",
+  "class_distribution_csv": "result/stage1_data_protocol_synthetic_hsi/synthetic_hsi_class_distribution.csv",
+  "band_statistics_csv": "result/stage1_data_protocol_synthetic_hsi/synthetic_hsi_band_statistics.csv"
+}

@@ -1,0 +1,11 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "cnn2d",
+  "OA": 0.7576829268292683,
+  "AA": 0.5993210546478902,
+  "Kappa": 0.720599432487639,
+  "Macro-F1": 0.60954295901424,
+  "Weighted-F1": 0.7450510351900312,
+  "training_time_seconds": 4.419657945632935,
+  "device": "cpu"
+}

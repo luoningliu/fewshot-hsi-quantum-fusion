@@ -1,0 +1,2 @@
+dataset,model,shot,runs,mean_OA,std_OA,mean_AA,std_AA,mean_Kappa,std_Kappa,mean_Macro-F1,std_Macro-F1,mean_Weighted-F1,std_Weighted-F1,mean_best_epoch,trainable_parameters
+indian_pines,spectral_qnn_gated_proto_loss,10,5,0.8088468885090982,0.02397168032854299,0.8886841473746238,0.01321105736283886,0.7848792359067124,0.02624070858991613,0.718224051546547,0.01920034522898343,0.8161282863317719,0.024311258063510397,14.4,2176

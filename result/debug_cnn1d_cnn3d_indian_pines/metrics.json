@@ -1,0 +1,52 @@
+{
+  "rows": [
+    {
+      "dataset_id": "indian_pines",
+      "model": "cnn1d",
+      "OA": 0.5928048780487805,
+      "AA": 0.46991646379361934,
+      "Kappa": 0.5296814647399636,
+      "Macro-F1": 0.4633149150099976,
+      "Weighted-F1": 0.5662539119722537,
+      "training_time_seconds": 16.84304714202881,
+      "device": "cpu",
+      "pca_fit_scope": "train_only",
+      "input_format": "spectral_vector",
+      "sanity_tiny_subset_train_accuracy": 1.0,
+      "sanity_tiny_subset_loss_start": 2.804230213165283,
+      "sanity_tiny_subset_loss_end": 0.6857004165649414,
+      "sanity_label_shuffle_validation_accuracy": 0.23804878048780487
+    },
+    {
+      "dataset_id": "indian_pines",
+      "model": "cnn3d",
+      "OA": 0.6368292682926829,
+      "AA": 0.49082117790137947,
+      "Kappa": 0.5756312267405783,
+      "Macro-F1": 0.4900052075915601,
+      "Weighted-F1": 0.599156714211795,
+      "training_time_seconds": 158.23329496383667,
+      "device": "cpu",
+      "pca_fit_scope": "train_only",
+      "input_format": "HWD",
+      "sanity_tiny_subset_train_accuracy": 1.0,
+      "sanity_tiny_subset_loss_start": 2.7951865196228027,
+      "sanity_tiny_subset_loss_end": 0.5211544632911682,
+      "sanity_label_shuffle_validation_accuracy": 0.23902439024390243
+    }
+  ],
+  "sanity_checks": {
+    "cnn1d": {
+      "tiny_subset_train_accuracy": 1.0,
+      "tiny_subset_loss_start": 2.804230213165283,
+      "tiny_subset_loss_end": 0.6857004165649414,
+      "label_shuffle_validation_accuracy": 0.23804878048780487
+    },
+    "cnn3d": {
+      "tiny_subset_train_accuracy": 1.0,
+      "tiny_subset_loss_start": 2.7951865196228027,
+      "tiny_subset_loss_end": 0.5211544632911682,
+      "label_shuffle_validation_accuracy": 0.23902439024390243
+    }
+  }
+}

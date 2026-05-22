@@ -1,0 +1,21 @@
+{
+  "dataset": "indian_pines",
+  "model": "svm_rbf",
+  "shot": 5,
+  "seed": 2,
+  "OA": 0.40263367916999204,
+  "AA": 0.5179955775141614,
+  "Kappa": 0.3302781086384631,
+  "Macro-F1": 0.3915117618497835,
+  "Weighted-F1": 0.42464549715224315,
+  "best_epoch": 0,
+  "train_time_seconds": 0.0015218257904052734,
+  "test_time_seconds": 0.0441279411315918,
+  "trainable_parameters": null,
+  "train_size": 80,
+  "validation_size": 145,
+  "test_size": 10024,
+  "pca_evr_sum": 0.9598935842514038,
+  "pca_fit_scope": "full_image_unsupervised",
+  "input": "center_pca_spectral_vector"
+}

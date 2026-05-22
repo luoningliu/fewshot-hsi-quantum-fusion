@@ -1,0 +1,18 @@
+{
+  "dataset_id": "indian_pines",
+  "model": "q4_l2_lr0.003_entring",
+  "qubits": 4,
+  "layers": 2,
+  "learning_rate": 0.003,
+  "entanglement": "ring",
+  "OA": 0.06896551724137931,
+  "AA": 0.0625,
+  "Kappa": 0.005858704462488373,
+  "Macro-F1": 0.009300595238095238,
+  "Weighted-F1": 0.010262725779967159,
+  "training_time_seconds": 8.824445962905884,
+  "subset_train": 199,
+  "subset_validation": 198,
+  "subset_test": 725,
+  "device": "cpu"
+}

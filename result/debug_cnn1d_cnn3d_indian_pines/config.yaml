@@ -1,0 +1,16 @@
+dataset: indian_pines
+num_classes: 16
+split_json: data/indian_pines/splits/split_seed42.json
+pca_components: 30
+patch_size: 9
+pca_fit_scope: train_only
+normalization_fit_scope: train_only
+input_format:
+  cnn1d: spectral_vector
+  cnn3d: HWD
+epochs: 80
+patience: 25
+batch_size:
+  cnn1d: 64
+  cnn3d: 32
+seed: 42
