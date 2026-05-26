@@ -21,6 +21,8 @@ class SpectralQNNGatedMetricFusion(nn.Module):
         num_classes: int,
         gate_mode: str = "classwise",
         qnn_variant: str = "standard",
+        residual_scale_mode: str = "none",
+        residual_alpha_init: float = -4.0,
         **qnn_kwargs,
     ):
         super().__init__()
@@ -33,6 +35,13 @@ class SpectralQNNGatedMetricFusion(nn.Module):
         else:
             raise ValueError(f"Unsupported qnn_variant: {qnn_variant}")
         self.qnn_variant = qnn_variant
+        if residual_scale_mode not in {"none", "learnable_sigmoid"}:
+            raise ValueError(f"Unsupported residual_scale_mode: {residual_scale_mode}")
+        self.residual_scale_mode = residual_scale_mode
+        if residual_scale_mode == "learnable_sigmoid":
+            self.residual_alpha = nn.Parameter(torch.tensor(float(residual_alpha_init)))
+        else:
+            self.register_buffer("residual_alpha", torch.tensor(0.0), persistent=False)
         gate_dim = 1 if gate_mode == "scalar" else num_classes
         if gate_mode not in {"scalar", "classwise"}:
             raise ValueError(f"Unsupported gate_mode: {gate_mode}")
@@ -42,6 +51,11 @@ class SpectralQNNGatedMetricFusion(nn.Module):
             nn.Sigmoid(),
         )
         self.feature_norm = nn.LayerNorm(embedding_dim + int(getattr(self.qnn_head, "feature_dim", self.qnn_head.qnn.qubits)))
+
+    def residual_scale(self) -> torch.Tensor:
+        if self.residual_scale_mode == "learnable_sigmoid":
+            return torch.sigmoid(self.residual_alpha)
+        return self.residual_alpha.new_tensor(1.0)
 
     def spectral_features(self, spectrum: torch.Tensor) -> torch.Tensor:
         return self.qnn_head.forward_features(spectrum)
@@ -55,10 +69,12 @@ class SpectralQNNGatedMetricFusion(nn.Module):
         q = self.spectral_features(spectrum)
         spectral_logits = self.qnn_head.classifier(q)
         gate = self.gate(torch.cat([z, spectrum], dim=1))
-        logits = base_logits + gate * spectral_logits
+        scale = self.residual_scale()
+        logits = base_logits + scale * gate * spectral_logits
         if return_aux:
             return logits, {
                 "gate": gate,
+                "residual_scale": scale.detach(),
                 "base_logits": base_logits,
                 "spectral_logits": spectral_logits,
                 "spectral_feature": q,

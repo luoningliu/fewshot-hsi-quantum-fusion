@@ -128,6 +128,8 @@ def _run_one(
         num_classes=num_classes,
         gate_mode=args.gate_mode,
         qnn_variant=args.qnn_variant,
+        residual_scale_mode=args.residual_scale_mode,
+        residual_alpha_init=args.residual_alpha_init,
         qubits=args.qubits,
         layers=args.qnn_layers,
         entanglement=args.entanglement,
@@ -156,7 +158,7 @@ def _run_one(
         val_metrics = classification_metrics(y_val, pred_val, labels=list(range(num_classes)))
         log_row = {
             "dataset": dataset_name,
-            "model": MODEL_NAME,
+            "model": _model_name(args),
             "shot": shot,
             "seed": seed,
             "epoch": epoch,
@@ -192,6 +194,7 @@ def _run_one(
     test_loss, y_test, pred_test = _evaluate(model, test_loader, criterion, device)
     test_time = time.time() - test_started
     metrics = classification_metrics(y_test, pred_test, labels=list(range(num_classes)))
+    residual_scale = float(model.residual_scale().detach().cpu().item())
     class_names = {i: data_cfg["class_names"][i + 1] for i in range(num_classes)}
     per_class = per_class_metrics(y_test, pred_test, class_names)
     per_class["accuracy"] = per_class["recall"]
@@ -218,6 +221,9 @@ def _run_one(
         "model": json_model_name,
         "model_short": model_name,
         "qnn_variant": args.qnn_variant,
+        "residual_scale_mode": args.residual_scale_mode,
+        "residual_alpha_init": args.residual_alpha_init,
+        "residual_scale_final": residual_scale,
         "shot": shot,
         "seed": seed,
         "loss_mode": "supcon",
@@ -258,6 +264,7 @@ def _run_one(
         "train_size": len(split["train"]),
         "validation_size": len(split["validation"]),
         "test_size": len(split["test"]),
+        "residual_scale_final": residual_scale,
     }
 
 
@@ -475,15 +482,17 @@ def _write_training_config(out: Path, args: argparse.Namespace) -> None:
 
 
 def _model_name(args: argparse.Namespace) -> str:
+    residual = "_residualsafe" if args.residual_scale_mode == "learnable_sigmoid" else ""
     if args.qnn_variant == "standard":
-        return MODEL_NAME
-    return f"spectral_qnn_{args.qnn_variant}_gated_supcon"
+        return f"spectral_qnn{residual}_gated_supcon"
+    return f"spectral_qnn_{args.qnn_variant}{residual}_gated_supcon"
 
 
 def _json_model_name(args: argparse.Namespace) -> str:
+    residual = "_residualsafe" if args.residual_scale_mode == "learnable_sigmoid" else ""
     if args.qnn_variant == "standard":
-        return JSON_MODEL_NAME
-    return f"hybridsn_small_spectral_qnn_{args.qnn_variant}_gated_fusion_supcon"
+        return f"hybridsn_small_spectral_qnn{residual}_gated_fusion_supcon"
+    return f"hybridsn_small_spectral_qnn_{args.qnn_variant}{residual}_gated_fusion_supcon"
 
 
 def _prepare_output(out: Path) -> None:
@@ -534,6 +543,8 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--gate_mode", choices=["scalar", "classwise"], default="classwise")
     parser.add_argument("--qnn_variant", choices=["standard", "reupload_multiobs"], default="standard")
+    parser.add_argument("--residual_scale_mode", choices=["none", "learnable_sigmoid"], default="none")
+    parser.add_argument("--residual_alpha_init", type=float, default=-4.0)
     parser.add_argument("--qubits", type=int, default=6)
     parser.add_argument("--qnn_layers", type=int, default=1)
     parser.add_argument("--entanglement", default="linear")

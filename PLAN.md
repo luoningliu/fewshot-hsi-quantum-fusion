@@ -220,6 +220,59 @@ Success criterion:
 Reduce Salinas 10-shot OA / Weighted-F1 degradation without losing Pavia gains.
 ```
 
+Initial implementation status:
+
+```text
+Implemented: QNN-ResidualSafe-A
+variant = standard q6_l1 Spectral QNN + SupCon + learnable residual scale
+residual_scale = sigmoid(alpha), alpha_init = -4.0
+minimal batch = Salinas 10-shot seeds 0-4, Pavia University 10-shot seeds 0-4
+result_dir = result/qnn_residualsafe_supcon_minibatch_salinas_pavia_10shot_20260527_001133/
+```
+
+Initial result:
+
+```text
+Salinas 10-shot:
+  Delta vs HybridSN-small:
+    OA = -0.0128
+    Macro-F1 = +0.0016
+    Weighted-F1 = -0.0129
+  Delta vs original SupCon QNN:
+    OA = +0.0061
+    Macro-F1 = -0.0010
+    Weighted-F1 = +0.0072
+
+Pavia University 10-shot:
+  Delta vs HybridSN-small:
+    OA = +0.0221
+    Macro-F1 = +0.0420
+    Weighted-F1 = +0.0253
+  Delta vs original SupCon QNN:
+    OA = -0.0188
+    Macro-F1 = -0.0320
+    Weighted-F1 = -0.0170
+```
+
+Decision:
+
+```text
+QNN-ResidualSafe-A partially reduces Salinas 10-shot negative transfer compared
+with the original SupCon QNN, but it still does not exceed HybridSN-small on
+Salinas OA / Weighted-F1. It also sacrifices a large part of the Pavia 10-shot
+gain, suggesting that alpha_init=-4.0 is too conservative for settings where
+the QNN branch is useful.
+```
+
+Next action for this direction:
+
+```text
+Do not expand QNN-ResidualSafe-A to the full 5/10-shot matrix.
+Try QNN-ResidualSafe-B with alpha warmup or a less restrictive initialization
+such as alpha_init=-2.0, and keep Salinas 10-shot + Pavia 10-shot as the
+acceptance gate before full expansion.
+```
+
 ### Direction 3: Multi-Prototype / Class-Conditional Quantum Metric Branch
 
 Motivation:
