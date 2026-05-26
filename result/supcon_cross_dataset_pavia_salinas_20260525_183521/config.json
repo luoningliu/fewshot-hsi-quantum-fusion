@@ -1,0 +1,65 @@
+{
+  "datasets": [
+    "pavia_university",
+    "salinas"
+  ],
+  "data_root": "data",
+  "shots": [
+    5,
+    10
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "encoder_checkpoint_dir": "result/hybridsn_small_fewshot_pavia_salinas_5_10shot/checkpoints",
+  "split_dir": "result/hybridsn_small_fewshot_pavia_salinas_5_10shot/split_indices",
+  "output_dir": "result/supcon_cross_dataset_pavia_salinas_20260525_183521",
+  "feature_cache_dirs": [
+    "result/hybridsn_small_spectral_qnn_gated_proto_pavia_salinas_5_10shot",
+    "result/hybridsn_small_spectral_qnn_gated_proto_pavia_seed4_5shot",
+    "result/hybridsn_small_spectral_qnn_gated_proto_pavia_10shot_seed0_2",
+    "result/hybridsn_small_spectral_qnn_gated_proto_pavia_10shot_seed3",
+    "result/hybridsn_small_spectral_qnn_gated_proto_pavia_10shot_seed4",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_partial",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_seed1_2_5shot",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_seed3_4_5shot",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_10shot_partial",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_10shot_seed1_2",
+    "result/hybridsn_small_spectral_qnn_gated_proto_salinas_10shot_seed3_4"
+  ],
+  "patch_size": 19,
+  "pca_bands": 30,
+  "conv3d_channels": [
+    8,
+    16,
+    16
+  ],
+  "conv2d_channels": 32,
+  "hidden_dim": 64,
+  "dropout": 0.4,
+  "batch_size": 16,
+  "test_batch_size": 128,
+  "feature_batch_size": 128,
+  "epochs": 60,
+  "patience": 10,
+  "lr": 0.003,
+  "weight_decay": 0.0001,
+  "metric_weight": 0.2,
+  "temperature": 0.2,
+  "gate_mode": "classwise",
+  "qubits": 6,
+  "qnn_layers": 1,
+  "entanglement": "linear",
+  "backend": "lightning.qubit",
+  "diff_method": "adjoint",
+  "angle_scale": 3.141592653589793,
+  "monitor": "macro_f1",
+  "device": "auto",
+  "seed": 42,
+  "rebuild_features": false,
+  "resume": true
+}

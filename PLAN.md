@@ -39,11 +39,347 @@ HSI cube + ground truth
 
 ## Primary Question
 
-The first key question is:
+The original key question was:
 
 ```text
 Does HybridSN + QNN outperform HybridSN + MLP under a fixed and fair data protocol?
 ```
 
-If this does not hold, the project should shift toward careful negative-result analysis rather than a large quantum sweep.
+The current evidence has shifted the main research question to:
 
+```text
+Does a Spectral QNN branch, placed on the center-pixel spectral input and combined
+with metric-learning objectives, provide reproducible marginal-to-moderate gains
+in few-shot HSI classification?
+```
+
+Current strongest line:
+
+```text
+Spectral QNN Gated Fusion + Prototype Loss / SupCon Loss
+```
+
+Current few-shot protocol:
+
+```text
+datasets = Indian Pines, Pavia University, Salinas
+shots = 5, 10
+seeds = 0, 1, 2, 3, 4
+baseline = HybridSN-small
+metrics = OA, AA, Kappa, Macro-F1, Weighted-F1, per-class precision/recall/F1
+```
+
+Latest evidence package:
+
+```text
+result/final_evidence_closure_fewshot_spectral_qnn_20260526_094921/
+```
+
+Current interpretation:
+
+1. Pavia University 5/10-shot is the strongest positive evidence.
+2. Indian Pines 5/10-shot shows marginal but reproducible gains.
+3. Salinas 5-shot is positive, but Prototype and SupCon differ in stability.
+4. Salinas 10-shot negative transfer is mainly tied to Prototype Loss.
+5. SupCon Loss mitigates Salinas 10-shot Macro-F1 degradation, but OA and Weighted-F1 remain below HybridSN-small.
+6. The QNN branch is better framed as spectral-side decision-boundary regularization, not as a faster or universally stronger classifier head.
+
+## Next Optimization Plan: Toward All-Dataset 5/10-shot Improvement
+
+Goal:
+
+```text
+Build a Spectral QNN variant that exceeds HybridSN-small on Indian Pines,
+Pavia University, and Salinas for both 5-shot and 10-shot settings.
+```
+
+This stage should avoid broad, uncontrolled hyperparameter search. Each change should target the observed failure mode:
+
+```text
+Salinas 10-shot is near-saturated for the classical baseline, and the QNN residual
+branch can disturb already-good decision boundaries.
+```
+
+### Direction 1: Data Re-uploading Spectral QNN
+
+Motivation:
+
+HSI center-pixel spectra are continuous one-dimensional spectral signals. A single spectral encoding layer may only expose low-order spectral responses. Data re-uploading can increase the spectral nonlinearity available to the QNN without simply increasing qubit count.
+
+Candidate variants:
+
+```text
+QNN-Reupload-A: q6_l2, full-spectrum re-uploading
+QNN-Reupload-B: q6_l2, grouped-band re-uploading
+QNN-Reupload-C: shared q6 circuit over spectral groups, pooled output
+```
+
+Controlled comparison:
+
+```text
+baseline model = Spectral QNN Gated Fusion + SupCon
+change only the QNN encoding / re-uploading structure
+same splits, same seeds, same PCA=30, same patch size, same optimizer family
+```
+
+Priority validation:
+
+```text
+Salinas 10-shot seeds 0-4
+Pavia University 10-shot seeds 0-4
+```
+
+Success criterion:
+
+```text
+Salinas 10-shot Macro-F1, OA, and Weighted-F1 no longer fall below HybridSN-small,
+while Pavia 10-shot remains positive.
+```
+
+Initial implementation status:
+
+```text
+Implemented: QNN-Reupload-A
+variant = q6_l2 data re-uploading + multi-observable readout
+loss = SupCon
+minimal batch = Salinas 10-shot seeds 0-4, Pavia University 10-shot seeds 0-4
+result_dir = result/qnn_reupload_supcon_minibatch_salinas_pavia_10shot_20260526_103205/
+```
+
+Initial result:
+
+```text
+Salinas 10-shot:
+  Delta vs HybridSN-small:
+    OA = -0.0226
+    Macro-F1 = +0.0025
+    Weighted-F1 = -0.0229
+
+Pavia University 10-shot:
+  Delta vs HybridSN-small:
+    OA = +0.0474
+    Macro-F1 = +0.0799
+    Weighted-F1 = +0.0490
+```
+
+Decision:
+
+```text
+QNN-Reupload-A does not pass the acceptance rule because Salinas 10-shot still
+underperforms HybridSN-small on OA and Weighted-F1. Keep this as a diagnosed
+negative/partial variant, not the next mainline model.
+```
+
+Next action for this direction:
+
+```text
+Do not expand QNN-Reupload-A to the full 5/10-shot matrix.
+Only revisit data re-uploading after adding residual-safe scaling or
+confidence-aware gate protection.
+```
+
+### Direction 2: Residual-Safe / Identity-Initialized QNN Branch
+
+Motivation:
+
+The current gated QNN branch can perturb a strong classical boundary, especially on Salinas 10-shot. A safer residual formulation should let the QNN start near no-op and only contribute when useful.
+
+Candidate implementation:
+
+```text
+scale = sigmoid(alpha)
+logits = base_logits + scale * gate * qnn_logits
+alpha initialized to a negative value, e.g. -4.0
+```
+
+Alternative schedule:
+
+```text
+alpha warmup: 0 -> 1 over the first 20 epochs
+```
+
+Candidate variants:
+
+```text
+QNN-ResidualSafe-A: learnable alpha initialized near zero
+QNN-ResidualSafe-B: alpha warmup schedule
+QNN-ResidualSafe-C: classwise alpha gate
+```
+
+Priority validation:
+
+```text
+Salinas 10-shot seeds 0-4
+Salinas 5-shot seeds 0-4
+Pavia University 10-shot seeds 0-4
+```
+
+Success criterion:
+
+```text
+Reduce Salinas 10-shot OA / Weighted-F1 degradation without losing Pavia gains.
+```
+
+### Direction 3: Multi-Prototype / Class-Conditional Quantum Metric Branch
+
+Motivation:
+
+Salinas contains large, internally diverse classes such as Vinyard_untrained and Grapes_untrained. A single class prototype can over-compress class structure and amplify confusion. Multi-prototype metric heads may better represent multi-modal spectral distributions.
+
+Candidate variants:
+
+```text
+QNN-MultiProto-A: 2 prototypes per class
+QNN-MultiProto-B: 3 prototypes per class
+QNN-MultiProto-C: softmin over class prototypes
+QNN-MultiProto-D: class-conditional prototype temperature
+```
+
+Prototype construction:
+
+```text
+support-only class means
+or k-means on training/support fused features
+```
+
+Priority validation:
+
+```text
+Salinas 10-shot seeds 0-4
+Salinas 5-shot seeds 0-4
+```
+
+Success criterion:
+
+```text
+Recover F1 for Vinyard_untrained and Grapes_untrained while preserving gains on smaller classes.
+```
+
+### Direction 4: QCNN-style Hierarchical Spectral Circuit
+
+Motivation:
+
+The current spectral QNN treats the PCA spectrum as a compact vector. A hierarchical local spectral circuit may work more like a learnable spectral filter and reduce over-global mixing.
+
+Candidate structure:
+
+```text
+30 PCA bands -> 5 groups x 6 bands
+shared q6 local circuit per group
+group features -> attention / mean pooling / gated pooling
+pooled quantum spectral feature -> gated fusion logits
+```
+
+Candidate variants:
+
+```text
+QNN-QCNN-A: shared local q6 circuit + mean pooling
+QNN-QCNN-B: shared local q6 circuit + attention pooling
+QNN-QCNN-C: two-level local-to-global quantum pooling
+```
+
+Priority validation:
+
+```text
+Pavia University 5/10-shot
+Salinas 10-shot
+```
+
+Success criterion:
+
+```text
+Maintain Pavia gains and reduce Salinas 10-shot class confusion.
+```
+
+### Direction 5: Confidence-Aware Quantum Gate / Negative-Transfer Guard
+
+Motivation:
+
+When HybridSN-small is already highly confident, especially on Salinas 10-shot, the QNN branch should not strongly modify the decision unless the sample is near a boundary.
+
+Candidate gate inputs:
+
+```text
+z
+center spectrum
+base max softmax confidence
+base top1-top2 logit margin
+```
+
+Candidate regularization:
+
+```text
+gate_penalty = mean(gate * stopgrad(base_confidence))
+```
+
+or:
+
+```text
+if base_margin is high, penalize large QNN residual contribution
+if base_margin is low, allow QNN contribution
+```
+
+Candidate variants:
+
+```text
+QNN-ConfGate-A: add confidence and logit margin to gate input
+QNN-ConfGate-B: confidence-weighted gate penalty
+QNN-ConfGate-C: residual norm penalty on high-confidence samples
+```
+
+Priority validation:
+
+```text
+Salinas 10-shot seeds 0-4
+Pavia University 10-shot seeds 0-4
+Indian Pines 10-shot seeds 0-4
+```
+
+Success criterion:
+
+```text
+Salinas 10-shot OA and Weighted-F1 improve over HybridSN-small, while Macro-F1
+does not degrade on Indian Pines and Pavia University.
+```
+
+## Recommended Execution Order
+
+Run the next experiments in this order:
+
+```text
+1. QNN-ResidualSafe + SupCon
+2. QNN-ConfGate + SupCon
+3. QNN-Reupload + SupCon
+4. QNN-MultiProto on Salinas-focused diagnostics
+5. QNN-QCNN if the first three directions still fail on Salinas 10-shot
+```
+
+Minimal first batch:
+
+```text
+Salinas 10-shot, seeds 0-4
+Pavia University 10-shot, seeds 0-4
+```
+
+Only expand to the full matrix if the minimal batch is positive:
+
+```text
+Indian Pines 5/10-shot
+Pavia University 5/10-shot
+Salinas 5/10-shot
+seeds 0-4
+```
+
+Decision rule:
+
+```text
+Do not accept a new QNN variant unless it improves Salinas 10-shot without
+sacrificing Pavia University 5/10-shot.
+```
+
+Final target:
+
+```text
+For every dataset-shot pair in {Indian Pines, Pavia University, Salinas} x {5, 10},
+QNN variant mean Macro-F1, OA, and Weighted-F1 should be >= HybridSN-small.
+```

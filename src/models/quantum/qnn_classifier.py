@@ -34,6 +34,7 @@ class QNNClassifier(nn.Module):
             backend=backend,
             diff_method=diff_method,
         )
+        self.feature_dim = qubits
         self.classifier = nn.Linear(qubits, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

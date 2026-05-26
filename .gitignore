@@ -13,3 +13,11 @@ data/lcz42/splits/*
 !data/lcz42/raw/.gitkeep
 !data/lcz42/processed/.gitkeep
 !data/lcz42/splits/.gitkeep
+
+# Experiment artifacts: keep reports, summary CSVs, plots, and configs in git,
+# but avoid pushing reconstructable caches and large per-sample diagnostics.
+result/**/features/
+result/**/checkpoints/
+result/**/margins/
+result/**/*_gate_values.csv
+result/smoke_*/

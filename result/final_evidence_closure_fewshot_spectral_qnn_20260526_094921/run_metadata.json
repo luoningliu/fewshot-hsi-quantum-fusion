@@ -1,0 +1,36 @@
+{
+  "timestamp": "20260526_094921",
+  "output_dir": "result/final_evidence_closure_fewshot_spectral_qnn_20260526_094921",
+  "seed_list": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "datasets": [
+    "indian_pines",
+    "pavia_university",
+    "salinas"
+  ],
+  "shots": [
+    5,
+    10
+  ],
+  "raw_sources_copied": [
+    "result/fewshot_metric_loss_cross_dataset_summary/all_model_summary.csv",
+    "result/fewshot_metric_loss_cross_dataset_summary/comparison_vs_hybridsn_small.csv",
+    "result/fewshot_metric_loss_cross_dataset_summary/qnn_prototype_all_runs.csv",
+    "result/hybridsn_small_fewshot_3datasets/metrics/all_runs.csv",
+    "result/hybridsn_small_fewshot_pavia_salinas_5_10shot/metrics/all_runs.csv",
+    "result/hybridsn_small_spectral_qnn_gated_supcon_indian_pines_5_10shot/metrics/all_runs_metric_qnn.csv",
+    "result/supcon_cross_dataset_pavia_salinas_20260525_183521/metrics/all_runs_metric_qnn.csv",
+    "result/supcon_cross_dataset_pavia_salinas_20260525_183521/supcon_cross_dataset_summary.csv",
+    "result/supcon_cross_dataset_pavia_salinas_20260525_183521/supcon_cross_dataset_aggregate.csv",
+    "result/logit_margin_hybridsn_vs_qnn/metrics/logit_margin_summary_by_dataset_shot_model.csv",
+    "result/logit_margin_hybridsn_vs_qnn/metrics/geometry_vs_logit_margin_joint_summary.csv",
+    "result/boundary_geometry_hybridsn_vs_qnn/metrics/geometry_summary.csv"
+  ],
+  "missing_or_failed_runs": 0,
+  "notes": "This package reuses saved metrics and includes the completed Pavia/Salinas SupCon controlled runs."
+}

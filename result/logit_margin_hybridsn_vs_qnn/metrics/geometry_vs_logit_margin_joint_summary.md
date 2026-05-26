@@ -1,0 +1,14 @@
+| dataset          |   shot | model                    |   Macro-F1_mean |   separation_ratio_mean |   prototype_negative_margin_rate_mean |   mean_true_logit_margin_mean |   negative_logit_margin_rate_mean |
+|:-----------------|-------:|:-------------------------|----------------:|------------------------:|--------------------------------------:|------------------------------:|----------------------------------:|
+| indian_pines     |      5 | hybridsn_small           |        0.638053 |                 2.58895 |                              0.279589 |                      0.864631 |                          0.279808 |
+| indian_pines     |      5 | spectral_qnn_gated_proto |        0.641211 |                 2.32505 |                              0.271828 |                      0.957528 |                          0.279489 |
+| indian_pines     |     10 | hybridsn_small           |        0.715332 |                 3.10475 |                              0.196119 |                      1.88013  |                          0.198773 |
+| indian_pines     |     10 | spectral_qnn_gated_proto |        0.718224 |                 2.79452 |                              0.18687  |                      1.80259  |                          0.191153 |
+| pavia_university |      5 | hybridsn_small           |        0.761965 |                 2.57936 |                              0.240637 |                      1.41716  |                          0.23423  |
+| pavia_university |      5 | spectral_qnn_gated_proto |        0.771094 |                 2.39035 |                              0.219788 |                      1.12807  |                          0.224723 |
+| pavia_university |     10 | hybridsn_small           |        0.791976 |                 3.13551 |                              0.151263 |                      1.51262  |                          0.177383 |
+| pavia_university |     10 | spectral_qnn_gated_proto |        0.861272 |                 2.84556 |                              0.136839 |                      1.60143  |                          0.136849 |
+| salinas          |      5 | hybridsn_small           |        0.896679 |                 6.59936 |                              0.119742 |                      1.64498  |                          0.130672 |
+| salinas          |      5 | spectral_qnn_gated_proto |        0.93356  |                 5.56046 |                              0.127974 |                      1.88427  |                          0.118351 |
+| salinas          |     10 | hybridsn_small           |        0.954418 |                 8.08233 |                              0.057109 |                      2.3213   |                          0.063982 |
+| salinas          |     10 | spectral_qnn_gated_proto |        0.949634 |                 6.83662 |                              0.071806 |                      2.23594  |                          0.092784 |
