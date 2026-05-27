@@ -273,6 +273,69 @@ such as alpha_init=-2.0, and keep Salinas 10-shot + Pavia 10-shot as the
 acceptance gate before full expansion.
 ```
 
+Follow-up implementation status:
+
+```text
+Implemented: QNN-ResidualSafe-B
+variant = standard q6_l1 Spectral QNN + SupCon + learnable residual scale
+residual_scale = warmup_factor * sigmoid(alpha)
+alpha_init = -2.0
+residual_warmup_epochs = 20
+minimal batch = Salinas 10-shot seeds 0-4, Pavia University 10-shot seeds 0-4
+result_dir = result/qnn_residualsafe_b_supcon_minibatch_salinas_pavia_10shot_20260527_102113/
+```
+
+Follow-up result:
+
+```text
+Salinas 10-shot:
+  Delta vs HybridSN-small:
+    OA = -0.0218
+    Macro-F1 = -0.0032
+    Weighted-F1 = -0.0235
+  Delta vs original SupCon QNN:
+    OA = -0.0030
+    Macro-F1 = -0.0058
+    Weighted-F1 = -0.0034
+  Delta vs ResidualSafe-A:
+    OA = -0.0090
+    Macro-F1 = -0.0047
+    Weighted-F1 = -0.0106
+
+Pavia University 10-shot:
+  Delta vs HybridSN-small:
+    OA = +0.0217
+    Macro-F1 = +0.0370
+    Weighted-F1 = +0.0242
+  Delta vs original SupCon QNN:
+    OA = -0.0192
+    Macro-F1 = -0.0369
+    Weighted-F1 = -0.0181
+  Delta vs ResidualSafe-A:
+    OA = -0.0004
+    Macro-F1 = -0.0049
+    Weighted-F1 = -0.0011
+```
+
+Decision after ResidualSafe-B:
+
+```text
+QNN-ResidualSafe-B fails the Salinas 10-shot acceptance gate and does not
+recover the original Pavia 10-shot SupCon-QNN gain. Relaxing alpha and adding
+warmup increases the QNN residual scale, but it amplifies unstable Salinas
+seed behavior instead of solving negative transfer.
+```
+
+Next action after ResidualSafe-B:
+
+```text
+Stop the global residual-scale line for now. Move to a more conditional
+mechanism: either confidence-aware quantum gate / negative-transfer guard, or
+Direction 3 Multi-Prototype / Class-Conditional Quantum Metric Branch.
+Given Salinas class diversity, prioritize Direction 3 unless a lightweight
+confidence guard can be added without changing the data protocol.
+```
+
 ### Direction 3: Multi-Prototype / Class-Conditional Quantum Metric Branch
 
 Motivation:

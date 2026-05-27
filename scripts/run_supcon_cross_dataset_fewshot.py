@@ -153,6 +153,7 @@ def _run_one(
     started = time.time()
 
     for epoch in range(1, args.epochs + 1):
+        _set_residual_warmup(model, epoch, args.residual_warmup_epochs)
         train_stats = _train_epoch(model, train_loader, criterion, optimizer, device, args.metric_weight, args.temperature)
         val_loss, y_val, pred_val = _evaluate(model, val_loader, criterion, device)
         val_metrics = classification_metrics(y_val, pred_val, labels=list(range(num_classes)))
@@ -162,6 +163,8 @@ def _run_one(
             "shot": shot,
             "seed": seed,
             "epoch": epoch,
+            "residual_scale": float(model.residual_scale().detach().cpu().item()),
+            "residual_warmup_factor": float(model.residual_warmup_factor.detach().cpu().item()),
             **train_stats,
             "val_loss": val_loss,
             "val_OA": val_metrics["OA"],
@@ -223,6 +226,7 @@ def _run_one(
         "qnn_variant": args.qnn_variant,
         "residual_scale_mode": args.residual_scale_mode,
         "residual_alpha_init": args.residual_alpha_init,
+        "residual_warmup_epochs": args.residual_warmup_epochs,
         "residual_scale_final": residual_scale,
         "shot": shot,
         "seed": seed,
@@ -339,6 +343,15 @@ def _evaluate(model: nn.Module, loader: DataLoader, criterion: nn.Module, device
             ys.append(y.numpy())
             preds.append(logits.argmax(1).cpu().numpy())
     return loss_sum / max(count, 1), np.concatenate(ys), np.concatenate(preds)
+
+
+def _set_residual_warmup(model: nn.Module, epoch: int, warmup_epochs: int) -> None:
+    if not hasattr(model, "set_residual_warmup_factor"):
+        return
+    if warmup_epochs <= 0:
+        model.set_residual_warmup_factor(1.0)
+        return
+    model.set_residual_warmup_factor(min(1.0, float(epoch) / float(warmup_epochs)))
 
 
 def _loader(z: np.ndarray, spectra: np.ndarray, labels: np.ndarray, indices: list[int], batch_size: int, shuffle: bool):
@@ -545,6 +558,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--qnn_variant", choices=["standard", "reupload_multiobs"], default="standard")
     parser.add_argument("--residual_scale_mode", choices=["none", "learnable_sigmoid"], default="none")
     parser.add_argument("--residual_alpha_init", type=float, default=-4.0)
+    parser.add_argument("--residual_warmup_epochs", type=int, default=0)
     parser.add_argument("--qubits", type=int, default=6)
     parser.add_argument("--qnn_layers", type=int, default=1)
     parser.add_argument("--entanglement", default="linear")

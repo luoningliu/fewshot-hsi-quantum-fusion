@@ -42,6 +42,7 @@ class SpectralQNNGatedMetricFusion(nn.Module):
             self.residual_alpha = nn.Parameter(torch.tensor(float(residual_alpha_init)))
         else:
             self.register_buffer("residual_alpha", torch.tensor(0.0), persistent=False)
+        self.register_buffer("residual_warmup_factor", torch.tensor(1.0))
         gate_dim = 1 if gate_mode == "scalar" else num_classes
         if gate_mode not in {"scalar", "classwise"}:
             raise ValueError(f"Unsupported gate_mode: {gate_mode}")
@@ -54,8 +55,12 @@ class SpectralQNNGatedMetricFusion(nn.Module):
 
     def residual_scale(self) -> torch.Tensor:
         if self.residual_scale_mode == "learnable_sigmoid":
-            return torch.sigmoid(self.residual_alpha)
+            return self.residual_warmup_factor * torch.sigmoid(self.residual_alpha)
         return self.residual_alpha.new_tensor(1.0)
+
+    def set_residual_warmup_factor(self, factor: float) -> None:
+        clipped = max(0.0, min(1.0, float(factor)))
+        self.residual_warmup_factor.fill_(clipped)
 
     def spectral_features(self, spectrum: torch.Tensor) -> torch.Tensor:
         return self.qnn_head.forward_features(spectrum)

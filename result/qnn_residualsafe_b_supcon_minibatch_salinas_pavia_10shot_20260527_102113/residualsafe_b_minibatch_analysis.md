@@ -1,0 +1,19 @@
+# QNN ResidualSafe-B Minibatch Analysis
+
+Result directory: `result/qnn_residualsafe_b_supcon_minibatch_salinas_pavia_10shot_20260527_102113/`
+
+Setting: `alpha_init=-2.0`, `residual_warmup_epochs=20`, SupCon, standard q6_l1 QNN.
+
+## Mean Comparison
+
+| dataset          |   shot | model                                |   runs |   baseline_oa |   residualsafe_b_oa |   delta_vs_hybridsn_oa |   original_supcon_oa |   delta_vs_original_supcon_oa |   residualsafe_a_oa |   delta_vs_residualsafe_a_oa |   baseline_macro_f1 |   residualsafe_b_macro_f1 |   delta_vs_hybridsn_macro_f1 |   original_supcon_macro_f1 |   delta_vs_original_supcon_macro_f1 |   residualsafe_a_macro_f1 |   delta_vs_residualsafe_a_macro_f1 |   baseline_weighted_f1 |   residualsafe_b_weighted_f1 |   delta_vs_hybridsn_weighted_f1 |   original_supcon_weighted_f1 |   delta_vs_original_supcon_weighted_f1 |   residualsafe_a_weighted_f1 |   delta_vs_residualsafe_a_weighted_f1 |
+|:-----------------|-------:|:-------------------------------------|-------:|--------------:|--------------------:|-----------------------:|---------------------:|------------------------------:|--------------------:|-----------------------------:|--------------------:|--------------------------:|-----------------------------:|---------------------------:|------------------------------------:|--------------------------:|-----------------------------------:|-----------------------:|-----------------------------:|--------------------------------:|------------------------------:|---------------------------------------:|-----------------------------:|--------------------------------------:|
+| pavia_university |     10 | Spectral QNN ResidualSafe-B + SupCon |      5 |         82.26 |               84.43 |                   2.17 |                86.35 |                         -1.92 |               84.47 |                        -0.04 |               79.2  |                     82.9  |                         3.7  |                      86.59 |                               -3.69 |                     83.39 |                              -0.49 |                  82.8  |                        85.22 |                            2.42 |                         87.03 |                                  -1.81 |                        85.34 |                                 -0.11 |
+| salinas          |     10 | Spectral QNN ResidualSafe-B + SupCon |      5 |         93.6  |               91.42 |                  -2.18 |                91.71 |                         -0.3  |               92.32 |                        -0.9  |               95.44 |                     95.13 |                        -0.32 |                      95.7  |                               -0.58 |                     95.6  |                              -0.47 |                  93.62 |                        91.26 |                           -2.35 |                         91.6  |                                  -0.34 |                        92.32 |                                 -1.06 |
+
+## Interpretation
+
+- Salinas 10-shot: ResidualSafe-B fails the acceptance gate. It remains below HybridSN-small on OA and Weighted-F1 and is also worse than ResidualSafe-A and the original SupCon QNN on the main aggregate metrics.
+- Pavia University 10-shot: ResidualSafe-B remains above HybridSN-small, but it does not recover the original SupCon QNN gain and is slightly below ResidualSafe-A.
+- Diagnosis: relaxing alpha from -4.0 to -2.0 and adding warmup increases the effective QNN residual scale, but this amplifies the unstable Salinas seed0 degradation without restoring the strong Pavia gains.
+- Decision: stop the global residual-scale line for now. Move to class-conditional or confidence-aware protection, or the Multi-Prototype / Class-Conditional Quantum Metric Branch direction.
