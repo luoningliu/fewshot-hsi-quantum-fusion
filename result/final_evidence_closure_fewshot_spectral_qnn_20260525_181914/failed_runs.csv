@@ -1,0 +1,21 @@
+dataset,shot,seed,model,stage,status,reason
+pavia_university,5,0,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,5,1,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,5,2,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,5,3,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,5,4,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,10,0,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,10,1,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,10,2,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,10,3,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+pavia_university,10,4,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,5,0,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,5,1,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,5,2,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,5,3,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,5,4,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,10,0,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,10,1,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,10,2,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,10,3,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.
+salinas,10,4,spectral_qnn_gated_supcon,Task A,missing_not_run,No saved SupCon cross-dataset seed result exists in the current workspace.

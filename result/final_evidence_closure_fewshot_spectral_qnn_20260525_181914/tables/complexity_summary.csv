@@ -1,0 +1,6 @@
+model,trainable_params,encoder_params,classifier_or_head_params,qnn_params,qubits,quantum_layers,encoding_type,entanglement_type,training_time_mean,inference_time_mean,device,notes
+HybridSN-small,99317.375,99488.0,,,,,NA,NA,150.33889157176017,110.45731781125069,cpu,baseline encoder + classifier
+Spectral QNN Gated Fusion + Prototype,1935.6666666666667,99488.0,,2176.0,6.0,1.0,angle/tanh projection,linear,66.64876086711884,62.145910596847536,cpu,metric branch
+Spectral QNN Gated Fusion + SupCon,2176.0,99488.0,,2176.0,6.0,1.0,angle/tanh projection,linear,28.742389583587645,18.27771496772766,cpu,Indian Pines only in saved runs
+CNN2D,28208.0,,,,,,NA,NA,,,cpu,from few-shot CNN baseline metadata
+SVM-RBF,,,,,,,NA,NA,,,cpu,non-parametric sklearn baseline; exact support-vector count not summarized

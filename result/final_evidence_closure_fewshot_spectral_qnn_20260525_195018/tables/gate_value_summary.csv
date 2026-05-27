@@ -1,0 +1,5 @@
+dataset,shot,model,mean_gate_value,std_gate_value,gate_value_correct_samples,gate_value_wrong_samples
+pavia_university,5,spectral_qnn_gated_supcon,0.5499514336395005,0.12760978890301233,,
+pavia_university,10,spectral_qnn_gated_supcon,0.5871793358667976,0.13425630239964334,,
+salinas,5,spectral_qnn_gated_supcon,0.577520638076056,0.07137289777901482,,
+salinas,10,spectral_qnn_gated_supcon,0.5632640487631455,0.075200811643645,,
