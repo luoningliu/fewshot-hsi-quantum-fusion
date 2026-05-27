@@ -371,6 +371,64 @@ Success criterion:
 Recover F1 for Vinyard_untrained and Grapes_untrained while preserving gains on smaller classes.
 ```
 
+Initial implementation status:
+
+```text
+Implemented: QNN-MultiProto-A
+variant = standard q6_l1 Spectral QNN + Prototype Loss
+prototypes_per_class = 2
+prototype aggregation = deterministic support split + logsumexp over sub-prototype distances
+minimal batch = Salinas 10-shot seeds 0-4, Pavia University 10-shot seeds 0-4
+result_dir = result/qnn_multiproto2_minibatch_salinas_pavia_10shot_20260527_113147/
+```
+
+Initial result:
+
+```text
+Salinas 10-shot:
+  Delta vs HybridSN-small:
+    OA = -0.0294
+    Macro-F1 = -0.0051
+    Weighted-F1 = -0.0340
+  Delta vs original Prototype QNN:
+    OA = -0.0006
+    Macro-F1 = -0.0003
+    Weighted-F1 = -0.0007
+  Delta vs original SupCon QNN:
+    OA = -0.0105
+    Macro-F1 = -0.0077
+    Weighted-F1 = -0.0138
+
+Pavia University 10-shot:
+  Delta vs HybridSN-small:
+    OA = +0.0405
+    Macro-F1 = +0.0692
+    Weighted-F1 = +0.0412
+  Delta vs original Prototype QNN:
+    OA = -0.0001
+    Macro-F1 = -0.0001
+    Weighted-F1 = -0.0001
+```
+
+Decision:
+
+```text
+QNN-MultiProto-A does not pass the Salinas 10-shot acceptance gate. It nearly
+matches the original Prototype-QNN line, strengthens the existing Pavia-positive
+story, but does not solve the target negative case. The deterministic
+sub-prototype split is not sufficient for Salinas class ambiguity.
+```
+
+Next action for this direction:
+
+```text
+Do not expand QNN-MultiProto-A to the full matrix. If continuing Direction 3,
+use a safer class-conditional mechanism: class-conditional prototype
+temperature, per-class metric weight, or confidence-gated metric loss. Given
+the repeated Salinas seed0/seed4 degradation, Direction 5 confidence-aware
+negative-transfer guard is now the higher-priority next experiment.
+```
+
 ### Direction 4: QCNN-style Hierarchical Spectral Circuit
 
 Motivation:

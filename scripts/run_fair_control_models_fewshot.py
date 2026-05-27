@@ -29,13 +29,21 @@ from src.utils.seed import set_seed
 
 
 METRICS = ("OA", "AA", "Kappa", "Macro-F1", "Weighted-F1")
-TRAINED_MODELS = ("frozen_linear", "frozen_linear_proto", "spectral_mlp_proto", "spectral_qnn_proto")
-GATED_MODELS = ("spectral_mlp_proto", "spectral_qnn_proto")
+TRAINED_MODELS = (
+    "frozen_linear",
+    "frozen_linear_proto",
+    "spectral_mlp_proto",
+    "spectral_qnn_proto",
+    "spectral_qnn_multiproto",
+)
+GATED_MODELS = ("spectral_mlp_proto", "spectral_qnn_proto", "spectral_qnn_multiproto")
 COMPARISON_PAIRS = (
     ("frozen_linear", "hybridsn_small"),
     ("spectral_mlp_proto", "frozen_linear"),
     ("spectral_qnn_proto", "frozen_linear"),
     ("spectral_qnn_proto", "spectral_mlp_proto"),
+    ("spectral_qnn_multiproto", "frozen_linear"),
+    ("spectral_qnn_multiproto", "spectral_qnn_proto"),
 )
 
 
@@ -216,7 +224,7 @@ def _run_one(
     test_loader = _loader(z, spectra, labels, split["test"], args.test_batch_size, False)
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    use_proto = model_name.endswith("_proto")
+    use_proto = model_name.endswith("_proto") or model_name.endswith("_multiproto")
     train_indices = split["train"]
     best_state = copy.deepcopy(model.state_dict())
     best_metric = -1.0
@@ -240,6 +248,7 @@ def _run_one(
             num_classes,
             args.metric_weight if use_proto else 0.0,
             args.temperature,
+            args.prototypes_per_class if model_name == "spectral_qnn_multiproto" else 1,
         )
         val_loss, y_val, pred_val = _evaluate(model, val_loader, criterion, device)
         val_metrics = classification_metrics(y_val, pred_val, labels=list(range(num_classes)))
@@ -347,7 +356,7 @@ def _make_model(args: argparse.Namespace, model_name: str, embedding_dim: int, s
             mlp_output_dim=args.mlp_output_dim,
             gate_mode=args.gate_mode,
         )
-    if model_name == "spectral_qnn_proto":
+    if model_name in {"spectral_qnn_proto", "spectral_qnn_multiproto"}:
         return SpectralQNNGatedMetricFusion(
             embedding_dim=embedding_dim,
             spectral_dim=spectral_dim,
@@ -377,6 +386,7 @@ def _train_epoch(
     num_classes: int,
     metric_weight: float,
     temperature: float,
+    prototypes_per_class: int,
 ) -> dict[str, float]:
     model.train()
     train_idx = np.asarray(train_indices, dtype=np.int64)
@@ -396,7 +406,14 @@ def _train_epoch(
         if metric_weight > 0:
             support_features = model.fused_features(support_z, support_s)
             query_features = model.fused_features(z, spectra)
-            metric_logits = _prototype_logits(query_features, support_features, support_y, num_classes, temperature)
+            metric_logits = _prototype_logits(
+                query_features,
+                support_features,
+                support_y,
+                num_classes,
+                temperature,
+                prototypes_per_class,
+            )
             metric_loss = criterion(metric_logits, y)
         loss = ce_loss + float(metric_weight) * metric_loss
         loss.backward()
@@ -438,15 +455,26 @@ def _prototype_logits(
     support_labels: torch.Tensor,
     num_classes: int,
     temperature: float,
+    prototypes_per_class: int = 1,
 ) -> torch.Tensor:
     query = F.normalize(query_features, dim=1)
     support = F.normalize(support_features, dim=1)
-    prototypes = []
+    class_logits = []
     for class_id in range(num_classes):
         class_mask = support_labels == class_id
-        prototypes.append(support[class_mask].mean(dim=0))
-    prototypes = F.normalize(torch.stack(prototypes, dim=0), dim=1)
-    return -(torch.cdist(query, prototypes, p=2) ** 2) / float(temperature)
+        class_support = support[class_mask]
+        class_prototypes = _class_subprototypes(class_support, prototypes_per_class)
+        distances = torch.cdist(query, class_prototypes, p=2) ** 2
+        class_logits.append(torch.logsumexp(-distances / float(temperature), dim=1))
+    return torch.stack(class_logits, dim=1)
+
+
+def _class_subprototypes(class_support: torch.Tensor, prototypes_per_class: int) -> torch.Tensor:
+    if prototypes_per_class <= 1 or class_support.shape[0] <= 1:
+        return F.normalize(class_support.mean(dim=0, keepdim=True), dim=1)
+    chunks = torch.chunk(class_support, min(int(prototypes_per_class), class_support.shape[0]), dim=0)
+    prototypes = torch.stack([chunk.mean(dim=0) for chunk in chunks if chunk.numel() > 0], dim=0)
+    return F.normalize(prototypes, dim=1)
 
 
 def _write_gate_values(
@@ -965,6 +993,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--weight_decay", type=float, default=0.0001)
     parser.add_argument("--metric_weight", type=float, default=0.2)
     parser.add_argument("--temperature", type=float, default=0.2)
+    parser.add_argument("--prototypes_per_class", type=int, default=2)
     parser.add_argument("--gate_mode", choices=["scalar", "classwise"], default="classwise")
     parser.add_argument("--mlp_hidden_dim", type=int, default=6)
     parser.add_argument("--mlp_output_dim", type=int, default=6)
