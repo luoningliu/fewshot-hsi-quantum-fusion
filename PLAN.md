@@ -501,6 +501,64 @@ QNN-ConfGate-B: confidence-weighted gate penalty
 QNN-ConfGate-C: residual norm penalty on high-confidence samples
 ```
 
+Initial implementation status:
+
+```text
+Implemented: QNN-ConfidenceGuard-A
+variant = standard q6_l1 Spectral QNN + SupCon
+gate_context_mode = base_confidence_margin
+gate_confidence_penalty = 0.05
+minimal batch = Salinas 10-shot seeds 0-4, Pavia University 10-shot seeds 0-4
+result_dir = result/qnn_confguard_supcon_minibatch_salinas_pavia_10shot_20260527_152324/
+```
+
+Initial result:
+
+```text
+Salinas 10-shot:
+  Delta vs HybridSN-small:
+    OA = -0.0110
+    Macro-F1 = +0.0066
+    Weighted-F1 = -0.0107
+  Delta vs original SupCon QNN:
+    OA = +0.0079
+    Macro-F1 = +0.0040
+    Weighted-F1 = +0.0095
+  Delta vs original Prototype QNN:
+    OA = +0.0178
+    Macro-F1 = +0.0114
+    Weighted-F1 = +0.0226
+
+Pavia University 10-shot:
+  Delta vs HybridSN-small:
+    OA = +0.0343
+    Macro-F1 = +0.0667
+    Weighted-F1 = +0.0362
+  Delta vs original SupCon QNN:
+    OA = -0.0065
+    Macro-F1 = -0.0072
+    Weighted-F1 = -0.0060
+```
+
+Decision:
+
+```text
+QNN-ConfidenceGuard-A is the strongest Salinas 10-shot mitigation so far among
+the targeted optimization directions, improving over both original SupCon-QNN
+and Prototype-QNN while preserving most Pavia 10-shot gain. It still does not
+pass the final acceptance rule because Salinas OA / Weighted-F1 remain below
+HybridSN-small.
+```
+
+Next action for this direction:
+
+```text
+Continue Direction 5. Test a stronger guard before changing circuit complexity:
+QNN-ConfidenceGuard-B with gate_confidence_penalty=0.1, and/or a direct
+multiplicative suppression gate such as gate = gate * (1 - base_confidence)^gamma
+for high-confidence baseline samples.
+```
+
 Priority validation:
 
 ```text

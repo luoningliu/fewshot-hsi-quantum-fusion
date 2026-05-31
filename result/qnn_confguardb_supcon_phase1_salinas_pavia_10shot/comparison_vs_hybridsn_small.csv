@@ -1,0 +1,3 @@
+dataset,shot,model,runs,baseline_runs,baseline_oa,qnn_oa,delta_oa,positive_oa_seeds,baseline_macro_f1,qnn_macro_f1,delta_macro_f1,positive_macro_f1_seeds,passes_oa_macro_f1_rule
+pavia_university,10,spectral_qnn_confguardb_gated_supcon,5,5,0.8226171471499673,0.8518499389614048,0.029232791811437564,4,0.7919759979075065,0.8485698573478524,0.056593859440345895,4,True
+salinas,10,spectral_qnn_confguardb_gated_supcon,5,5,0.9360181382296642,0.9198238212938357,-0.016194316935828512,2,0.9544178031872306,0.9569081074365249,0.002490304249294306,2,False

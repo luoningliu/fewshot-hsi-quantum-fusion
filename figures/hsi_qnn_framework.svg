@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Spectral QNN gated fusion framework for few-shot hyperspectral image classification</title>
+  <desc id="desc">A research workflow diagram showing hyperspectral cube preprocessing, HybridSN encoder, spectral QNN branch, gated fusion, classifier, and evaluation metrics.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#243447"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-20%" width="120%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#1a2633" flood-opacity="0.16"/>
+    </filter>
+    <style>
+      .page { fill: #f7f9fb; }
+      .title { font: 700 28px Arial, Helvetica, sans-serif; fill: #1c2b39; }
+      .subtitle { font: 400 15px Arial, Helvetica, sans-serif; fill: #5c6975; }
+      .panel { fill: #ffffff; stroke: #d7dee7; stroke-width: 1.4; rx: 8; filter: url(#shadow); }
+      .panel-soft { fill: #f2f6f8; stroke: #cfd9e3; stroke-width: 1.2; rx: 8; }
+      .label { font: 700 17px Arial, Helvetica, sans-serif; fill: #1e2d3a; }
+      .small { font: 400 13px Arial, Helvetica, sans-serif; fill: #52616f; }
+      .tiny { font: 400 12px Arial, Helvetica, sans-serif; fill: #6a7682; }
+      .metric { font: 700 14px Arial, Helvetica, sans-serif; fill: #26323f; }
+      .arrow { stroke: #243447; stroke-width: 2.2; fill: none; marker-end: url(#arrow); }
+      .line { stroke: #93a4b4; stroke-width: 1.5; fill: none; }
+      .cube-top { fill: #7fb3d5; stroke: #35637f; stroke-width: 1.2; }
+      .cube-front { fill: #4f8fb8; stroke: #35637f; stroke-width: 1.2; }
+      .cube-side { fill: #2f6f9c; stroke: #35637f; stroke-width: 1.2; }
+      .accent-a { fill: #e8f3ff; stroke: #72a8d8; }
+      .accent-b { fill: #fff4de; stroke: #e4a945; }
+      .accent-c { fill: #eaf7ef; stroke: #67aa7a; }
+      .accent-d { fill: #f1edff; stroke: #9276d1; }
+      .badge { fill: #243447; }
+      .badge-text { font: 700 12px Arial, Helvetica, sans-serif; fill: #ffffff; }
+    </style>
+  </defs>
+
+  <rect class="page" x="0" y="0" width="1200" height="675"/>
+  <text class="title" x="60" y="58">Spectral QNN Gated Fusion for Few-Shot HSI Classification</text>
+  <text class="subtitle" x="60" y="84">Example method figure aligned with the current HybridSN-small + spectral quantum branch research direction</text>
+
+  <g transform="translate(60 132)">
+    <rect class="panel" x="0" y="0" width="180" height="150"/>
+    <text class="label" x="24" y="32">HSI Cube</text>
+    <text class="small" x="24" y="56">Indian Pines</text>
+    <text class="small" x="24" y="76">Pavia University</text>
+    <text class="small" x="24" y="96">Salinas</text>
+    <g transform="translate(36 102)">
+      <polygon class="cube-top" points="0,18 42,0 112,0 70,18"/>
+      <polygon class="cube-front" points="0,18 70,18 70,58 0,58"/>
+      <polygon class="cube-side" points="70,18 112,0 112,40 70,58"/>
+      <line class="line" x1="14" y1="18" x2="14" y2="58"/>
+      <line class="line" x1="28" y1="18" x2="28" y2="58"/>
+      <line class="line" x1="42" y1="18" x2="42" y2="58"/>
+      <line class="line" x1="56" y1="18" x2="56" y2="58"/>
+    </g>
+  </g>
+
+  <path class="arrow" d="M250 207 H322"/>
+
+  <g transform="translate(330 132)">
+    <rect class="panel accent-a" x="0" y="0" width="190" height="150" rx="8"/>
+    <text class="label" x="24" y="32">Data Protocol</text>
+    <text class="small" x="24" y="60">Non-background normalization</text>
+    <text class="small" x="24" y="84">PCA = 30 components</text>
+    <text class="small" x="24" y="108">9x9 patch extraction</text>
+    <text class="small" x="24" y="132">5-shot / 10-shot splits</text>
+  </g>
+
+  <path class="arrow" d="M530 207 H602"/>
+
+  <g transform="translate(610 105)">
+    <rect class="panel accent-c" x="0" y="0" width="220" height="128" rx="8"/>
+    <text class="label" x="24" y="32">HybridSN-small</text>
+    <text class="small" x="24" y="60">Spectral-spatial encoder</text>
+    <text class="small" x="24" y="84">3D/2D convolution blocks</text>
+    <text class="small" x="24" y="108">Base logits</text>
+  </g>
+
+  <g transform="translate(610 285)">
+    <rect class="panel accent-d" x="0" y="0" width="220" height="128" rx="8"/>
+    <text class="label" x="24" y="32">Spectral QNN Branch</text>
+    <text class="small" x="24" y="60">Center-pixel spectrum</text>
+    <text class="small" x="24" y="84">Angle encoding + entanglement</text>
+    <text class="small" x="24" y="108">Quantum spectral logits</text>
+  </g>
+
+  <path class="arrow" d="M520 207 C560 207 565 165 602 165"/>
+  <path class="arrow" d="M520 207 C560 207 565 349 602 349"/>
+
+  <g transform="translate(904 198)">
+    <rect class="panel accent-b" x="0" y="0" width="210" height="130" rx="8"/>
+    <text class="label" x="24" y="32">Gated Fusion</text>
+    <text class="small" x="24" y="60">gate = learned confidence</text>
+    <text class="small" x="24" y="84">final logits = base + gate x qnn</text>
+    <text class="small" x="24" y="108">CE + SupCon / Prototype loss</text>
+  </g>
+
+  <path class="arrow" d="M840 169 C875 169 872 232 896 247"/>
+  <path class="arrow" d="M840 349 C875 349 872 294 896 275"/>
+
+  <path class="arrow" d="M1009 337 V408"/>
+
+  <g transform="translate(822 430)">
+    <rect class="panel" x="0" y="0" width="374" height="140" rx="8"/>
+    <text class="label" x="24" y="34">Evaluation and Analysis</text>
+    <g transform="translate(24 60)">
+      <rect class="panel-soft" x="0" y="0" width="75" height="42" rx="6"/>
+      <text class="metric" x="22" y="26">OA</text>
+      <rect class="panel-soft" x="88" y="0" width="75" height="42" rx="6"/>
+      <text class="metric" x="105" y="26">AA</text>
+      <rect class="panel-soft" x="176" y="0" width="75" height="42" rx="6"/>
+      <text class="metric" x="190" y="26">Kappa</text>
+      <rect class="panel-soft" x="264" y="0" width="86" height="42" rx="6"/>
+      <text class="metric" x="278" y="26">Macro-F1</text>
+    </g>
+    <text class="small" x="24" y="122">Paired seed delta vs. HybridSN-small baseline</text>
+  </g>
+
+  <g transform="translate(60 470)">
+    <rect class="panel" x="0" y="0" width="660" height="100" rx="8"/>
+    <text class="label" x="24" y="34">Research Hypothesis</text>
+    <text class="small" x="24" y="62">A spectral-side QNN acts as decision-boundary regularization in low-shot HSI classification.</text>
+    <text class="small" x="24" y="84">The effect should be reported as dataset- and shot-dependent, not as universal QNN superiority.</text>
+  </g>
+
+  <g transform="translate(60 610)">
+    <rect class="badge" x="0" y="0" width="126" height="28" rx="14"/>
+    <text class="badge-text" x="17" y="19">Editable in draw.io</text>
+    <text class="tiny" x="146" y="19">Source file: figures/hsi_qnn_framework.drawio</text>
+  </g>
+</svg>

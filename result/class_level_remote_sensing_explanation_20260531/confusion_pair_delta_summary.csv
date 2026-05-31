@@ -1,0 +1,282 @@
+dataset,shot,qnn_label,true_class_id,true_class_name,pred_class_id,pred_class_name,baseline_count_mean,qnn_count_mean,delta_count_mean,delta_count_sum,increased_seeds,decreased_seeds
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,9,Soybean-notill,21.333333333333332,67.0,45.666666666666664,137,3,0
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,11,Soybean-clean,62.4,100.4,38.0,190,4,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,13,Woods,75.66666666666667,108.66666666666667,33.0,99,3,0
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,7,Hay-windrowed,1.0,30.0,29.0,29,1,0
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,13,Woods,18.0,45.0,27.0,27,1,0
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,9,Soybean-notill,114.4,139.6,25.2,126,5,0
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,1,Corn-notill,34.0,53.0,19.0,19,1,0
+indian_pines,5,Spectral QNN + SupCon,13,Woods,14,Buildings-Grass-Trees-Drives,65.6,83.4,17.8,89,4,1
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,5,Grass-trees,33.5,51.0,17.5,35,2,0
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,13,Woods,2.0,18.0,16.0,32,2,0
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,12,Wheat,0.5,14.0,13.5,27,2,0
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,14,Buildings-Grass-Trees-Drives,20.666666666666668,34.0,13.333333333333334,40,2,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,9,Soybean-notill,21.4,34.4,13.0,65,4,1
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,1,Corn-notill,10.5,23.5,13.0,52,2,2
+indian_pines,5,Spectral QNN + SupCon,13,Woods,10,Soybean-mintill,33.0,46.0,13.0,13,1,0
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,15,Stone-Steel-Towers,0.0,9.0,9.0,9,1,0
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,3,Corn,29.6,37.6,8.0,40,2,2
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,7,Hay-windrowed,52.5,60.0,7.5,30,2,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,11,Soybean-clean,51.2,58.6,7.4,37,4,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,5,Grass-trees,93.0,100.2,7.2,36,2,3
+indian_pines,5,Spectral QNN + SupCon,3,Corn,2,Corn-mintill,7.0,13.75,6.75,27,1,3
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,15,Stone-Steel-Towers,35.0,41.4,6.4,32,4,1
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,15,Stone-Steel-Towers,124.0,130.4,6.4,32,2,3
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,8,Oats,0.0,6.0,6.0,6,1,0
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,14,Buildings-Grass-Trees-Drives,37.4,43.4,6.0,30,4,1
+indian_pines,5,Spectral QNN + SupCon,13,Woods,9,Soybean-notill,10.6,16.4,5.8,29,3,0
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,13,Woods,10.25,15.75,5.5,22,3,1
+indian_pines,5,Spectral QNN + SupCon,13,Woods,7,Hay-windrowed,22.0,27.5,5.5,22,2,2
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,5,Grass-trees,21.6,27.0,5.4,27,2,2
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,14,Buildings-Grass-Trees-Drives,7.0,12.0,5.0,5,1,0
+indian_pines,5,Spectral QNN + SupCon,13,Woods,12,Wheat,4.0,9.0,5.0,10,1,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,3,Corn,10.25,14.5,4.25,17,4,0
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,12,Wheat,2.5,6.5,4.0,8,1,1
+indian_pines,5,Spectral QNN + SupCon,14,Buildings-Grass-Trees-Drives,12,Wheat,0.0,4.0,4.0,4,1,0
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,8,Oats,2.6666666666666665,6.333333333333333,3.6666666666666665,11,2,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,6,Grass-pasture-mowed,1.0,4.0,3.0,3,1,0
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,14,Buildings-Grass-Trees-Drives,7.0,10.0,3.0,6,2,0
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,15,Stone-Steel-Towers,0.5,3.0,2.5,5,1,1
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,2,Corn-mintill,55.6,58.0,2.4,12,2,3
+indian_pines,5,Spectral QNN + SupCon,8,Oats,1,Corn-notill,0.0,2.0,2.0,2,1,0
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,6,Grass-pasture-mowed,1.0,3.0,2.0,2,1,0
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,15,Stone-Steel-Towers,0.0,2.0,2.0,2,1,0
+indian_pines,5,Spectral QNN + SupCon,13,Woods,15,Stone-Steel-Towers,1.5,3.5,2.0,4,1,1
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,10,Soybean-mintill,31.0,32.75,1.75,7,3,1
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,13,Woods,4.0,5.75,1.75,7,2,2
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,3,Corn,36.5,37.75,1.25,5,3,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,4,Grass-pasture,0.0,1.0,1.0,1,1,0
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,3,Corn,2.3333333333333335,3.0,0.6666666666666666,2,2,1
+indian_pines,5,Spectral QNN + SupCon,13,Woods,11,Soybean-clean,5.0,5.666666666666667,0.6666666666666666,2,1,2
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,5,Grass-trees,2.0,2.0,0.0,0,0,0
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,1,Corn-notill,17.25,17.25,0.0,0,2,2
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,2,Corn-mintill,2.0,2.0,0.0,0,0,0
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,7,Hay-windrowed,1.6666666666666667,1.6666666666666667,0.0,0,2,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,4,Grass-pasture,15.0,15.0,0.0,0,1,1
+indian_pines,5,Spectral QNN + SupCon,12,Wheat,2,Corn-mintill,1.0,1.0,0.0,0,0,0
+indian_pines,5,Spectral QNN + SupCon,13,Woods,3,Corn,8.5,8.5,0.0,0,1,1
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,5,Grass-trees,4.6,4.4,-0.2,-1,2,3
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,3,Corn,1.0,0.6666666666666666,-0.3333333333333333,-1,1,1
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,8,Oats,6.0,5.5,-0.5,-1,1,1
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,2,Corn-mintill,18.0,17.333333333333332,-0.6666666666666666,-2,0,1
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,5,Grass-trees,3.6666666666666665,3.0,-0.6666666666666666,-2,1,2
+indian_pines,5,Spectral QNN + SupCon,0,Alfalfa,6,Grass-pasture-mowed,1.0,0.0,-1.0,-1,0,1
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,8,Oats,36.2,35.2,-1.0,-5,3,2
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,8,Oats,5.666666666666667,4.333333333333333,-1.3333333333333333,-4,0,2
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,6,Grass-pasture-mowed,47.8,46.4,-1.4,-7,0,2
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,2,Corn-mintill,54.8,53.4,-1.4,-7,2,2
+indian_pines,5,Spectral QNN + SupCon,3,Corn,5,Grass-trees,3.0,1.5,-1.5,-3,1,1
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,11,Soybean-clean,13.333333333333334,11.333333333333334,-2.0,-6,0,2
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,6,Grass-pasture-mowed,2.0,0.0,-2.0,-2,0,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,10,Soybean-mintill,136.6,134.4,-2.2,-11,3,2
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,11,Soybean-clean,2.5,0.0,-2.5,-5,0,2
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,14,Buildings-Grass-Trees-Drives,91.25,88.5,-2.75,-11,2,2
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,4,Grass-pasture,4.0,1.0,-3.0,-3,0,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,3,Corn,15.0,12.0,-3.0,-12,2,2
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,11,Soybean-clean,35.0,31.8,-3.2,-16,2,3
+indian_pines,5,Spectral QNN + SupCon,13,Woods,5,Grass-trees,6.333333333333333,3.0,-3.3333333333333335,-10,0,2
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,8,Oats,59.0,55.6,-3.4,-17,1,4
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,4,Grass-pasture,6.333333333333333,2.6666666666666665,-3.6666666666666665,-11,0,3
+indian_pines,5,Spectral QNN + SupCon,13,Woods,1,Corn-notill,4.0,0.0,-4.0,-8,0,2
+indian_pines,5,Spectral QNN + SupCon,15,Stone-Steel-Towers,11,Soybean-clean,4.0,0.0,-4.0,-4,0,1
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,0,Alfalfa,24.8,20.4,-4.4,-22,2,3
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,10,Soybean-mintill,35.2,30.8,-4.4,-22,3,2
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,6,Grass-pasture-mowed,4.5,0.0,-4.5,-9,0,2
+indian_pines,5,Spectral QNN + SupCon,3,Corn,14,Buildings-Grass-Trees-Drives,5.0,0.0,-5.0,-5,0,1
+indian_pines,5,Spectral QNN + SupCon,7,Hay-windrowed,4,Grass-pasture,6.0,1.0,-5.0,-5,0,1
+indian_pines,5,Spectral QNN + SupCon,14,Buildings-Grass-Trees-Drives,2,Corn-mintill,6.0,0.5,-5.5,-11,0,2
+indian_pines,5,Spectral QNN + SupCon,3,Corn,11,Soybean-clean,31.0,25.0,-6.0,-12,0,1
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,0,Alfalfa,90.4,84.0,-6.4,-32,0,4
+indian_pines,5,Spectral QNN + SupCon,5,Grass-trees,10,Soybean-mintill,22.4,16.0,-6.4,-32,1,3
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,13,Woods,8.5,2.0,-6.5,-13,0,2
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,11,Soybean-clean,188.0,181.5,-6.5,-13,1,1
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,4,Grass-pasture,37.5,30.75,-6.75,-27,2,2
+indian_pines,5,Spectral QNN + SupCon,13,Woods,4,Grass-pasture,67.8,60.0,-7.8,-39,2,3
+indian_pines,5,Spectral QNN + SupCon,1,Corn-notill,2,Corn-mintill,89.2,80.8,-8.4,-42,2,3
+indian_pines,5,Spectral QNN + SupCon,14,Buildings-Grass-Trees-Drives,11,Soybean-clean,18.666666666666668,10.0,-8.666666666666666,-26,1,2
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,1,Corn-notill,14.5,5.5,-9.0,-18,0,1
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,2,Corn-mintill,138.2,129.2,-9.0,-45,1,4
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,14,Buildings-Grass-Trees-Drives,67.2,57.0,-10.2,-51,3,2
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,9,Soybean-notill,15.0,2.0,-13.0,-13,0,1
+indian_pines,5,Spectral QNN + SupCon,11,Soybean-clean,10,Soybean-mintill,22.0,9.0,-13.0,-13,0,1
+indian_pines,5,Spectral QNN + SupCon,13,Woods,6,Grass-pasture-mowed,14.0,0.0,-14.0,-14,0,1
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,1,Corn-notill,72.2,55.6,-16.6,-83,0,5
+indian_pines,5,Spectral QNN + SupCon,4,Grass-pasture,12,Wheat,44.0,26.2,-17.8,-89,0,5
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,12,Wheat,82.4,63.0,-19.4,-97,1,4
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,1,Corn-notill,115.4,93.6,-21.8,-109,1,3
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,14,Buildings-Grass-Trees-Drives,42.5,12.75,-29.75,-119,2,2
+indian_pines,5,Spectral QNN + SupCon,13,Woods,2,Corn-mintill,77.0,45.5,-31.5,-63,0,2
+indian_pines,5,Spectral QNN + SupCon,10,Soybean-mintill,0,Alfalfa,50.0,18.0,-32.0,-32,0,1
+indian_pines,5,Spectral QNN + SupCon,9,Soybean-notill,12,Wheat,84.5,49.5,-35.0,-70,0,2
+indian_pines,5,Spectral QNN + SupCon,2,Corn-mintill,12,Wheat,179.0,135.6,-43.4,-217,0,4
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,11,Soybean-clean,65.0,118.5,53.5,107,2,0
+indian_pines,10,Spectral QNN + SupCon,13,Woods,14,Buildings-Grass-Trees-Drives,34.25,54.25,20.0,80,3,1
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,13,Woods,31.75,49.5,17.75,71,3,0
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,9,Soybean-notill,63.2,79.2,16.0,80,3,2
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,2,Corn-mintill,30.6,42.2,11.6,58,4,1
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,11,Soybean-clean,30.2,40.4,10.2,51,2,2
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,7,Hay-windrowed,21.4,31.6,10.2,51,3,1
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,3,Corn,1.0,9.0,8.0,16,1,1
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,11,Soybean-clean,28.5,36.25,7.75,31,2,1
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,3,Corn,5.2,11.2,6.0,30,3,2
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,13,Woods,7.666666666666667,13.666666666666666,6.0,18,3,0
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,10,Soybean-mintill,21.666666666666668,27.333333333333332,5.666666666666667,17,3,0
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,3,Corn,37.0,42.6,5.6,28,4,1
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,14,Buildings-Grass-Trees-Drives,77.0,82.6,5.6,28,3,1
+indian_pines,10,Spectral QNN + SupCon,3,Corn,11,Soybean-clean,12.0,17.0,5.0,5,1,0
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,14,Buildings-Grass-Trees-Drives,44.0,49.0,5.0,25,3,2
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,5,Grass-trees,17.8,22.0,4.2,21,3,2
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,6,Grass-pasture-mowed,38.4,41.8,3.4,17,3,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,14,Buildings-Grass-Trees-Drives,5.5,8.5,3.0,6,2,0
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,8,Oats,2.3333333333333335,5.333333333333333,3.0,9,3,0
+indian_pines,10,Spectral QNN + SupCon,13,Woods,10,Soybean-mintill,33.666666666666664,36.666666666666664,3.0,9,2,1
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,9,Soybean-notill,135.2,138.0,2.8,14,4,1
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,5,Grass-trees,106.0,108.8,2.8,14,3,2
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,4,Grass-pasture,10.0,12.5,2.5,5,1,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,13,Woods,0.0,2.0,2.0,4,2,0
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,14,Buildings-Grass-Trees-Drives,4.666666666666667,6.0,1.3333333333333333,4,1,2
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,1,Corn-notill,15.75,17.0,1.25,5,3,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,3,Corn,0.0,1.0,1.0,2,2,0
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,11,Soybean-clean,0.0,1.0,1.0,1,1,0
+indian_pines,10,Spectral QNN + SupCon,8,Oats,5,Grass-trees,0.0,1.0,1.0,1,1,0
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,0,Alfalfa,27.6,28.6,1.0,5,2,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,0,Alfalfa,0.0,1.0,1.0,1,1,0
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,9,Soybean-notill,59.0,59.666666666666664,0.6666666666666666,2,1,2
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,3,Corn,2.0,2.6666666666666665,0.6666666666666666,2,2,0
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,4,Grass-pasture,16.75,17.25,0.5,2,2,2
+indian_pines,10,Spectral QNN + SupCon,14,Buildings-Grass-Trees-Drives,11,Soybean-clean,4.5,5.0,0.5,1,1,1
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,13,Woods,19.0,19.333333333333332,0.3333333333333333,1,1,2
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,11,Soybean-clean,18.0,18.0,0.0,0,0,0
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,3,Corn,1.0,1.0,0.0,0,1,1
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,14,Buildings-Grass-Trees-Drives,18.0,17.6,-0.4,-2,1,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,8,Oats,9.0,8.25,-0.75,-3,1,2
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,10,Soybean-mintill,35.4,34.4,-1.0,-5,4,1
+indian_pines,10,Spectral QNN + SupCon,3,Corn,2,Corn-mintill,5.0,4.0,-1.0,-1,0,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,10,Soybean-mintill,1.0,0.0,-1.0,-1,0,1
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,4,Grass-pasture,1.0,0.0,-1.0,-1,0,1
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,11,Soybean-clean,30.666666666666668,29.666666666666668,-1.0,-3,1,1
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,0,Alfalfa,1.0,0.0,-1.0,-1,0,1
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,6,Grass-pasture-mowed,2.5,1.5,-1.0,-2,1,1
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,8,Oats,28.8,27.6,-1.2,-6,2,3
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,12,Wheat,12.8,11.6,-1.2,-6,1,4
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,8,Oats,6.0,4.5,-1.5,-3,0,2
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,14,Buildings-Grass-Trees-Drives,46.2,44.4,-1.8,-9,3,1
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,10,Soybean-mintill,6.5,4.5,-2.0,-4,1,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,1,Corn-notill,2.0,0.0,-2.0,-2,0,1
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,9,Soybean-notill,18.0,16.0,-2.0,-2,0,1
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,1,Corn-notill,52.2,50.0,-2.2,-11,2,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,3,Corn,18.0,15.8,-2.2,-11,2,3
+indian_pines,10,Spectral QNN + SupCon,3,Corn,5,Grass-trees,4.0,1.5,-2.5,-5,0,2
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,10,Soybean-mintill,18.0,15.5,-2.5,-10,1,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,5,Grass-trees,6.25,3.75,-2.5,-10,1,3
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,15,Stone-Steel-Towers,30.0,27.4,-2.6,-13,3,2
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,2,Corn-mintill,14.25,11.5,-2.75,-11,2,2
+indian_pines,10,Spectral QNN + SupCon,13,Woods,9,Soybean-notill,11.75,9.0,-2.75,-11,1,3
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,13,Woods,15.75,12.75,-3.0,-12,2,1
+indian_pines,10,Spectral QNN + SupCon,12,Wheat,2,Corn-mintill,3.5,0.5,-3.0,-6,0,2
+indian_pines,10,Spectral QNN + SupCon,12,Wheat,4,Grass-pasture,4.0,1.0,-3.0,-3,0,1
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,4,Grass-pasture,16.0,12.8,-3.2,-16,3,2
+indian_pines,10,Spectral QNN + SupCon,9,Soybean-notill,2,Corn-mintill,41.75,38.5,-3.25,-13,1,3
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,1,Corn-notill,5.25,1.5,-3.75,-15,1,3
+indian_pines,10,Spectral QNN + SupCon,4,Grass-pasture,5,Grass-trees,33.5,29.5,-4.0,-8,1,1
+indian_pines,10,Spectral QNN + SupCon,13,Woods,7,Hay-windrowed,14.666666666666666,10.333333333333334,-4.333333333333333,-13,1,2
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,8,Oats,37.6,33.0,-4.6,-23,2,3
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,0,Alfalfa,58.0,53.2,-4.8,-24,3,2
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,0,Alfalfa,6.0,0.0,-6.0,-6,0,1
+indian_pines,10,Spectral QNN + SupCon,5,Grass-trees,2,Corn-mintill,7.0,0.0,-7.0,-7,0,1
+indian_pines,10,Spectral QNN + SupCon,1,Corn-notill,2,Corn-mintill,30.4,22.0,-8.4,-42,1,4
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,1,Corn-notill,15.666666666666666,6.666666666666667,-9.0,-27,0,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,9,Soybean-notill,17.5,4.0,-13.5,-27,0,2
+indian_pines,10,Spectral QNN + SupCon,2,Corn-mintill,12,Wheat,61.4,47.4,-14.0,-70,3,2
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,12,Wheat,60.25,44.25,-16.0,-64,1,3
+indian_pines,10,Spectral QNN + SupCon,11,Soybean-clean,15,Stone-Steel-Towers,93.8,75.2,-18.6,-93,1,4
+indian_pines,10,Spectral QNN + SupCon,13,Woods,2,Corn-mintill,33.0,5.0,-28.0,-56,0,2
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,1,Corn-notill,220.6,171.0,-49.6,-248,1,4
+indian_pines,10,Spectral QNN + SupCon,10,Soybean-mintill,2,Corn-mintill,96.2,39.8,-56.4,-282,1,4
+indian_pines,10,Spectral QNN + SupCon,13,Woods,1,Corn-notill,109.0,3.0,-106.0,-106,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,5,Bare Soil,567.0,789.4,222.4,1112,2,3
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,7,Self-Blocking Bricks,259.25,454.75,195.5,782,3,1
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,7,Self-Blocking Bricks,345.0,485.6666666666667,140.66666666666666,422,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,2,Gravel,7,Self-Blocking Bricks,132.2,256.2,124.0,620,3,2
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,0,Asphalt,367.25,483.75,116.5,466,3,1
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,8,Shadows,57.0,132.66666666666666,75.66666666666667,227,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,3,Trees,1409.2,1481.0,71.8,359,2,3
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,6,Bitumen,188.0,243.0,55.0,55,1,0
+pavia_university,10,ConfidenceGuard-C + SupCon,5,Bare Soil,1,Meadows,248.0,280.5,32.5,130,3,1
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,7,Self-Blocking Bricks,132.6,158.2,25.6,128,4,1
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,1,Meadows,54.0,64.0,10.0,50,5,0
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,5,Bare Soil,13.666666666666666,22.333333333333332,8.666666666666666,26,2,1
+pavia_university,10,ConfidenceGuard-C + SupCon,6,Bitumen,8,Shadows,23.0,30.0,7.0,7,1,0
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,6,Bitumen,34.0,38.5,4.5,9,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,6,Bitumen,0,Asphalt,0.0,2.0,2.0,2,1,0
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,5,Bare Soil,2.0,3.6666666666666665,1.6666666666666667,5,2,1
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,0,Asphalt,4.0,5.0,1.0,2,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,6,Bitumen,5,Bare Soil,1.5,1.5,0.0,0,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,2,Gravel,6,Bitumen,1.0,0.0,-1.0,-1,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,7,Self-Blocking Bricks,3.3333333333333335,2.0,-1.3333333333333333,-4,2,1
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,2,Gravel,15.2,13.4,-1.8,-9,2,3
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,4,Painted metal sheets,3.0,1.0,-2.0,-2,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,5,Bare Soil,6,Bitumen,2.0,0.0,-2.0,-2,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,4,Painted metal sheets,5.0,0.0,-5.0,-5,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,1,Meadows,42.5,33.5,-9.0,-18,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,3,Trees,26.75,17.0,-9.75,-39,2,2
+pavia_university,10,ConfidenceGuard-C + SupCon,5,Bare Soil,0,Asphalt,15.0,4.0,-11.0,-11,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,5,Bare Soil,8,Shadows,13.666666666666666,2.0,-11.666666666666666,-35,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,2,Gravel,70.8,55.2,-15.6,-78,4,1
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,8,Shadows,24.5,0.0,-24.5,-49,0,2
+pavia_university,10,ConfidenceGuard-C + SupCon,2,Gravel,0,Asphalt,27.5,1.5,-26.0,-52,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,0,Asphalt,156.2,126.6,-29.6,-148,1,4
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,8,Shadows,48.5,3.0,-45.5,-182,0,4
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,6,Bitumen,64.6,17.2,-47.4,-237,0,4
+pavia_university,10,ConfidenceGuard-C + SupCon,2,Gravel,8,Shadows,69.6,18.0,-51.6,-258,0,5
+pavia_university,10,ConfidenceGuard-C + SupCon,4,Painted metal sheets,8,Shadows,75.5,11.0,-64.5,-129,0,2
+pavia_university,10,ConfidenceGuard-C + SupCon,3,Trees,0,Asphalt,252.8,187.0,-65.8,-329,2,3
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,8,Shadows,79.0,13.0,-66.0,-198,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,8,Shadows,4,Painted metal sheets,145.2,72.6,-72.6,-363,1,4
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,3,Trees,200.4,83.6,-116.8,-584,2,2
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,2,Gravel,494.6666666666667,304.6666666666667,-190.0,-570,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,6,Bitumen,563.3333333333334,328.0,-235.33333333333334,-706,1,2
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,4,Painted metal sheets,372.0,0.0,-372.0,-372,0,1
+pavia_university,10,ConfidenceGuard-C + SupCon,1,Meadows,2,Gravel,687.0,291.5,-395.5,-791,1,1
+pavia_university,10,ConfidenceGuard-C + SupCon,7,Self-Blocking Bricks,2,Gravel,590.2,56.6,-533.6,-2668,1,4
+pavia_university,10,ConfidenceGuard-C + SupCon,0,Asphalt,3,Trees,1512.6,707.2,-805.4,-4027,1,4
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,14,Vinyard_untrained,1461.2,2214.8,753.6,3768,5,0
+salinas,10,ConfidenceGuard-C + SupCon,14,Vinyard_untrained,7,Grapes_untrained,1152.6,1368.6,216.0,1080,2,3
+salinas,10,ConfidenceGuard-C + SupCon,14,Vinyard_untrained,4,Fallow_smooth,0.0,19.0,19.0,19,1,0
+salinas,10,ConfidenceGuard-C + SupCon,6,Celery,15,Vinyard_vertical_trellis,4.0,12.0,8.0,8,1,0
+salinas,10,ConfidenceGuard-C + SupCon,11,Lettuce_romaine_5wk,12,Lettuce_romaine_6wk,11.75,19.5,7.75,31,2,2
+salinas,10,ConfidenceGuard-C + SupCon,15,Vinyard_vertical_trellis,3,Fallow_rough_plow,12.333333333333334,15.666666666666666,3.3333333333333335,10,2,1
+salinas,10,ConfidenceGuard-C + SupCon,0,Brocoli_green_weeds_1,1,Brocoli_green_weeds_2,0.0,3.0,3.0,3,1,0
+salinas,10,ConfidenceGuard-C + SupCon,9,Corn_senesced_green_weeds,2,Fallow,21.2,23.8,2.6,13,3,2
+salinas,10,ConfidenceGuard-C + SupCon,9,Corn_senesced_green_weeds,12,Lettuce_romaine_6wk,0.0,2.0,2.0,2,1,0
+salinas,10,ConfidenceGuard-C + SupCon,10,Lettuce_romaine_4wk,0,Brocoli_green_weeds_1,0.0,2.0,2.0,2,1,0
+salinas,10,ConfidenceGuard-C + SupCon,13,Lettuce_romaine_7wk,9,Corn_senesced_green_weeds,3.75,4.0,0.25,1,2,1
+salinas,10,ConfidenceGuard-C + SupCon,4,Fallow_smooth,2,Fallow,3.0,3.0,0.0,0,0,0
+salinas,10,ConfidenceGuard-C + SupCon,6,Celery,3,Fallow_rough_plow,2.0,2.0,0.0,0,0,0
+salinas,10,ConfidenceGuard-C + SupCon,14,Vinyard_untrained,9,Corn_senesced_green_weeds,1.0,1.0,0.0,0,0,0
+salinas,10,ConfidenceGuard-C + SupCon,0,Brocoli_green_weeds_1,10,Lettuce_romaine_4wk,1.0,0.0,-1.0,-1,0,1
+salinas,10,ConfidenceGuard-C + SupCon,1,Brocoli_green_weeds_2,9,Corn_senesced_green_weeds,1.0,0.0,-1.0,-1,0,1
+salinas,10,ConfidenceGuard-C + SupCon,2,Fallow,4,Fallow_smooth,1.0,0.0,-1.0,-1,0,1
+salinas,10,ConfidenceGuard-C + SupCon,13,Lettuce_romaine_7wk,12,Lettuce_romaine_6wk,12.8,11.8,-1.0,-5,3,2
+salinas,10,ConfidenceGuard-C + SupCon,3,Fallow_rough_plow,4,Fallow_smooth,7.0,5.0,-2.0,-8,1,3
+salinas,10,ConfidenceGuard-C + SupCon,5,Stubble,6,Celery,6.666666666666667,4.333333333333333,-2.3333333333333335,-7,2,1
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,0,Brocoli_green_weeds_1,3.0,0.5,-2.5,-5,0,2
+salinas,10,ConfidenceGuard-C + SupCon,15,Vinyard_vertical_trellis,4,Fallow_smooth,2.5,0.0,-2.5,-5,0,2
+salinas,10,ConfidenceGuard-C + SupCon,1,Brocoli_green_weeds_2,2,Fallow,3.0,0.0,-3.0,-3,0,1
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,13,Lettuce_romaine_7wk,5.0,2.0,-3.0,-3,0,1
+salinas,10,ConfidenceGuard-C + SupCon,9,Corn_senesced_green_weeds,13,Lettuce_romaine_7wk,41.8,37.4,-4.4,-22,1,4
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,5,Stubble,8.0,3.0,-5.0,-5,0,1
+salinas,10,ConfidenceGuard-C + SupCon,11,Lettuce_romaine_5wk,10,Lettuce_romaine_4wk,35.25,26.75,-8.5,-34,1,3
+salinas,10,ConfidenceGuard-C + SupCon,9,Corn_senesced_green_weeds,8,Soil_vinyard_develop,43.0,33.8,-9.2,-46,1,3
+salinas,10,ConfidenceGuard-C + SupCon,9,Corn_senesced_green_weeds,10,Lettuce_romaine_4wk,46.5,36.0,-10.5,-42,1,3
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,9,Corn_senesced_green_weeds,35.0,22.333333333333332,-12.666666666666666,-38,2,1
+salinas,10,ConfidenceGuard-C + SupCon,6,Celery,2,Fallow,16.0,3.0,-13.0,-13,0,1
+salinas,10,ConfidenceGuard-C + SupCon,12,Lettuce_romaine_6wk,11,Lettuce_romaine_5wk,17.5,4.5,-13.0,-26,0,2
+salinas,10,ConfidenceGuard-C + SupCon,7,Grapes_untrained,3,Fallow_rough_plow,17.5,4.0,-13.5,-54,0,4
+salinas,10,ConfidenceGuard-C + SupCon,6,Celery,4,Fallow_smooth,15.0,0.0,-15.0,-15,0,1
+salinas,10,ConfidenceGuard-C + SupCon,4,Fallow_smooth,5,Stubble,17.0,0.0,-17.0,-17,0,1
+salinas,10,ConfidenceGuard-C + SupCon,14,Vinyard_untrained,3,Fallow_rough_plow,82.2,41.8,-40.4,-202,1,4
+salinas,10,ConfidenceGuard-C + SupCon,12,Lettuce_romaine_6wk,13,Lettuce_romaine_7wk,79.6,23.4,-56.2,-281,3,2
+salinas,10,ConfidenceGuard-C + SupCon,5,Stubble,4,Fallow_smooth,60.5,3.0,-57.5,-115,0,1
+salinas,10,ConfidenceGuard-C + SupCon,6,Celery,5,Stubble,105.0,4.75,-100.25,-401,1,3
+salinas,10,ConfidenceGuard-C + SupCon,4,Fallow_smooth,3,Fallow_rough_plow,285.4,108.2,-177.2,-886,1,4

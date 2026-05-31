@@ -1,0 +1,587 @@
+\documentclass[UTF8,a4paper,zihao=-4,fontset=fandol]{ctexart}
+
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{adjustbox}
+
+\geometry{left=2.5cm,right=2.5cm,top=2.6cm,bottom=2.6cm}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.2em}
+\renewcommand{\arraystretch}{1.15}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue}
+
+\newcommand{\todo}[1]{\textcolor{red}{[待补充：#1]}}
+
+\title{\heiti 少样本高光谱分类的量子光谱分支有效性分析}
+\author{
+作者姓名$^{1}$，作者姓名$^{1}$，作者姓名$^{2}$\\
+\small $^{1}$单位名称，城市 邮编\\
+\small $^{2}$单位名称，城市 邮编
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{基金项目：}\todo{填写基金名称和编号。}\\
+\textbf{第一作者简介：}\todo{姓名，性别，出生年，职称/学位，研究方向。E-mail。}\\
+\textbf{通信作者：}\todo{姓名，E-mail。}\\
+\textbf{中图分类号：}\todo{填写中图分类号，如 TP751 / TP391 等。}\\
+\textbf{文献标志码：}A
+
+\begin{abstract}
+高光谱遥感影像分类在标注样本稀缺条件下面临类间光谱相似、类内差异大和空间邻域依赖强等问题。近年来，混合量子--经典神经网络被用于探索高维量子特征映射在少样本学习中的潜在优势，但其相对强经典基线的有效性边界仍缺少系统验证。本文围绕 Indian Pines、Pavia University 和 Salinas 三个公开高光谱数据集，构建 HybridSN-small 基线与多种量子神经网络（Quantum Neural Network, QNN）分支的对比实验，并补充 SSRN-lite、SpectralFormer-lite 和 DBDA-lite 等强遥感基线筛选实验，重点分析中心像素光谱量子分支、门控融合和度量学习目标在 5-shot 与 10-shot 分类设置下的作用。实验结果表明，直接将 QNN 作为分类头并不能有效替代经典分类器；而将 QNN 作为光谱侧分支并结合门控融合与 prototype loss 或 supervised contrastive loss 后，可在 Pavia University 5/10-shot、Salinas 5-shot 以及 Indian Pines 10-shot 中取得稳定或边际增益。与此同时，强 baseline 对照显示，DBDA-lite 在 Pavia University 10-shot 上超过当前 QNN 方案，而 Salinas 10-shot 中 QNN 的 Macro-F1 仍高于轻量强基线但 OA 低于 HybridSN-small。这些结果表明，QNN 的收益具有明显条件性，并不支持“量子分支在所有少样本高光谱任务中全面优于经典基线”的结论。本文的主要贡献在于从遥感少样本分类角度系统刻画量子光谱分支的有效条件与失效条件，为后续构建验证集校准的条件式量子残差模型提供实验依据。
+\end{abstract}
+
+\noindent\textbf{关键词：}高光谱遥感；少样本分类；量子神经网络；HybridSN；度量学习；负迁移
+
+\vspace{1em}
+
+\begin{center}
+\textbf{\Large Conditional Effectiveness of Quantum Spectral Branches for Few-shot Hyperspectral Image Classification}
+\end{center}
+
+\begin{center}
+Author Name$^{1}$, Author Name$^{1}$, Author Name$^{2}$\\
+\small $^{1}$Affiliation, City Postal Code, China\\
+\small $^{2}$Affiliation, City Postal Code, China
+\end{center}
+
+\begin{abstract}
+Hyperspectral image classification under limited annotations remains challenging because of spectral similarity between classes, intra-class variability, and strong spatial dependence. Hybrid quantum-classical neural networks have recently been explored as potential models for high-dimensional feature mapping, but their effectiveness over strong classical baselines remains unclear. This paper investigates quantum neural network (QNN) spectral branches for few-shot hyperspectral image classification on Indian Pines, Pavia University, and Salinas. We compare HybridSN-small with multiple QNN variants under 5-shot and 10-shot protocols, and further include lightweight strong remote-sensing baselines inspired by SSRN, SpectralFormer, and DBDA. The results show that directly using a QNN as a classifier head is ineffective, whereas a spectral-side QNN branch combined with gated fusion and prototype or supervised contrastive learning yields stable or marginal gains on Pavia University 5/10-shot, Salinas 5-shot, and Indian Pines 10-shot. Strong-baseline screening shows that DBDA-lite outperforms the current QNN variant on Pavia University 10-shot, while the QNN variant still achieves the highest Macro-F1 on Salinas 10-shot among the evaluated lightweight strong baselines. These findings indicate that QNN gains are conditional rather than universal, and QNN branches should be treated as conditional spectral regularizers instead of general replacements for classical hyperspectral classifiers.
+\end{abstract}
+
+\noindent\textbf{Key words:} hyperspectral remote sensing; few-shot classification; quantum neural network; HybridSN; metric learning; negative transfer
+
+\section{引言}
+
+高光谱遥感影像同时包含丰富的空间结构和连续光谱信息，已广泛应用于农业监测、城市地物识别和生态环境分析等任务。与普通 RGB 影像相比，高光谱数据具有波段多、类间光谱差异细微和标注成本高等特点，因此少样本分类一直是高光谱遥感研究中的重要问题。传统机器学习方法如支持向量机、随机森林和 $k$ 近邻算法能够在小样本条件下提供稳定基线\cite{camps2005svm}，但难以充分利用空间--光谱联合结构。深度模型如 1D-CNN、2D-CNN、3D-CNN 和 HybridSN 能够学习更强的局部空间--光谱表征\cite{chen2016deep,roy2020hybridsn,li2018spectralspatial}，但在 few-shot 场景下容易受到样本不足和类别不均衡的影响。
+
+近年来，量子机器学习（Quantum Machine Learning, QML）和参数化量子线路（Parameterized Quantum Circuit, PQC）被用于构造非线性特征映射\cite{havlicek2019supervised,benedetti2019parameterized}。相关研究表明，量子模型的潜在优势并非来自简单增加模型复杂度，而与数据编码方式、量子核或量子线路所引入的归纳偏置密切相关\cite{schuld2021encoding,huang2021inductive,slattery2023numerical}。对于经典遥感数据而言，量子模型是否能够稳定超过强经典基线仍是一个需要实证检验的问题。
+
+本文聚焦少样本高光谱分类中的量子光谱分支。不同于直接将 QNN 作为最终分类头，本文采用 HybridSN-small 提取空间--光谱嵌入，并将中心像素光谱输入 QNN 分支，再通过门控残差方式与经典 logits 融合。本文希望回答以下问题：
+
+\begin{enumerate}[label=(\arabic*)]
+  \item QNN 作为分类头是否能替代经典 MLP/linear head？
+  \item QNN 光谱分支结合度量学习目标是否能提升少样本 HSI 分类性能？
+  \item 当经典 baseline 已经表现较好时，QNN residual 分支是否仍然稳定有效？
+  \item QNN 失效或负迁移出现在哪些数据集和 shot 设置中？
+\end{enumerate}
+
+本文贡献概括如下：
+
+\begin{enumerate}[label=(\arabic*)]
+  \item 构建了 Indian Pines、Pavia University 和 Salinas 三个公开数据集上的统一 few-shot 高光谱分类协议，并以 HybridSN-small 作为主基线。
+  \item 系统比较了直接 QNN head、residual/gated QNN head、spectral QNN gated fusion、prototype loss、supervised contrastive loss 等多种量子--经典组合方式。
+  \item 发现 QNN 光谱分支在 Pavia University 和部分 low-shot 设置中具有正向作用，但在 Salinas 10-shot 中存在稳定负迁移。
+  \item 通过 data re-uploading、residual-safe scaling、multi-prototype 和 confidence-aware gate 等实验，分析 QNN residual 分支的有效条件与失效条件。
+\end{enumerate}
+
+\section{相关工作}
+
+\subsection{高光谱影像少样本分类}
+
+高光谱影像分类方法大体可分为传统机器学习方法和深度学习方法。传统方法通常基于中心像素光谱或降维后的光谱向量进行分类，例如 SVM-RBF、随机森林和 $k$NN\cite{camps2005svm}。深度学习方法则进一步利用空间邻域信息，其中 3D-CNN 可直接建模空间--光谱立方体\cite{chen2016deep}，HybridSN 通过 3D 卷积和 2D 卷积组合提取高光谱特征，在多个公开数据集上取得较好表现\cite{roy2020hybridsn}。此外，残差网络、Transformer 和注意力机制也被广泛用于增强空间--光谱表征，例如 SSRN 的 spectral-spatial residual 结构\cite{zhong2018ssrn}、SpectralFormer 的光谱序列建模\cite{hong2022spectralformer}，以及 DBDA 的双分支双注意力机制\cite{li2020dbda}。少样本条件下，度量学习和对比学习常用于改善类间边界与类内聚合性\cite{snell2017proto,khosla2020supcon}。
+
+\subsection{量子机器学习与参数化量子线路}
+
+QNN 通常通过数据编码线路、可训练量子门和测量读出构成，其输出可作为分类 logits 或中间特征。现有研究指出，量子模型的优势依赖数据编码、线路结构和任务目标之间的匹配。Schuld 等指出，数据编码决定了变分量子模型可表达的函数族\cite{schuld2021encoding}；Huang 等从量子核角度讨论了归纳偏置对量子模型泛化能力的重要影响\cite{huang2021inductive}；Slattery 等则从数值实验角度指出，在经典数据上量子 fidelity kernel 不一定带来优势\cite{slattery2023numerical}。此外，barren plateau 相关研究也说明参数化量子线路可能存在训练困难\cite{mcclean2018barren,cerezo2021barren}。这些研究提示，在高光谱遥感分类中需要谨慎评估 QNN 是否真正提供互补信息。
+
+\section{方法}
+
+\subsection{总体框架}
+
+本文采用 HybridSN-small 作为经典主干网络。给定高光谱 patch $X_i$ 和中心像素光谱向量 $s_i$，HybridSN-small 输出嵌入向量 $z_i$。经典分支产生 base logits：
+
+\begin{equation}
+  \ell^{\mathrm{base}}_i = f_{\mathrm{base}}(z_i).
+\end{equation}
+
+量子光谱分支将中心像素光谱 $s_i$ 输入 QNN，得到光谱量子特征或量子 logits：
+
+\begin{equation}
+  \ell^{\mathrm{qnn}}_i = f_{\mathrm{qnn}}(s_i).
+\end{equation}
+
+门控模块根据 $z_i$、$s_i$ 以及可选的 base confidence/margin 预测残差权重 $g_i$，最终 logits 为：
+
+\begin{equation}
+  \ell_i = \ell^{\mathrm{base}}_i + \alpha \, g_i \odot h_i \odot \ell^{\mathrm{qnn}}_i,
+\end{equation}
+
+其中 $\alpha$ 为 residual scale，$h_i$ 为可选 high-confidence guard。当不使用 residual-safe 或 confidence guard 时，$\alpha=1$ 且 $h_i=1$。
+
+\subsection{量子光谱分支}
+
+QNN 输入为 PCA 后中心像素光谱。本文主要使用 $q=6$ qubits、$L=1$ 或 $L=2$ 层参数化线路，并比较 standard QNN、data re-uploading QNN 和 multi-observable readout 等变体。量子线路输出经线性分类器映射至类别 logits。
+
+\subsection{度量学习目标}
+
+除交叉熵损失外，本文比较两类度量学习目标：
+
+\begin{equation}
+  \mathcal{L} = \mathcal{L}_{\mathrm{CE}} + \lambda \mathcal{L}_{\mathrm{metric}}.
+\end{equation}
+
+其中 $\mathcal{L}_{\mathrm{metric}}$ 分别取 prototype loss 或 supervised contrastive loss。prototype loss 用 support 样本构造类别原型；supervised contrastive loss 鼓励同类样本在融合特征空间中靠近、异类样本远离。
+
+\subsection{Confidence-aware gate}
+
+为分析强 baseline 场景下 QNN residual 的负迁移，本文进一步引入 base confidence 和 top1--top2 logit margin：
+
+\begin{equation}
+  c_i = \max_k \mathrm{softmax}(\ell^{\mathrm{base}}_i)_k,
+\end{equation}
+
+\begin{equation}
+  m_i = \tanh((\ell^{\mathrm{base}}_{i,(1)}-\ell^{\mathrm{base}}_{i,(2)})/5).
+\end{equation}
+
+ConfidenceGuard 类实验将 $c_i$ 和 $m_i$ 输入 gate，并在高置信样本上对过大的 gate 施加惩罚。部分实验使用 margin suppression：
+
+\begin{equation}
+  h_i = \rho + (1-\rho)\sigma((\tau-m_i)/T),
+\end{equation}
+
+其中 $\rho$ 为 guard floor，$\tau$ 为 margin 阈值，$T$ 为 temperature。
+
+\section{实验设置}
+
+\subsection{数据集与预处理}
+
+本文使用三个公开高光谱数据集：Indian Pines、Pavia University 和 Salinas。数据预处理流程包括忽略背景标签、标签重映射、PCA 降维和 patch 提取。表 \ref{tab:dataset-preprocess} 仅描述数据集基本信息和输入构造方式，不包含训练/验证/测试划分。
+
+\begin{table}[htbp]
+\centering
+\caption{主要数据集与预处理设置}
+\label{tab:dataset-preprocess}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrr}
+\toprule
+数据集 & 原始尺寸 & 有效样本数 & Patch 输入 & PCA 后波段数 \\
+\midrule
+Indian Pines & $145\times145\times220$ & 10249 & $9\times9\times30$ & 30 \\
+Pavia University & $610\times340\times103$ & 42776 & $9\times9\times30$ & 30 \\
+Salinas & $512\times217\times224$ & 54129 & $9\times9\times30$ & 30 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\subsection{实验划分协议}
+
+本文使用两类划分协议。第一类为固定比例划分，主要用于数据协议验证和完整监督 baseline 评估；第二类为 few-shot 划分，是本文 QNN 与 HybridSN-small 对比的主实验协议。二者用途不同，具体见表 \ref{tab:split-protocol}。
+
+\begin{table}[htbp]
+\centering
+\caption{实验划分协议}
+\label{tab:split-protocol}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llllll}
+\toprule
+协议 & 用途 & 训练集 & 验证集 & 测试集 & Seeds \\
+\midrule
+固定比例划分 & 完整监督 baseline 与数据协议验证 & 分层约 10\% & 分层约 10\% & 剩余约 80\% & 42 \\
+Few-shot 划分 & 主实验：QNN vs HybridSN-small & 每类 5 或 10 个样本 & 与训练集不重叠的固定验证集 & 剩余测试样本 & 0,1,2,3,4 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+固定比例划分下，Indian Pines、Pavia University 和 Salinas 的训练/验证/测试样本数分别为 $1024/1025/8200$、$4277/4277/34222$ 和 $5412/5413/43304$。该划分用于说明数据处理流程和强 classical baseline 的性能上限，但不是本文 few-shot 主结论的依据。
+
+主 few-shot 协议如下：
+
+\begin{itemize}
+  \item 数据集：Indian Pines、Pavia University、Salinas；
+  \item shots：5-shot 和 10-shot；
+  \item seeds：0、1、2、3、4；
+  \item baseline：HybridSN-small；
+  \item 指标：OA、AA、Kappa、Macro-F1、Weighted-F1；
+  \item 主判定：mean OA 和 mean Macro-F1 高于 HybridSN-small，且 paired seed delta 至少 3/5 为正。
+\end{itemize}
+
+\subsection{对比模型}
+
+本文实验包括以下模型：
+
+\begin{itemize}
+  \item 传统 baseline：SVM-RBF、Random Forest、$k$NN；
+  \item 深度 baseline：1D-CNN、2D-CNN、3D-CNN、HybridSN-small；
+  \item 强遥感 baseline：SSRN-lite、SpectralFormer-lite、DBDA-lite；
+  \item 本文主线：Spectral QNN Gated Fusion + Prototype Loss / SupCon Loss；
+  \item 诊断变体：Data Re-uploading、ResidualSafe-A/B、MultiProto-2、ConfidenceGuard-A/B/C/D、Prelogit ConfidenceGuard。
+\end{itemize}
+
+其中 SSRN-lite、SpectralFormer-lite 和 DBDA-lite 为本文基于对应遥感模型思想实现的紧凑版本，用于第一轮强 baseline 筛选。三者均使用与 HybridSN-small 一致的 PCA 后 $9\times9\times30$ patch 输入和 seeds 0--4；Indian Pines 覆盖 5-shot 与 10-shot，Pavia University 和 Salinas 当前覆盖 10-shot。需要说明的是，该组实验不是作者官方代码复现，不能替代最终投稿前的严格复现实验，但可用于判断当前 QNN 方案是否已经超过更强的经典遥感结构。
+
+\section{实验结果与分析}
+
+\subsection{完整监督与传统基线结果}
+
+在完整监督或固定 random pixel split 设置下，HybridSN 和 tuned HybridSN 能取得很高精度。该结果说明经典空间--光谱网络本身是强基线，同时也提示 random pixel split 可能存在空间邻域信息泄漏风险，因此本文后续以 few-shot 协议为主线。
+
+\begin{table}[htbp]
+\centering
+\caption{完整监督设置下的代表性 baseline 结果}
+\label{tab:full-baseline}
+\begin{tabular}{llrrrr}
+\toprule
+数据集 & 模型 & OA & AA & Kappa & Macro-F1 \\
+\midrule
+Indian Pines & SVM-RBF & 66.07 & 56.11 & 61.20 & 57.57 \\
+Pavia University & SVM-RBF & 94.22 & 92.08 & 92.30 & 92.85 \\
+Salinas & SVM-RBF & 92.08 & 95.61 & 91.16 & 95.79 \\
+Indian Pines & HybridSN & 81.00 & 68.69 & 78.27 & 69.97 \\
+Pavia University & HybridSN & 99.09 & 98.44 & 98.79 & 98.34 \\
+Salinas & HybridSN & 98.76 & 99.28 & 98.61 & 99.30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Few-shot 主结果}
+
+表 \ref{tab:fewshot-main} 汇总了当前 few-shot 主线结果。可以看到，Spectral QNN Gated Fusion 在 Pavia University 上提升最明显，在 Indian Pines 上提升较小，在 Salinas 5-shot 上明显提升，但在 Salinas 10-shot 上出现负迁移。
+
+\begin{table}[htbp]
+\centering
+\caption{Few-shot 主线结果：QNN 相对 HybridSN-small 的变化}
+\label{tab:fewshot-main}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrr}
+\toprule
+数据集 & Shot & 模型 & $\Delta$OA & $\Delta$Macro-F1 & $\Delta$Weighted-F1 \\
+\midrule
+Indian Pines & 5 & QNN + Prototype & +0.03 & +0.32 & -0.43 \\
+Indian Pines & 5 & QNN + SupCon & +0.04 & +0.23 & -0.36 \\
+Indian Pines & 10 & QNN + Prototype & +0.76 & +0.29 & +0.74 \\
+Indian Pines & 10 & QNN + SupCon & +0.95 & +0.73 & +0.92 \\
+Pavia University & 5 & QNN + Prototype & +1.78 & +5.90 & +2.48 \\
+Pavia University & 10 & QNN + Prototype & +4.05 & +6.93 & +4.13 \\
+Salinas & 5 & QNN + Prototype & +1.23 & +3.69 & +2.30 \\
+Salinas & 10 & QNN + Prototype & -2.88 & -0.48 & -3.33 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\subsection{强遥感 baseline 筛选结果}
+
+为回应 QNN 是否真正超过较强经典遥感结构的问题，本文补充 SSRN-lite、SpectralFormer-lite 和 DBDA-lite 三个轻量强 baseline。所有模型使用相同 few-shot split、PCA 设置和评价指标。表 \ref{tab:strong-baseline} 给出 5 个 seeds 的均值和标准差，并同时列出 HybridSN-small 与当前最优 QNN 变体作为参照。
+
+\begin{table}[htbp]
+\centering
+\caption{三数据集强遥感 baseline 筛选结果}
+\label{tab:strong-baseline}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lllrrrrr}
+\toprule
+数据集 & Shot & 模型 & OA & Macro-F1 & Weighted-F1 & 参数量 & Runs \\
+\midrule
+\multirow{10}{*}{Indian Pines}
+& 5 & HybridSN-small & $72.02\pm1.67$ & $63.81\pm2.17$ & $73.27\pm2.06$ & 99488 & 5 \\
+& 5 & QNN + SupCon & $72.06\pm1.42$ & $64.04\pm1.44$ & $72.91\pm1.97$ & 2176 & 5 \\
+& 5 & SpectralFormer-lite & $64.62\pm2.94$ & $62.63\pm1.20$ & $65.17\pm2.86$ & 54352 & 5 \\
+& 5 & DBDA-lite & $59.49\pm0.89$ & $59.53\pm3.58$ & $59.92\pm2.03$ & 45404 & 5 \\
+& 5 & SSRN-lite & $42.27\pm7.48$ & $38.18\pm4.99$ & $39.28\pm9.55$ & 28800 & 5 \\
+& 10 & QNN + SupCon & $81.07\pm2.32$ & $72.26\pm2.08$ & $81.79\pm2.33$ & 2176 & 5 \\
+& 10 & HybridSN-small & $80.12\pm2.56$ & $71.53\pm2.02$ & $80.87\pm2.70$ & 99488 & 5 \\
+& 10 & DBDA-lite & $74.25\pm1.98$ & $73.72\pm2.78$ & $74.78\pm1.68$ & 45404 & 5 \\
+& 10 & SpectralFormer-lite & $72.47\pm1.68$ & $69.85\pm1.19$ & $72.90\pm1.94$ & 54352 & 5 \\
+& 10 & SSRN-lite & $54.98\pm7.14$ & $52.85\pm5.78$ & $55.15\pm8.94$ & 28800 & 5 \\
+\midrule
+\multirow{5}{*}{Pavia University}
+& 10 & DBDA-lite & $88.61\pm1.33$ & $89.12\pm1.12$ & $88.99\pm1.23$ & 45061 & 5 \\
+& 10 & QNN ConfidenceGuard-C + SupCon & $85.77\pm2.59$ & $85.93\pm1.68$ & $86.49\pm2.48$ & 1477 & 5 \\
+& 10 & SpectralFormer-lite & $81.62\pm4.43$ & $82.56\pm4.42$ & $82.42\pm4.34$ & 53673 & 5 \\
+& 10 & HybridSN-small & $82.26\pm4.92$ & $79.20\pm8.14$ & $82.80\pm5.19$ & 99033 & 5 \\
+& 10 & SSRN-lite & $70.33\pm4.56$ & $71.40\pm3.49$ & $70.29\pm3.38$ & 28681 & 5 \\
+\midrule
+\multirow{5}{*}{Salinas}
+& 10 & QNN ConfidenceGuard-C + SupCon & $92.60\pm3.49$ & $96.12\pm1.22$ & $92.64\pm3.47$ & 2212 & 5 \\
+& 10 & HybridSN-small & $93.60\pm1.59$ & $95.44\pm1.55$ & $93.62\pm1.57$ & 99488 & 5 \\
+& 10 & SpectralFormer-lite & $88.89\pm1.62$ & $94.45\pm0.69$ & $88.82\pm1.67$ & 54352 & 5 \\
+& 10 & DBDA-lite & $85.39\pm3.99$ & $93.16\pm1.98$ & $84.49\pm5.36$ & 45404 & 5 \\
+& 10 & SSRN-lite & $77.41\pm3.03$ & $84.86\pm2.59$ & $73.01\pm5.10$ & 28800 & 5 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+该组结果带来三个直接结论。第一，在 Indian Pines 5-shot 和 10-shot 中，轻量强 baseline 均未超过 QNN 或 HybridSN-small；10-shot 下 DBDA-lite 的 Macro-F1 为 $73.72\%$，略高于 QNN + SupCon 的 $72.26\%$，但 OA 和 Weighted-F1 仍低于 QNN 与 HybridSN-small。第二，在 Pavia University 10-shot 上，DBDA-lite 的 OA 和 Macro-F1 分别达到 $88.61\%$ 和 $89.12\%$，高于当前 QNN ConfidenceGuard-C + SupCon 的 $85.77\%$ 和 $85.93\%$。因此，虽然 QNN 相对 HybridSN-small 有稳定增益，但当前版本尚未超过该数据集上的注意力式强经典 baseline。第三，在 Salinas 10-shot 上，QNN 的 Macro-F1 为 $96.12\%$，高于 HybridSN-small、SpectralFormer-lite、DBDA-lite 和 SSRN-lite；但其 OA 和 Weighted-F1 仍略低于 HybridSN-small。这与前述类别级分析一致：QNN 更倾向于改善部分类别的平均 F1，但可能扰动高支持度类别，从而使 OA/Weighted-F1 受损。
+
+因此，强 baseline 筛选进一步收紧了本文结论：QNN spectral branch 不能被表述为全面超过经典遥感模型；更准确的表述是，它在部分数据集和评价指标上能够作为参数紧凑的光谱正则化分支带来补充，但在 Pavia University 上仍需要面对 DBDA 类注意力基线，在 Salinas 上也必须解释 Macro-F1 与 OA/Weighted-F1 之间的分歧。
+
+\subsection{Salinas 10-shot 负迁移分析}
+
+Salinas 10-shot 是当前最重要的反例。在该设置下，HybridSN-small 已经取得较高 OA 和 Weighted-F1，QNN residual 分支虽然在部分实验中能够改善 Macro-F1，但通常降低 OA 和 Weighted-F1。这说明 QNN branch 可能对少数类或边界样本提供一定补充，却扰动了原本已正确分类的大量样本。
+
+为验证该现象，本文开展多组 Salinas 10-shot 与 Pavia University 10-shot 的最小批量诊断实验，结果见表 \ref{tab:diagnostic}.
+
+\begin{table}[htbp]
+\centering
+\caption{Salinas/Pavia 10-shot 诊断实验}
+\label{tab:diagnostic}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrr}
+\toprule
+变体 & Pavia $\Delta$OA & Pavia $\Delta$Macro-F1 & Salinas $\Delta$OA & Salinas $\Delta$Macro-F1 \\
+\midrule
+Data Re-uploading & +4.74 & +7.99 & -2.26 & +0.25 \\
+ResidualSafe-A & +2.21 & +4.20 & -1.28 & +0.16 \\
+ResidualSafe-B & +2.17 & +3.70 & -2.18 & -0.32 \\
+MultiProto-2 & +4.05 & +6.92 & -2.94 & -0.51 \\
+ConfidenceGuard-A & +3.43 & +6.67 & -1.10 & +0.66 \\
+ConfidenceGuard-B & +2.92 & +5.66 & -1.62 & +0.25 \\
+ConfidenceGuard-C & +3.51 & +6.73 & -1.00 & +0.68 \\
+ConfidenceGuard-D & +3.59 & +6.71 & -1.13 & +0.60 \\
+Prelogit ConfidenceGuard & +2.79 & +4.43 & -3.17 & -0.57 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+上述结果表明：
+
+\begin{enumerate}[label=(\arabic*)]
+  \item Pavia University 10-shot 对 QNN spectral branch 较友好，多种变体均保持正增益；
+  \item Salinas 10-shot 的负迁移不能通过单纯增加 QNN 表达能力解决；
+  \item 全局 residual scale 无法同时保护 Salinas 并保留 Pavia 增益；
+  \item deterministic multi-prototype 不能解决 Salinas 类内复杂性；
+  \item ConfidenceGuard-C 是目前最好的 partial variant，但 Salinas 10-shot OA 仍低于 HybridSN-small；
+  \item Prelogit 实验表明，负迁移并不只是因为重新训练 base head，而是 QNN residual 本身会改变决策边界。
+\end{enumerate}
+
+\subsection{类别级遥感解释}
+
+为进一步解释 QNN residual 分支的正负作用，本文对 per-class precision、recall、F1 和 confusion matrix 进行配对分析。分析覆盖 ConfidenceGuard-C + SupCon 与 HybridSN-small 在 Salinas 10-shot、Pavia University 10-shot 上的比较，并补充 Spectral QNN + SupCon 在 Indian Pines 5/10-shot 上的结果。表 \ref{tab:class-level} 汇总了各设置下 F1 下降和提升最明显的类别。
+
+\begin{table}[htbp]
+\centering
+\caption{类别级 F1 变化的代表性结果}
+\label{tab:class-level}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrr}
+\toprule
+数据集 & 类别 & Support & Baseline F1 & QNN F1 & $\Delta$F1 \\
+\midrule
+\multirow{4}{*}{Salinas 10-shot}
+& Vinyard\_untrained & 7248 & 0.8168 & 0.7617 & -0.0551 \\
+& Grapes\_untrained & 11251 & 0.8796 & 0.8339 & -0.0458 \\
+& Fallow\_rough\_plow & 1374 & 0.8759 & 0.9431 & +0.0672 \\
+& Fallow\_smooth & 2658 & 0.9352 & 0.9772 & +0.0420 \\
+\midrule
+\multirow{4}{*}{Pavia University 10-shot}
+& Bare Soil & 5009 & 0.9254 & 0.9035 & -0.0219 \\
+& Meadows & 18629 & 0.9071 & 0.8974 & -0.0097 \\
+& Self-Blocking Bricks & 3662 & 0.6869 & 0.8418 & +0.1549 \\
+& Shadows & 927 & 0.7287 & 0.8758 & +0.1471 \\
+\midrule
+\multirow{4}{*}{Indian Pines 10-shot}
+& Grass-pasture-mowed & 15 & 0.4512 & 0.4249 & -0.0262 \\
+& Buildings-Grass-Trees-Drives & 366 & 0.7797 & 0.7563 & -0.0234 \\
+& Stone-Steel-Towers & 73 & 0.5617 & 0.6237 & +0.0620 \\
+& Corn-mintill & 810 & 0.7328 & 0.7774 & +0.0446 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+Salinas 10-shot 的类别级结果显示，QNN 的负迁移并非所有类别共同下降，而是集中发生在两个高支持度葡萄园相关类别上：\textit{Grapes\_untrained} 和 \textit{Vinyard\_untrained}。二者 support 分别为 11251 和 7248，F1 分别下降 0.0458 和 0.0551，因此虽然 Salinas 10-shot 的 mean per-class F1 delta 为 +0.0068，但 support-weighted mean delta F1 为 -0.0098。这解释了为何 Macro-F1 略有改善，而 OA 和 Weighted-F1 下降。
+
+混淆对分析进一步表明，QNN residual 分支显著加重了葡萄园相关类别之间的互混。与 HybridSN-small 相比，\textit{Grapes\_untrained} 被误分为 \textit{Vinyard\_untrained} 的平均错误数从 1461.2 增至 2214.8，增加 753.6，且 5/5 个 seeds 均增加；\textit{Vinyard\_untrained} 被误分为 \textit{Grapes\_untrained} 的平均错误数从 1152.6 增至 1368.6，增加 216.0。与此同时，QNN 也减少了若干其他混淆，例如 \textit{Fallow\_smooth} 被误分为 \textit{Fallow\_rough\_plow} 的平均错误数减少 177.2，\textit{Celery} 被误分为 \textit{Stubble} 的平均错误数减少 100.25。
+
+Pavia University 10-shot 则呈现更明确的正向类别效应。Self-Blocking Bricks、Shadows、Asphalt 和 Trees 的 F1 分别提升 0.1549、0.1471、0.1034 和 0.0737，support-weighted mean delta F1 为 +0.0369。该结果说明 QNN 分支在 Pavia University 上不仅提升总体指标，也改善了多个 baseline 相对较弱的类别。
+
+Indian Pines 的类别级结果更接近边际效应。5-shot 的 mean per-class F1 delta 为 +0.0023，但 support-weighted mean delta F1 为 -0.0036；10-shot 的 mean per-class F1 delta 为 +0.0073，support-weighted mean delta F1 为 +0.0092。该结果支持 Indian Pines 10-shot 中 QNN 具有弱正向趋势，而 5-shot 基本接近中性。
+
+综上，类别级分析说明 QNN spectral residual 的作用具有明显类别条件性。它能够改善部分光谱相近或 baseline 不稳定的类别，但在强 baseline 已稳定识别的高支持度类别上可能造成扰动。因此，后续更合理的改进方向不是无条件增大量子 residual，而是基于验证集构建 class-conditional 或 confusion-pair-level residual selection。
+
+\subsection{显著性检验}
+
+为避免仅凭均值判断模型优劣，本文进一步对相同 seed 下的 HybridSN-small 与 QNN 结果进行配对显著性检验。每个 dataset-shot 设置包含 5 个 seeds。检验包括 paired t-test、Wilcoxon signed-rank test、sign test、bootstrap 95\% 置信区间以及 Cohen's $d_z$。表 \ref{tab:significance} 给出 OA、Macro-F1 和 Weighted-F1 的主要统计结果。
+
+\begin{table}[htbp]
+\centering
+\caption{Few-shot paired significance test 结果}
+\label{tab:significance}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrrr}
+\toprule
+数据集 & 指标 & Mean $\Delta$ & 95\% CI & 正向 seeds & Wilcoxon $p_{>0}$ & t-test $p_{>0}$ & Cohen's $d_z$ \\
+\midrule
+\multirow{3}{*}{Indian Pines 5-shot}
+& OA & +0.0004 & [-0.0094, 0.0096] & 2/5 & 0.5938 & 0.4751 & 0.0297 \\
+& Macro-F1 & +0.0023 & [-0.0088, 0.0133] & 3/5 & 0.3125 & 0.3608 & 0.1710 \\
+& Weighted-F1 & -0.0036 & [-0.0137, 0.0048] & 2/5 & 0.5938 & 0.7216 & -0.2863 \\
+\midrule
+\multirow{3}{*}{Indian Pines 10-shot}
+& OA & +0.0095 & [-0.0010, 0.0200] & 3/5 & 0.1562 & 0.0964 & 0.6996 \\
+& Macro-F1 & +0.0073 & [-0.0058, 0.0216] & 3/5 & 0.3125 & 0.2104 & 0.4007 \\
+& Weighted-F1 & +0.0092 & [-0.0010, 0.0193] & 3/5 & 0.1562 & 0.1000 & 0.6856 \\
+\midrule
+\multirow{3}{*}{Pavia University 10-shot}
+& OA & +0.0351 & [0.0080, 0.0622] & 5/5 & 0.0312 & 0.0461 & 0.9863 \\
+& Macro-F1 & +0.0673 & [0.0219, 0.1380] & 5/5 & 0.0312 & 0.0588 & 0.8895 \\
+& Weighted-F1 & +0.0369 & [0.0083, 0.0703] & 5/5 & 0.0312 & 0.0517 & 0.9404 \\
+\midrule
+\multirow{3}{*}{Salinas 10-shot}
+& OA & -0.0100 & [-0.0332, 0.0095] & 2/5 & 0.7812 & 0.7656 & -0.3575 \\
+& Macro-F1 & +0.0068 & [-0.0030, 0.0195] & 3/5 & 0.2188 & 0.1878 & 0.4455 \\
+& Weighted-F1 & -0.0098 & [-0.0334, 0.0113] & 2/5 & 0.7812 & 0.7559 & -0.3411 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+显著性检验结果表明，Pavia University 10-shot 是当前最稳定的正结果：OA、Macro-F1 和 Weighted-F1 在 5/5 个 seeds 上均优于 HybridSN-small，bootstrap 95\% 置信区间均大于 0，Wilcoxon 单侧检验 $p=0.0312$。Indian Pines 10-shot 在三个指标上均为正均值，但置信区间穿过 0，说明只能表述为弱正向趋势。Indian Pines 5-shot 基本中性。Salinas 10-shot 的 Macro-F1 均值为正，但不显著；OA 和 Weighted-F1 均值为负，也未达到显著负向。该统计结果进一步支持本文的核心判断：QNN 光谱残差分支具有条件有效性，在 Pavia University 10-shot 上存在统计支持的稳定增益，但不能推广为所有 few-shot HSI 设置下的普适提升。
+
+\subsection{空间隔离验证}
+
+为评估 random pixel split 可能带来的空间邻域泄漏风险，本文在 Indian Pines 上补充 strict spatial block split 实验。具体做法是将整幅影像划分为 $5\times5$ 空间网格块，训练、验证和测试使用互不重叠的空间块。训练 block 比例为 0.20，验证 block 比例为 0.12，剩余 block 作为测试区域。该实验用于检验空间泛化难度，而不是替代 few-shot 主协议。
+
+\begin{table}[htbp]
+\centering
+\caption{Random split 与 spatial block split 对照}
+\label{tab:spatial-isolation}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrr}
+\toprule
+协议 & 模型 & OA & AA & Macro-F1 & Weighted-F1 \\
+\midrule
+random pixel split & Tuned HybridSN & 98.80 & 97.27 & 97.19 & 98.81 \\
+few-shot random pixel split & HybridSN-small 10-shot & 80.12 & 88.64 & 71.53 & 80.87 \\
+few-shot random pixel split & Spectral QNN + SupCon 10-shot & 81.07 & 89.05 & 72.26 & 81.79 \\
+spatial block split & HybridSN spatial split & 33.16 & 19.36 & 13.03 & 24.02 \\
+spatial block split & MLP head on frozen spatial encoder & 35.90 & 20.68 & 13.78 & 26.48 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+表 \ref{tab:spatial-isolation} 表明，random pixel split 下的高精度不能直接等同于真实空间泛化能力。Tuned HybridSN 在 random pixel split 下 OA 为 98.80\%、Macro-F1 为 97.19\%，而在 strict spatial block split 下 HybridSN spatial test OA 仅为 33.16\%、Macro-F1 仅为 13.03\%。该差异说明 patch-based HSI 模型可能从随机像素划分中的空间邻域相关性获益，从而使 random split 结果偏乐观。
+
+同时，在 spatial split 下的 frozen encoder head pilot 中，MLP head 是验证集上最优 head，测试 OA 为 35.90\%、Macro-F1 为 13.78\%。Residual QNN 和 gated residual QNN 的验证 Macro-F1 分别为 12.18\% 和 11.25\%，均低于 MLP head，且训练时间明显更长。这说明在当前严格空间隔离设置下，QNN head 并未表现出额外空间泛化优势。
+
+需要指出的是，该 strict block split 不强制每个类别都出现在训练区域。类别覆盖诊断显示，在 seed 0/1 中共有 17 个类别记录在训练 split 中为 0 样本但在测试 split 中存在样本，例如 Alfalfa、Corn、Hay-windrowed、Soybean-notill 和 Wheat 等类别。因此，该实验应被理解为空间泛化压力测试，用于说明 random pixel split 的局限，而不应与 few-shot 主协议作为同等难度设置直接比较。后续若将 spatial split 作为主实验，需要构建 class-balanced spatial split，保证每类在 train/validation/test 中均有样本。
+
+\subsection{资源复杂度分析}
+
+本文进一步统计模型参数量、运行时间和量子线路资源。表 \ref{tab:resource-complexity} 给出主实验中 HybridSN-small 与 QNN 分支的资源对比。需要强调的是，QNN 分支实验使用已经缓存的 HybridSN-small embedding 和中心像素光谱，因此 QNN 的训练时间只统计分支训练阶段，不包含训练或提取 HybridSN-small encoder 特征的成本。
+
+\begin{table}[htbp]
+\centering
+\caption{资源复杂度与运行时间对比}
+\label{tab:resource-complexity}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{llrrrrr}
+\toprule
+数据集/设置 & 模型 & 可训练参数 & 部署估计参数 & 训练时间/s & 测试时间/s & Macro-F1 \\
+\midrule
+Indian Pines 10-shot & HybridSN-small & 99488 & 99488 & 272.32 & 30.99 & 71.53 \\
+Indian Pines 10-shot & Spectral QNN + SupCon & 2176 & 101664 & 30.59 & 17.65 & 72.26 \\
+Pavia University 10-shot & HybridSN-small & 99033 & 99033 & 142.98 & 149.50 & 79.20 \\
+Pavia University 10-shot & ConfidenceGuard-C + SupCon & 1477 & 100965 & 12.06 & 67.53 & 85.93 \\
+Salinas 10-shot & HybridSN-small & 99488 & 99488 & 204.23 & 160.22 & 95.44 \\
+Salinas 10-shot & ConfidenceGuard-C + SupCon & 2212 & 101700 & 25.44 & 84.91 & 96.12 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+从训练阶段看，QNN 分支的可训练参数量明显小于完整 HybridSN-small。Indian Pines 的 Spectral QNN + SupCon 分支为 2176 个可训练参数；Pavia University 和 Salinas 的 ConfidenceGuard-C 分支分别为 1477 和 2212 个可训练参数，而 HybridSN-small 约为 9.9 万个参数。因此，QNN 分支在 frozen-feature 训练阶段具有参数紧凑性。
+
+但这种参数紧凑性不等于端到端部署更轻。QNN 分支仍依赖 frozen HybridSN-small encoder 提供 embedding，因此部署时需要同时保留 encoder 和 QNN 分支。按 encoder 参数约 99488 估计，QNN 模型端到端部署参数约为 10.1 万，与 HybridSN-small 相当或略高。
+
+量子线路资源方面，本文标准 spectral QNN 使用 6 个 qubits、1 层参数化量子线路和 18 个可训练量子参数。输入经 tanh 线性投影后进行 angle encoding，每个样本使用 6 个 RY 编码门、每层 6 个 Rot 门和 5 个 CNOT 门，测量 6 个 Pauli-Z 期望值。所有实验均在 PennyLane \texttt{lightning.qubit} 经典模拟器上运行，反向传播使用 adjoint 方法。因此，本文不主张 quantum speedup 或计算加速；QNN 的贡献应定位为少样本条件下的 spectral decision-boundary regularization。
+
+\subsection{待补充实验}
+
+根据当前审稿风险，以下实验仍需补充，本文暂留空：
+
+\begin{enumerate}[label=(\arabic*)]
+  \item \textbf{官方强 baseline 复现：}\todo{补 SSRN、SpectralFormer、DBDA 官方实现或公开复现代码的严格对照，并扩展到 Indian Pines 5/10-shot。}
+\end{enumerate}
+
+\section{讨论}
+
+本文结果支持一个更谨慎的判断：QNN 在少样本高光谱分类中不是普适增强器，而是条件有效的 spectral regularizer。当数据集和 shot 设置使 classical baseline 边界不稳定时，QNN spectral branch 可能通过额外的非线性光谱映射改善类间分离；但当 HybridSN-small 或注意力式强 baseline 已经形成高置信、较准确的决策边界时，QNN residual branch 可能产生与任务不匹配的归纳偏置，从而降低 OA 和 Weighted-F1，或无法超过更强经典模型。
+
+这一现象与近期 QML 文献中关于 inductive bias 的讨论一致。量子模型的优势并不只取决于 Hilbert space 维度或线路复杂度，而取决于量子编码和目标函数之间是否匹配。对于 Salinas 10-shot 这类强 baseline 场景，QNN 分支可能并未提供新的互补信息，反而扰动了本已正确的样本预测。
+
+\section{结论}
+
+本文针对少样本高光谱遥感分类中的量子光谱分支进行了系统实验。结果表明，直接使用 QNN 作为分类头效果较差；将 QNN 放在中心像素光谱侧，并结合门控融合和度量学习目标后，可在 Pavia University 和部分 low-shot 设置中获得稳定或边际增益。然而，强 baseline 筛选显示，Pavia University 10-shot 上 DBDA-lite 已超过当前 QNN 方案；Salinas 10-shot 则显示 QNN residual branch 虽取得最高 Macro-F1，但 OA 和 Weighted-F1 低于 HybridSN-small。多组诊断实验进一步说明，该问题不能通过单纯增加线路复杂度、全局 residual scaling 或固定 multi-prototype 机制解决。
+
+未来工作将重点探索 validation-calibrated 或 class-conditional QNN residual selection，使量子分支只在验证集证明其有益的类别、margin 区间或 confusion pair 上启用，从而保留 QNN 的少样本正向作用并降低强 baseline 场景下的负迁移风险。
+
+\section*{致谢}
+
+\todo{填写数据集来源、计算平台和资助信息。}
+
+\begin{thebibliography}{99}
+
+\bibitem[Camps-Valls and Bruzzone, 2005]{camps2005svm}
+Camps-Valls G, Bruzzone L. Kernel-based methods for hyperspectral image classification. \textit{IEEE Transactions on Geoscience and Remote Sensing}, 2005, 43(6): 1351--1362.
+
+\bibitem[Chen et al., 2016]{chen2016deep}
+Chen Y S, Jiang H L, Li C Y, et al. Deep feature extraction and classification of hyperspectral images based on convolutional neural networks. \textit{IEEE Transactions on Geoscience and Remote Sensing}, 2016, 54(10): 6232--6251.
+
+\bibitem[Roy et al., 2020]{roy2020hybridsn}
+Roy S K, Krishna G, Dubey S R, Chaudhuri B B. HybridSN: Exploring 3-D--2-D CNN feature hierarchy for hyperspectral image classification. \textit{IEEE Geoscience and Remote Sensing Letters}, 2020, 17(2): 277--281.
+
+\bibitem[Li et al., 2019]{li2018spectralspatial}
+Li S, Song W, Fang L, et al. Deep learning for hyperspectral image classification: An overview. \textit{IEEE Transactions on Geoscience and Remote Sensing}, 2019, 57(9): 6690--6709.
+
+\bibitem[Zhong et al., 2018]{zhong2018ssrn}
+Zhong Z, Li J, Luo Z, Chapman M. Spectral-spatial residual network for hyperspectral image classification: A 3-D deep learning framework. \textit{IEEE Transactions on Geoscience and Remote Sensing}, 2018, 56(2): 847--858.
+
+\bibitem[Hong et al., 2022]{hong2022spectralformer}
+Hong D, Han Z, Yao J, et al. SpectralFormer: Rethinking hyperspectral image classification with transformers. \textit{IEEE Transactions on Geoscience and Remote Sensing}, 2022, 60: 1--15.
+
+\bibitem[Li et al., 2020]{li2020dbda}
+Li R, Zheng S, Duan C, et al. Classification of hyperspectral image based on double-branch dual-attention mechanism network. \textit{Remote Sensing}, 2020, 12(3): 582.
+
+\bibitem[Snell et al., 2017]{snell2017proto}
+Snell J, Swersky K, Zemel R. Prototypical networks for few-shot learning. In: \textit{Advances in Neural Information Processing Systems}, 2017: 4077--4087.
+
+\bibitem[Khosla et al., 2020]{khosla2020supcon}
+Khosla P, Teterwak P, Wang C, et al. Supervised contrastive learning. In: \textit{Advances in Neural Information Processing Systems}, 2020, 33: 18661--18673.
+
+\bibitem[Schuld et al., 2021]{schuld2021encoding}
+Schuld M, Sweke R, Meyer J J. Effect of data encoding on the expressive power of variational quantum-machine-learning models. \textit{Physical Review A}, 2021, 103(3): 032430.
+
+\bibitem[Huang et al., 2021]{huang2021inductive}
+Huang H Y, Broughton M, Mohseni M, et al. The inductive bias of quantum kernels. In: \textit{Advances in Neural Information Processing Systems}, 2021, 34: 12643--12657.
+
+\bibitem[Slattery et al., 2023]{slattery2023numerical}
+Slattery L, Shaydulin R, Chakrabarti S, et al. Numerical evidence against advantage with quantum fidelity kernels on classical data. \textit{Physical Review A}, 2023, 107(6): 062417.
+
+\bibitem[McClean et al., 2018]{mcclean2018barren}
+McClean J R, Boixo S, Smelyanskiy V N, et al. Barren plateaus in quantum neural network training landscapes. \textit{Nature Communications}, 2018, 9: 4812.
+
+\bibitem[Cerezo et al., 2021]{cerezo2021barren}
+Cerezo M, Sone A, Volkoff T, et al. Cost function dependent barren plateaus in shallow parametrized quantum circuits. \textit{Nature Communications}, 2021, 12: 1791.
+
+\bibitem[Poland et al., 2020]{poland2020nofree}
+Poland K, Beer K, Osborne T J. No free lunch for quantum machine learning. \textit{arXiv preprint arXiv:2003.14103}, 2020.
+
+\bibitem[Havlíček et al., 2019]{havlicek2019supervised}
+Havlíček V, Córcoles A D, Temme K, et al. Supervised learning with quantum-enhanced feature spaces. \textit{Nature}, 2019, 567: 209--212.
+
+\bibitem[Benedetti et al., 2019]{benedetti2019parameterized}
+Benedetti M, Lloyd E, Sack S, Fiorentini M. Parameterized quantum circuits as machine learning models. \textit{Quantum Science and Technology}, 2019, 4(4): 043001.
+
+\end{thebibliography}
+
+\end{document}

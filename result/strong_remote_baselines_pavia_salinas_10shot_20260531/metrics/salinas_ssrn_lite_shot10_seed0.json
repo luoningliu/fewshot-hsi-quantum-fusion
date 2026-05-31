@@ -1,0 +1,22 @@
+{
+  "dataset": "salinas",
+  "model": "ssrn_lite",
+  "shot": 10,
+  "seed": 0,
+  "OA": 0.7424966083740638,
+  "AA": 0.8539489196656762,
+  "Kappa": 0.7181704916380238,
+  "Macro-F1": 0.800190065519585,
+  "Weighted-F1": 0.6829913736913005,
+  "best_epoch": 80,
+  "train_time_seconds": 90.08854293823242,
+  "test_time_seconds": 74.39699816703796,
+  "trainable_parameters": 28800,
+  "train_size": 160,
+  "validation_size": 160,
+  "test_size": 53809,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

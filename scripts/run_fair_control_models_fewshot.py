@@ -491,13 +491,25 @@ def _write_gate_values(
     model.eval()
     frames = []
     with torch.no_grad():
-        for z, spectra, y, sample_indices in loader:
-            logits, aux = model(z.to(device), spectra.to(device), return_aux=True)
+        for batch in loader:
+            if len(batch) == 5:
+                z, spectra, y, sample_indices, base_logits = batch
+                base_logits = base_logits.to(device)
+            else:
+                z, spectra, y, sample_indices = batch
+                base_logits = None
+            logits, aux = model(z.to(device), spectra.to(device), return_aux=True, base_logits=base_logits)
             base_logits = aux["base_logits"].detach().cpu()
             spectral_logits = aux["spectral_logits"].detach().cpu()
             logits = logits.detach().cpu()
             pred = logits.argmax(dim=1)
             gate = aux["gate"].detach().cpu()
+            guard = aux.get("guard")
+            guard = guard.detach().cpu() if guard is not None else torch.ones((len(y), 1))
+            base_margin_norm = aux.get("base_margin_norm")
+            base_margin_norm = (
+                base_margin_norm.detach().cpu() if base_margin_norm is not None else torch.full((len(y), 1), float("nan"))
+            )
             if gate.shape[1] == 1:
                 gate_by_class = gate.expand(-1, logits.shape[1])
             else:
@@ -520,6 +532,8 @@ def _write_gate_values(
                         "max_gate": float(gate_by_class[item].max().item()),
                         "gate_for_pred_class": float(gate_by_class[item, pred_class].item()),
                         "gate_for_true_class": float(gate_by_class[item, true_class].item()),
+                        "guard": float(guard[item].mean().item()),
+                        "base_margin_norm": float(base_margin_norm[item].mean().item()),
                         "base_margin": _margin(base_logits[item], pred_class),
                         "spectral_margin": _margin(spectral_logits[item], pred_class),
                         "final_margin": _margin(logits[item], pred_class),
@@ -562,9 +576,11 @@ def _load_or_extract_features(
                     cols=cols.astype(np.int64),
                 )
             return cached["z"].astype(np.float32), cached["spectra"].astype(np.float32), feature_path
-    ckpt_path = Path(args.encoder_checkpoint_dir) / f"{dataset_name}_shot{shot}_seed{seed}.pt"
-    if not ckpt_path.exists():
-        raise FileNotFoundError(f"Missing HybridSN-small checkpoint: {ckpt_path}")
+    ckpt_path = _resolve_cached_input(
+        [args.encoder_checkpoint_dir, *getattr(args, "encoder_checkpoint_dirs", [])],
+        f"{dataset_name}_shot{shot}_seed{seed}.pt",
+        "HybridSN-small checkpoint",
+    )
     encoder = HybridSNSmall(
         pca_channels=args.pca_bands,
         num_classes=num_classes,
@@ -602,6 +618,18 @@ def _load_or_extract_features(
         cols=cols.astype(np.int64),
     )
     return z, spectra, feature_path
+
+
+def _resolve_cached_input(dirs: list[str], filename: str, label: str) -> Path:
+    checked = []
+    for directory in dirs:
+        if not directory:
+            continue
+        path = Path(directory) / filename
+        checked.append(str(path))
+        if path.exists():
+            return path
+    raise FileNotFoundError(f"Missing {label}: {filename}. Checked: {checked}")
 
 
 def _load_hybridsn_rows(args: argparse.Namespace) -> list[dict[str, Any]]:

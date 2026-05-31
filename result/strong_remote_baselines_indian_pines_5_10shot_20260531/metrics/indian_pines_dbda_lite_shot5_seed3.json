@@ -1,0 +1,22 @@
+{
+  "dataset": "indian_pines",
+  "model": "dbda_lite",
+  "shot": 5,
+  "seed": 3,
+  "OA": 0.5814046288906624,
+  "AA": 0.7007736836231786,
+  "Kappa": 0.5348340843104529,
+  "Macro-F1": 0.5522104833854318,
+  "Weighted-F1": 0.5645434677997405,
+  "best_epoch": 75,
+  "train_time_seconds": 3.830886125564575,
+  "test_time_seconds": 0.9790630340576172,
+  "trainable_parameters": 45404,
+  "train_size": 80,
+  "validation_size": 145,
+  "test_size": 10024,
+  "pca_evr_sum": 0.9598935842514038,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

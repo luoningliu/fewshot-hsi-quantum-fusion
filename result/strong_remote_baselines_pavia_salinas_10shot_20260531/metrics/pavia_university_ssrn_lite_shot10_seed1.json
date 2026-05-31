@@ -1,0 +1,22 @@
+{
+  "dataset": "pavia_university",
+  "model": "ssrn_lite",
+  "shot": 10,
+  "seed": 1,
+  "OA": 0.6638886280401916,
+  "AA": 0.842326142753068,
+  "Kappa": 0.5999114107494898,
+  "Macro-F1": 0.7785194174555335,
+  "Weighted-F1": 0.6779710872064284,
+  "best_epoch": 65,
+  "train_time_seconds": 58.16607403755188,
+  "test_time_seconds": 63.49471998214722,
+  "trainable_parameters": 28681,
+  "train_size": 90,
+  "validation_size": 90,
+  "test_size": 42596,
+  "pca_evr_sum": 0.9996427893638611,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

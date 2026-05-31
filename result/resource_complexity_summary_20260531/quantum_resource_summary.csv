@@ -1,0 +1,2 @@
+qnn_variant,qubits,quantum_layers,encoding,entanglement,trainable_quantum_parameters,data_encoding_ry_gates,rot_gates_per_layer,cnot_gates_per_layer,measured_observables,qnode_evaluations_per_sample_forward,simulator_backend,diff_method
+standard spectral QNN,6,1,angle encoding after tanh linear projection,linear CNOT chain,18,6,6,5,6,1,lightning.qubit,adjoint

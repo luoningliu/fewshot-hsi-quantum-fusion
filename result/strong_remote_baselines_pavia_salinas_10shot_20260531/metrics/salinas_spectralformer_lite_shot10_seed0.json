@@ -1,0 +1,22 @@
+{
+  "dataset": "salinas",
+  "model": "spectralformer_lite",
+  "shot": 10,
+  "seed": 0,
+  "OA": 0.8781430615696258,
+  "AA": 0.9533603108910957,
+  "Kappa": 0.8652995320654558,
+  "Macro-F1": 0.9413609979902161,
+  "Weighted-F1": 0.8760269982291957,
+  "best_epoch": 60,
+  "train_time_seconds": 6.629822015762329,
+  "test_time_seconds": 4.716127872467041,
+  "trainable_parameters": 54352,
+  "train_size": 160,
+  "validation_size": 160,
+  "test_size": 53809,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

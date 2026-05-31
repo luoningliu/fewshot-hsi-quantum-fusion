@@ -1,0 +1,22 @@
+{
+  "dataset": "salinas",
+  "model": "dbda_lite",
+  "shot": 10,
+  "seed": 3,
+  "OA": 0.8633314129606572,
+  "AA": 0.9485737681420934,
+  "Kappa": 0.8490303052194572,
+  "Macro-F1": 0.937141230218325,
+  "Weighted-F1": 0.8599426543390242,
+  "best_epoch": 50,
+  "train_time_seconds": 7.688920736312866,
+  "test_time_seconds": 5.177618026733398,
+  "trainable_parameters": 45404,
+  "train_size": 160,
+  "validation_size": 160,
+  "test_size": 53809,
+  "pca_evr_sum": 0.9982954859733582,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

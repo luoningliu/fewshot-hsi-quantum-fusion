@@ -23,7 +23,7 @@ from scripts.run_hybridsn_small_fewshot import OnTheFlyPatchDataset, _load_datas
 from src.analysis.metrics import classification_metrics, per_class_metrics, write_json
 from src.datasets.fewshot_sampler import make_fewshot_split, save_split
 from src.datasets.hsi_dataset import load_hsi_mat
-from src.models.classical import CNN1D, CNN2D, CNN3D
+from src.models.classical import CNN1D, CNN2D, CNN3D, DBDALite, SpectralFormerLite, SSRNLite
 from src.models.traditional import build_knn, build_random_forest, build_svm_rbf
 from src.utils.seed import set_seed
 
@@ -34,9 +34,12 @@ TRADITIONAL_BUILDERS = {
     "knn": build_knn,
 }
 DEEP_BUILDERS = {
-    "cnn1d": lambda bands, classes: CNN1D(bands, classes),
-    "cnn2d": lambda bands, classes: CNN2D(bands, classes),
-    "cnn3d": lambda bands, classes: CNN3D(bands, classes),
+    "cnn1d": lambda bands, classes, patch_size: CNN1D(bands, classes),
+    "cnn2d": lambda bands, classes, patch_size: CNN2D(bands, classes),
+    "cnn3d": lambda bands, classes, patch_size: CNN3D(bands, classes),
+    "dbda_lite": lambda bands, classes, patch_size: DBDALite(bands, classes, patch_size=patch_size),
+    "spectralformer_lite": lambda bands, classes, patch_size: SpectralFormerLite(bands, classes, patch_size=patch_size),
+    "ssrn_lite": lambda bands, classes, patch_size: SSRNLite(bands, classes, patch_size=patch_size),
 }
 
 
@@ -132,7 +135,7 @@ def _run_traditional(args, out, model_name, data_cfg, vectors, labels, split, da
 
 def _run_deep(args, out, model_name, data_cfg, cube_pca, padded, rows, cols, labels, split, dataset_name, shot, seed, pca_evr_sum, num_classes, device):
     set_seed(int(seed))
-    model = DEEP_BUILDERS[model_name](args.pca_bands, num_classes).to(device)
+    model = DEEP_BUILDERS[model_name](args.pca_bands, num_classes, args.patch_size).to(device)
     train_ds = _deep_dataset(model_name, cube_pca, padded, rows, cols, labels, split["train"], args.patch_size)
     val_ds = _deep_dataset(model_name, cube_pca, padded, rows, cols, labels, split["validation"], args.patch_size)
     test_ds = _deep_dataset(model_name, cube_pca, padded, rows, cols, labels, split["test"], args.patch_size)
@@ -148,22 +151,28 @@ def _run_deep(args, out, model_name, data_cfg, cube_pca, padded, rows, cols, lab
     started = time.time()
     for epoch in range(1, args.epochs + 1):
         train_loss, train_acc = _train_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, y_val, p_val = _evaluate(model, val_loader, criterion, device)
-        val = classification_metrics(y_val, p_val, labels=list(range(num_classes)))
+        should_eval = epoch == 1 or epoch == args.epochs or epoch % args.eval_interval == 0
+        if should_eval:
+            val_loss, y_val, p_val = _evaluate(model, val_loader, criterion, device)
+            val = classification_metrics(y_val, p_val, labels=list(range(num_classes)))
+        else:
+            val_loss = float("nan")
+            val = {"OA": float("nan"), "AA": float("nan"), "Kappa": float("nan"), "Macro-F1": float("nan"), "Weighted-F1": float("nan")}
         logs.append({
             "dataset": dataset_name, "model": model_name, "shot": shot, "seed": seed, "epoch": epoch,
             "train_loss": train_loss, "train_accuracy": train_acc, "val_loss": val_loss,
             "val_OA": val["OA"], "val_AA": val["AA"], "val_Kappa": val["Kappa"],
             "val_Macro-F1": val["Macro-F1"], "val_Weighted-F1": val["Weighted-F1"],
         })
-        monitor = val["OA"] if args.monitor == "oa" else val["Macro-F1"]
-        if monitor > best_metric:
-            best_metric = monitor
-            best_epoch = epoch
-            best_state = copy.deepcopy(model.state_dict())
-            stale = 0
-        else:
-            stale += 1
+        if should_eval:
+            monitor = val["OA"] if args.monitor == "oa" else val["Macro-F1"]
+            if monitor > best_metric:
+                best_metric = monitor
+                best_epoch = epoch
+                best_state = copy.deepcopy(model.state_dict())
+                stale = 0
+            else:
+                stale += 1
         if stale >= args.patience:
             break
     train_time = time.time() - started
@@ -290,7 +299,8 @@ def _write_report(out: Path, rows: list[dict[str, Any]], failures: list[dict[str
         "",
         "- Traditional baselines use center PCA spectral vectors.",
         "- CNN1D uses center PCA spectral vectors.",
-        "- CNN2D and CNN3D use PCA spatial-spectral patches.",
+        "- CNN2D, CNN3D, SSRN-lite, SpectralFormer-lite, and DBDA-lite use PCA spatial-spectral patches.",
+        "- The three strong baselines are compact paper-inspired implementations, not official author code.",
         "- PCA is fitted on the full image without labels to match the current HybridSN-small few-shot protocol.",
         "",
         "## Summary",
@@ -323,6 +333,7 @@ def _build_parser():
     parser.add_argument("--eval_batch_size", type=int, default=256)
     parser.add_argument("--epochs", type=int, default=120)
     parser.add_argument("--patience", type=int, default=20)
+    parser.add_argument("--eval_interval", type=int, default=1, help="Validate every N epochs for deep baselines.")
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--weight_decay", type=float, default=0.0001)
     parser.add_argument("--monitor", choices=["macro_f1", "oa"], default="macro_f1")

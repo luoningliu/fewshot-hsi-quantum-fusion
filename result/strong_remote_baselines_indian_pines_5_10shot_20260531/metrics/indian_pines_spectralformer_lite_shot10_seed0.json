@@ -1,0 +1,22 @@
+{
+  "dataset": "indian_pines",
+  "model": "spectralformer_lite",
+  "shot": 10,
+  "seed": 0,
+  "OA": 0.7349954760229215,
+  "AA": 0.8464442999422856,
+  "Kappa": 0.7022947257567738,
+  "Macro-F1": 0.68701837207558,
+  "Weighted-F1": 0.7452102216989426,
+  "best_epoch": 75,
+  "train_time_seconds": 7.822732925415039,
+  "test_time_seconds": 0.944575309753418,
+  "trainable_parameters": 54352,
+  "train_size": 160,
+  "validation_size": 142,
+  "test_size": 9947,
+  "pca_evr_sum": 0.9598935842514038,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

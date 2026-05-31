@@ -1,0 +1,22 @@
+{
+  "dataset": "pavia_university",
+  "model": "spectralformer_lite",
+  "shot": 10,
+  "seed": 2,
+  "OA": 0.750821673396563,
+  "AA": 0.8181282591810671,
+  "Kappa": 0.6815298982291602,
+  "Macro-F1": 0.7409109282906587,
+  "Weighted-F1": 0.7595761538652042,
+  "best_epoch": 30,
+  "train_time_seconds": 3.6821200847625732,
+  "test_time_seconds": 4.196773290634155,
+  "trainable_parameters": 53673,
+  "train_size": 90,
+  "validation_size": 90,
+  "test_size": 42596,
+  "pca_evr_sum": 0.9996427893638611,
+  "pca_fit_scope": "full_image_unsupervised",
+  "patch_size": 9,
+  "pca_bands": 30
+}

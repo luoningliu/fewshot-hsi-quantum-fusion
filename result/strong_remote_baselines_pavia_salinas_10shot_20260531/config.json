@@ -1,0 +1,35 @@
+{
+  "datasets": [
+    "pavia_university",
+    "salinas"
+  ],
+  "models": [
+    "ssrn_lite",
+    "spectralformer_lite",
+    "dbda_lite"
+  ],
+  "data_root": "data",
+  "shots": [
+    10
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "patch_size": 9,
+  "pca_bands": 30,
+  "batch_size": 64,
+  "eval_batch_size": 512,
+  "epochs": 80,
+  "patience": 6,
+  "eval_interval": 5,
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "monitor": "macro_f1",
+  "seed": 42,
+  "device": "auto",
+  "output_dir": "result/strong_remote_baselines_pavia_salinas_10shot_20260531"
+}
