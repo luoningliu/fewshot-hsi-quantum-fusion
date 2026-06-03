@@ -34,6 +34,7 @@ DATASET_CONFIGS = {
     "pavia_university": "configs/data/pavia_university.yaml",
     "salinas": "configs/data/salinas.yaml",
 }
+DEFAULT_CONFIG = "configs/experiments/hybridsn_small_fewshot.yaml"
 
 
 class OnTheFlyPatchDataset(Dataset):
@@ -70,8 +71,7 @@ class OnTheFlyPatchDataset(Dataset):
 
 
 def main() -> None:
-    parser = _build_parser()
-    args = parser.parse_args()
+    args = _parse_args()
     if args.datasets is None:
         args.datasets = [args.dataset] if args.dataset else ["indian_pines"]
     run_root = _make_output_root(args)
@@ -89,12 +89,8 @@ def main() -> None:
         assert labels.min() >= 0
         assert labels.max() < num_classes
 
-        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
-        padded_cube = np.pad(
-            cube_pca,
-            ((args.patch_size // 2, args.patch_size // 2), (args.patch_size // 2, args.patch_size // 2), (0, 0)),
-            mode="reflect",
-        ).astype(np.float32)
+        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
+        padded_cube = _pad_cube(cube_pca, args.patch_size) if args.preprocess_scope == "full_image" else None
         for shot in args.shots:
             for seed in args.seeds:
                 try:
@@ -104,6 +100,7 @@ def main() -> None:
                         dataset_name=dataset_name,
                         display_name=raw.display_name,
                         data_cfg=data_cfg,
+                        cube=raw.cube,
                         padded_cube=padded_cube,
                         rows=rows,
                         cols=cols,
@@ -131,7 +128,8 @@ def _run_one(
     dataset_name: str,
     display_name: str,
     data_cfg: dict[str, Any],
-    padded_cube: np.ndarray,
+    cube: np.ndarray,
+    padded_cube: np.ndarray | None,
     rows: np.ndarray,
     cols: np.ndarray,
     labels: np.ndarray,
@@ -148,6 +146,11 @@ def _run_one(
     for cls, counts in split["per_class"].items():
         if counts["train"] != shot:
             raise AssertionError(f"class {cls} train count {counts['train']} != shot {shot}")
+    if args.preprocess_scope == "train_only":
+        cube_pca, pca_evr_sum = _preprocess_train_only(cube, rows, cols, split["train"], args.pca_bands, seed)
+        padded_cube = _pad_cube(cube_pca, args.patch_size)
+    if padded_cube is None:
+        raise RuntimeError("padded_cube was not initialized")
     split_path = run_root / "split_indices" / f"{dataset_name}_seed{seed}_{shot}shot.json"
     save_split(split_path, split)
 
@@ -245,7 +248,7 @@ def _run_one(
         "num_classes": num_classes,
         "class_order": list(range(num_classes)),
         "class_names": class_names,
-        "pca_fit_scope": "full_image_unsupervised",
+        "pca_fit_scope": args.preprocess_scope,
         "pca_evr_sum": pca_evr_sum,
         "patch_size": args.patch_size,
         "pca_bands": args.pca_bands,
@@ -282,14 +285,49 @@ def _run_one(
     return row
 
 
-def _preprocess_full_image(cube: np.ndarray, pca_bands: int, seed: int) -> tuple[np.ndarray, float]:
-    flat = cube.reshape(-1, cube.shape[-1]).astype(np.float32)
-    mean = flat.mean(axis=0, dtype=np.float64)
-    std = flat.std(axis=0, dtype=np.float64) + 1e-6
+def _preprocess_full_image(
+    cube: np.ndarray,
+    rows: np.ndarray,
+    cols: np.ndarray,
+    pca_bands: int,
+    seed: int,
+) -> tuple[np.ndarray, float]:
+    fit_pixels = cube[rows, cols, :].astype(np.float32)
+    mean = fit_pixels.mean(axis=0, dtype=np.float64)
+    std = fit_pixels.std(axis=0, dtype=np.float64) + 1e-6
     norm = ((cube - mean) / std).astype(np.float32)
+    fit_norm = ((fit_pixels - mean) / std).astype(np.float32)
     pca = PCA(n_components=int(pca_bands), whiten=False, random_state=int(seed))
-    reduced = pca.fit_transform(norm.reshape(-1, norm.shape[-1])).astype(np.float32)
+    pca.fit(fit_norm)
+    reduced = pca.transform(norm.reshape(-1, norm.shape[-1])).astype(np.float32)
     return reduced.reshape(cube.shape[0], cube.shape[1], int(pca_bands)), float(pca.explained_variance_ratio_.sum())
+
+
+def _preprocess_train_only(
+    cube: np.ndarray,
+    rows: np.ndarray,
+    cols: np.ndarray,
+    train_indices: list[int],
+    pca_bands: int,
+    seed: int,
+) -> tuple[np.ndarray, float]:
+    train_indices_np = np.asarray(train_indices, dtype=np.int64)
+    train_pixels = cube[rows[train_indices_np], cols[train_indices_np], :].astype(np.float32)
+    if len(train_pixels) < int(pca_bands):
+        raise ValueError(f"train-only PCA needs at least {pca_bands} samples, got {len(train_pixels)}")
+    mean = train_pixels.mean(axis=0, dtype=np.float64)
+    std = train_pixels.std(axis=0, dtype=np.float64) + 1e-6
+    norm = ((cube - mean) / std).astype(np.float32)
+    train_norm = ((train_pixels - mean) / std).astype(np.float32)
+    pca = PCA(n_components=int(pca_bands), whiten=False, random_state=int(seed))
+    pca.fit(train_norm)
+    reduced = pca.transform(norm.reshape(-1, norm.shape[-1])).astype(np.float32)
+    return reduced.reshape(cube.shape[0], cube.shape[1], int(pca_bands)), float(pca.explained_variance_ratio_.sum())
+
+
+def _pad_cube(cube_pca: np.ndarray, patch_size: int) -> np.ndarray:
+    radius = int(patch_size) // 2
+    return np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
 
 
 def _train_epoch(model: nn.Module, loader: DataLoader, criterion: nn.Module, optimizer: torch.optim.Optimizer, device: torch.device):
@@ -464,6 +502,27 @@ def _resolve_device(device: str) -> torch.device:
     return torch.device(device)
 
 
+def _parse_args() -> argparse.Namespace:
+    bootstrap = argparse.ArgumentParser(add_help=False)
+    bootstrap.add_argument("--config", default=DEFAULT_CONFIG)
+    known, _ = bootstrap.parse_known_args()
+    parser = _build_parser()
+    parser.add_argument("--config", default=known.config)
+    if known.config:
+        parser.set_defaults(**_load_arg_defaults(known.config))
+    return parser.parse_args()
+
+
+def _load_arg_defaults(path: str) -> dict[str, Any]:
+    config_path = Path(path)
+    if not config_path.exists():
+        return {}
+    config = load_yaml(config_path)
+    defaults = config.get("args", config)
+    allowed = {action.dest for action in _build_parser()._actions}
+    return {key: value for key, value in defaults.items() if key in allowed}
+
+
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run HybridSN-small few-shot HSI classification.")
     parser.add_argument("--dataset", choices=sorted(DATASET_CONFIGS), help="Single dataset to run.")
@@ -489,6 +548,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output_root", default="result")
     parser.add_argument("--run_dir", default="")
     parser.add_argument("--seed", type=int, default=42, help="Preprocessing PCA seed.")
+    parser.add_argument("--preprocess_scope", choices=["full_image", "train_only"], default="full_image")
     parser.add_argument("--debug", action="store_true")
     return parser
 

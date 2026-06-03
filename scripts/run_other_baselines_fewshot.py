@@ -80,7 +80,7 @@ def main() -> None:
         num_classes = int(data_cfg["num_classes"])
         assert labels.min() >= 0
         assert labels.max() < num_classes
-        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
+        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
         radius = args.patch_size // 2
         padded = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
         vectors = cube_pca[rows, cols].astype(np.float32)

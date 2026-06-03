@@ -62,7 +62,7 @@ def main() -> None:
     assert labels.min() >= 0
     assert labels.max() < num_classes
 
-    cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
+    cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
     radius = args.patch_size // 2
     padded_cube = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
     all_rows: list[dict[str, Any]] = []

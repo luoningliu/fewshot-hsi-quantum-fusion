@@ -172,7 +172,7 @@ class HybridFeatureExtractor:
             raw = load_hsi_mat(cfg)
             rows, cols = np.nonzero(raw.gt != raw.background_label)
             labels = raw.gt[rows, cols].astype(np.int64) - 1
-            cube_pca, _ = _preprocess_full_image(raw.cube, self.args.pca_bands, self.args.seed)
+            cube_pca, _ = _preprocess_full_image(raw.cube, rows, cols, self.args.pca_bands, self.args.seed)
             radius = self.args.patch_size // 2
             padded_cube = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
             self.cache[dataset] = (padded_cube, rows, cols, labels, int(cfg["num_classes"]))

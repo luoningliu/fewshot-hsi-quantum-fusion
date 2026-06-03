@@ -152,7 +152,7 @@ def main() -> None:
         num_classes = int(data_cfg["num_classes"])
         if labels.min() < 0 or labels.max() >= num_classes:
             raise ValueError(f"Labels for {dataset_name} do not match config classes.")
-        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
+        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
         radius = args.patch_size // 2
         padded_cube = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
 

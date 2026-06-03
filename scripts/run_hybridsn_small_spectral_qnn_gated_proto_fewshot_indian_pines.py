@@ -90,7 +90,7 @@ def main() -> None:
     rows, cols = np.nonzero(raw.gt != raw.background_label)
     labels = raw.gt[rows, cols].astype(np.int64) - 1
     num_classes = int(data_cfg["num_classes"])
-    cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
+    cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
     radius = args.patch_size // 2
     padded_cube = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
 

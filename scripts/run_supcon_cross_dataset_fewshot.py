@@ -28,17 +28,19 @@ from scripts.run_fair_control_models_fewshot import (
     _resolve_device,
     _write_gate_values,
 )
-from scripts.run_hybridsn_small_fewshot import _load_dataset_config, _preprocess_full_image
+from scripts.run_hybridsn_small_fewshot import _load_dataset_config, _pad_cube, _preprocess_full_image, _preprocess_train_only
 from scripts.run_hybridsn_small_spectral_qnn_gated_metric_fewshot import SpectralQNNGatedMetricFusion
 from src.analysis.metrics import classification_metrics, per_class_metrics, write_json
 from src.datasets.hsi_dataset import load_hsi_mat
 from src.models.classical import HybridSNSmall
+from src.utils.config import load_yaml
 from src.utils.seed import set_seed
 
 
 METRICS = ("OA", "AA", "Kappa", "Macro-F1", "Weighted-F1")
 MODEL_NAME = "spectral_qnn_gated_supcon"
 JSON_MODEL_NAME = "hybridsn_small_spectral_qnn_gated_fusion_supcon"
+DEFAULT_CONFIG = "configs/experiments/supcon_cross_dataset_fewshot.yaml"
 
 
 class SupConFeatureDataset(Dataset):
@@ -72,8 +74,166 @@ class SupConFeatureDataset(Dataset):
         return tuple(values)
 
 
+class ClassicalSpectralGatedMetricFusion(nn.Module):
+    """Classical spectral branch control with the same gated-residual interface as QSGF."""
+
+    def __init__(
+        self,
+        embedding_dim: int,
+        spectral_dim: int,
+        num_classes: int,
+        branch_type: str,
+        mlp_hidden_dim: int = 6,
+        mlp_output_dim: int = 6,
+        fourier_dim: int = 6,
+        fourier_scale: float = 1.0,
+        gate_mode: str = "classwise",
+        gate_context_mode: str = "none",
+        high_confidence_guard_mode: str = "none",
+        guard_floor: float = 0.05,
+        guard_tau: float = 0.35,
+        guard_temperature: float = 0.08,
+        base_logit_mode: str = "learned_head",
+    ):
+        super().__init__()
+        if branch_type not in {"mlp", "fourier", "rff"}:
+            raise ValueError(f"Unsupported classical spectral branch: {branch_type}")
+        if base_logit_mode not in {"learned_head", "pretrained"}:
+            raise ValueError(f"Unsupported base_logit_mode: {base_logit_mode}")
+        if gate_mode not in {"scalar", "classwise"}:
+            raise ValueError(f"Unsupported gate_mode: {gate_mode}")
+        if gate_context_mode not in {"none", "base_confidence_margin"}:
+            raise ValueError(f"Unsupported gate_context_mode: {gate_context_mode}")
+        if high_confidence_guard_mode not in {"none", "margin_suppression"}:
+            raise ValueError(f"Unsupported high_confidence_guard_mode: {high_confidence_guard_mode}")
+        if guard_temperature <= 0.0:
+            raise ValueError(f"guard_temperature must be > 0, got {guard_temperature}")
+
+        self.branch_type = branch_type
+        self.base_logit_mode = base_logit_mode
+        self.gate_context_mode = gate_context_mode
+        self.high_confidence_guard_mode = high_confidence_guard_mode
+        self.guard_floor = float(guard_floor)
+        self.guard_tau = float(guard_tau)
+        self.guard_temperature = float(guard_temperature)
+        self.register_buffer("residual_warmup_factor", torch.tensor(1.0))
+
+        self.base_head = None
+        if base_logit_mode == "learned_head":
+            self.base_head = nn.Sequential(nn.LayerNorm(embedding_dim), nn.Linear(embedding_dim, num_classes))
+
+        if branch_type == "mlp":
+            self.spectral_encoder = nn.Sequential(
+                nn.LayerNorm(spectral_dim),
+                nn.Linear(spectral_dim, int(mlp_hidden_dim)),
+                nn.ReLU(inplace=True),
+                nn.Linear(int(mlp_hidden_dim), int(mlp_output_dim)),
+                nn.ReLU(inplace=True),
+            )
+            self.feature_dim = int(mlp_output_dim)
+            self.spectral_head = nn.Linear(self.feature_dim, num_classes)
+        elif branch_type == "fourier":
+            self.spectral_norm = nn.LayerNorm(spectral_dim)
+            self.fourier_projection = nn.Linear(spectral_dim, int(fourier_dim), bias=False)
+            self.fourier_feature_head = nn.Linear(2 * int(fourier_dim), int(mlp_output_dim))
+            self.feature_dim = int(mlp_output_dim)
+            self.spectral_head = nn.Linear(self.feature_dim, num_classes)
+        else:
+            self.spectral_norm = nn.LayerNorm(spectral_dim)
+            projection = torch.randn(int(fourier_dim), spectral_dim) * float(fourier_scale)
+            self.register_buffer("rff_projection", projection)
+            self.feature_dim = 2 * int(fourier_dim)
+            self.spectral_head = nn.Linear(self.feature_dim, num_classes)
+
+        gate_dim = 1 if gate_mode == "scalar" else num_classes
+        gate_context_dim = 2 if gate_context_mode == "base_confidence_margin" else 0
+        self.gate = nn.Sequential(
+            nn.LayerNorm(embedding_dim + spectral_dim + gate_context_dim),
+            nn.Linear(embedding_dim + spectral_dim + gate_context_dim, gate_dim),
+            nn.Sigmoid(),
+        )
+        self.feature_norm = nn.LayerNorm(embedding_dim + self.feature_dim)
+
+    def residual_scale(self) -> torch.Tensor:
+        return self.residual_warmup_factor.new_tensor(1.0)
+
+    def set_residual_warmup_factor(self, factor: float) -> None:
+        self.residual_warmup_factor.fill_(max(0.0, min(1.0, float(factor))))
+
+    def spectral_features(self, spectrum: torch.Tensor) -> torch.Tensor:
+        if self.branch_type == "mlp":
+            return self.spectral_encoder(spectrum)
+        if self.branch_type == "fourier":
+            projected = self.fourier_projection(self.spectral_norm(spectrum))
+            phi = torch.cat([torch.sin(projected), torch.cos(projected)], dim=1)
+            return torch.relu(self.fourier_feature_head(phi))
+        projected = torch.matmul(self.spectral_norm(spectrum), self.rff_projection.T)
+        return torch.cat([torch.sin(projected), torch.cos(projected)], dim=1)
+
+    def fused_features(self, z: torch.Tensor, spectrum: torch.Tensor) -> torch.Tensor:
+        return self.feature_norm(torch.cat([z, self.spectral_features(spectrum)], dim=1))
+
+    def forward(
+        self,
+        z: torch.Tensor,
+        spectrum: torch.Tensor,
+        return_aux: bool = False,
+        base_logits: torch.Tensor | None = None,
+    ):
+        if self.base_logit_mode == "pretrained":
+            if base_logits is None:
+                raise ValueError("base_logits is required when base_logit_mode='pretrained'")
+            base_logits = base_logits.detach()
+        else:
+            if self.base_head is None:
+                raise RuntimeError("base_head is not initialized")
+            base_logits = self.base_head(z)
+        spectral_feature = self.spectral_features(spectrum)
+        spectral_logits = self.spectral_head(spectral_feature)
+        gate_context = self._gate_context(base_logits)
+        gate_inputs = [z, spectrum] if gate_context is None else [z, spectrum, gate_context]
+        gate = self.gate(torch.cat(gate_inputs, dim=1))
+        guard = self._high_confidence_guard(base_logits)
+        logits = base_logits + gate * guard * spectral_logits
+        if return_aux:
+            return logits, {
+                "gate": gate,
+                "guard": guard,
+                "base_margin_norm": self._base_margin_norm(base_logits).detach(),
+                "residual_scale": self.residual_scale().detach(),
+                "base_confidence": self._base_confidence(base_logits).detach(),
+                "base_logits": base_logits,
+                "spectral_logits": spectral_logits,
+                "spectral_feature": spectral_feature,
+            }
+        return logits
+
+    def _gate_context(self, base_logits: torch.Tensor) -> torch.Tensor | None:
+        if self.gate_context_mode == "none":
+            return None
+        probs = torch.softmax(base_logits.detach(), dim=1)
+        top2 = torch.topk(base_logits.detach(), k=2, dim=1).values
+        confidence = probs.max(dim=1, keepdim=True).values
+        margin = torch.tanh((top2[:, :1] - top2[:, 1:2]) / 5.0)
+        return torch.cat([confidence, margin], dim=1)
+
+    def _high_confidence_guard(self, base_logits: torch.Tensor) -> torch.Tensor:
+        if self.high_confidence_guard_mode == "none":
+            return base_logits.new_ones((base_logits.shape[0], 1))
+        margin_norm = self._base_margin_norm(base_logits)
+        raw_guard = torch.sigmoid((self.guard_tau - margin_norm) / self.guard_temperature)
+        return self.guard_floor + (1.0 - self.guard_floor) * raw_guard
+
+    def _base_margin_norm(self, base_logits: torch.Tensor) -> torch.Tensor:
+        top2 = torch.topk(base_logits.detach(), k=2, dim=1).values
+        return torch.tanh((top2[:, :1] - top2[:, 1:2]) / 5.0)
+
+    def _base_confidence(self, base_logits: torch.Tensor) -> torch.Tensor:
+        return torch.softmax(base_logits.detach(), dim=1).max(dim=1).values
+
+
 def main() -> None:
-    args = _build_parser().parse_args()
+    args = _parse_args()
     out = Path(args.output_dir)
     _prepare_output(out)
     (out / "config.json").write_text(json.dumps(vars(args), indent=2, ensure_ascii=False), encoding="utf-8")
@@ -88,9 +248,12 @@ def main() -> None:
         rows, cols = np.nonzero(raw.gt != raw.background_label)
         labels = raw.gt[rows, cols].astype(np.int64) - 1
         num_classes = int(data_cfg["num_classes"])
-        cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, args.pca_bands, args.seed)
-        radius = args.patch_size // 2
-        padded_cube = np.pad(cube_pca, ((radius, radius), (radius, radius), (0, 0)), mode="reflect").astype(np.float32)
+        if args.preprocess_scope == "full_image":
+            cube_pca, pca_evr_sum = _preprocess_full_image(raw.cube, rows, cols, args.pca_bands, args.seed)
+            padded_cube = _pad_cube(cube_pca, args.patch_size)
+        else:
+            pca_evr_sum = float("nan")
+            padded_cube = None
 
         for shot in args.shots:
             for seed in args.seeds:
@@ -103,6 +266,7 @@ def main() -> None:
                         out=out,
                         dataset_name=dataset_name,
                         data_cfg=data_cfg,
+                        cube=raw.cube,
                         padded_cube=padded_cube,
                         rows=rows,
                         cols=cols,
@@ -137,6 +301,7 @@ def _run_one(
     out: Path,
     dataset_name: str,
     data_cfg: dict[str, Any],
+    cube: np.ndarray,
     padded_cube: np.ndarray,
     rows: np.ndarray,
     cols: np.ndarray,
@@ -154,32 +319,16 @@ def _run_one(
         "few-shot split",
     )
     split = _load_split(split_path)
+    if args.preprocess_scope == "train_only":
+        cube_pca, pca_evr_sum = _preprocess_train_only(cube, rows, cols, split["train"], args.pca_bands, seed)
+        padded_cube = _pad_cube(cube_pca, args.patch_size)
+    if padded_cube is None:
+        raise RuntimeError("padded_cube was not initialized")
     _copy_cached_features_if_available(args, out, dataset_name, shot, seed)
     z, spectra, base_logits, feature_path = _load_or_extract_features(
         args, out, dataset_name, padded_cube, rows, cols, labels, num_classes, shot, seed, device
     )
-    model = SpectralQNNGatedMetricFusion(
-        embedding_dim=z.shape[1],
-        spectral_dim=spectra.shape[1],
-        num_classes=num_classes,
-        gate_mode=args.gate_mode,
-        qnn_variant=args.qnn_variant,
-        residual_scale_mode=args.residual_scale_mode,
-        residual_alpha_init=args.residual_alpha_init,
-        gate_context_mode=args.gate_context_mode,
-        high_confidence_guard_mode=args.high_confidence_guard_mode,
-        guard_floor=args.guard_floor,
-        guard_tau=args.guard_tau,
-        guard_temperature=args.guard_temperature,
-        base_logit_mode=args.base_logit_mode,
-        qubits=args.qubits,
-        layers=args.qnn_layers,
-        entanglement=args.entanglement,
-        backend=args.backend,
-        diff_method=args.diff_method,
-        normalize_input=True,
-        angle_scale=args.angle_scale,
-    ).to(device)
+    model = _make_model(args, z.shape[1], spectra.shape[1], num_classes).to(device)
     param_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
     train_loader = _loader(z, spectra, labels, split["train"], args.batch_size, True, base_logits)
     val_loader = _loader(z, spectra, labels, split["validation"], args.batch_size, False, base_logits)
@@ -296,7 +445,7 @@ def _run_one(
         "metric_weight": args.metric_weight,
         "temperature": args.temperature,
         "num_classes": num_classes,
-        "pca_fit_scope": "full_image_unsupervised",
+        "pca_fit_scope": args.preprocess_scope,
         "pca_evr_sum": pca_evr_sum,
         "patch_size": args.patch_size,
         "pca_bands": args.pca_bands,
@@ -378,6 +527,49 @@ def _train_epoch(
         "train_mean_guard": guard_sum / max(count, 1),
         "train_accuracy": correct / max(count, 1),
     }
+
+
+def _make_model(args: argparse.Namespace, embedding_dim: int, spectral_dim: int, num_classes: int) -> nn.Module:
+    if args.spectral_branch_type == "qnn":
+        return SpectralQNNGatedMetricFusion(
+            embedding_dim=embedding_dim,
+            spectral_dim=spectral_dim,
+            num_classes=num_classes,
+            gate_mode=args.gate_mode,
+            qnn_variant=args.qnn_variant,
+            residual_scale_mode=args.residual_scale_mode,
+            residual_alpha_init=args.residual_alpha_init,
+            gate_context_mode=args.gate_context_mode,
+            high_confidence_guard_mode=args.high_confidence_guard_mode,
+            guard_floor=args.guard_floor,
+            guard_tau=args.guard_tau,
+            guard_temperature=args.guard_temperature,
+            base_logit_mode=args.base_logit_mode,
+            qubits=args.qubits,
+            layers=args.qnn_layers,
+            entanglement=args.entanglement,
+            backend=args.backend,
+            diff_method=args.diff_method,
+            normalize_input=True,
+            angle_scale=args.angle_scale,
+        )
+    return ClassicalSpectralGatedMetricFusion(
+        embedding_dim=embedding_dim,
+        spectral_dim=spectral_dim,
+        num_classes=num_classes,
+        branch_type=args.spectral_branch_type,
+        mlp_hidden_dim=args.mlp_hidden_dim,
+        mlp_output_dim=args.mlp_output_dim,
+        fourier_dim=args.fourier_dim,
+        fourier_scale=args.fourier_scale,
+        gate_mode=args.gate_mode,
+        gate_context_mode=args.gate_context_mode,
+        high_confidence_guard_mode=args.high_confidence_guard_mode,
+        guard_floor=args.guard_floor,
+        guard_tau=args.guard_tau,
+        guard_temperature=args.guard_temperature,
+        base_logit_mode=args.base_logit_mode,
+    )
 
 
 def _gate_confidence_loss(aux: dict[str, torch.Tensor]) -> torch.Tensor:
@@ -511,6 +703,8 @@ def _loader(
 
 
 def _copy_cached_features_if_available(args: argparse.Namespace, out: Path, dataset: str, shot: int, seed: int) -> None:
+    if args.preprocess_scope != "full_image":
+        return
     target = out / "features" / f"{dataset}_shot{shot}_seed{seed}_features.npz"
     if target.exists() and not args.rebuild_features:
         return
@@ -624,7 +818,7 @@ def _write_task_tables(out: Path, all_runs: pd.DataFrame, summary: pd.DataFrame)
 
 
 def _write_hybridsn_comparisons(out: Path, all_runs: pd.DataFrame, summary: pd.DataFrame) -> None:
-    baseline = _load_hybridsn_baseline_runs()
+    baseline = _load_hybridsn_baseline_runs(out)
     if baseline.empty:
         return
     paired = all_runs.merge(
@@ -705,8 +899,13 @@ def _write_hybridsn_comparisons(out: Path, all_runs: pd.DataFrame, summary: pd.D
     )
 
 
-def _load_hybridsn_baseline_runs() -> pd.DataFrame:
-    paths = [
+def _load_hybridsn_baseline_runs(out: Path) -> pd.DataFrame:
+    config_path = out / "config.json"
+    configured = []
+    if config_path.exists():
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        configured = [Path(path) for path in config.get("baseline_runs_files", [])]
+    paths = configured or [
         Path("result/hybridsn_small_fewshot_3datasets/metrics/all_runs.csv"),
         Path("result/hybridsn_small_fewshot_pavia_salinas_5_10shot/metrics/all_runs.csv"),
     ]
@@ -760,6 +959,9 @@ def _write_training_config(out: Path, args: argparse.Namespace) -> None:
 
 
 def _model_name(args: argparse.Namespace) -> str:
+    if args.spectral_branch_type != "qnn":
+        guard = "_confguard" if args.gate_context_mode != "none" or args.gate_confidence_penalty > 0 else ""
+        return f"spectral_{args.spectral_branch_type}{guard}_gated_supcon"
     residual = "_residualsafe" if args.residual_scale_mode == "learnable_sigmoid" else ""
     base = "_prelogit" if args.base_logit_mode == "pretrained" else ""
     if args.high_confidence_guard_mode != "none":
@@ -772,6 +974,9 @@ def _model_name(args: argparse.Namespace) -> str:
 
 
 def _json_model_name(args: argparse.Namespace) -> str:
+    if args.spectral_branch_type != "qnn":
+        guard = "_confguard" if args.gate_context_mode != "none" or args.gate_confidence_penalty > 0 else ""
+        return f"hybridsn_small_spectral_{args.spectral_branch_type}{guard}_gated_fusion_supcon"
     residual = "_residualsafe" if args.residual_scale_mode == "learnable_sigmoid" else ""
     base = "_prelogit" if args.base_logit_mode == "pretrained" else ""
     if args.high_confidence_guard_mode != "none":
@@ -786,6 +991,27 @@ def _json_model_name(args: argparse.Namespace) -> str:
 def _prepare_output(out: Path) -> None:
     for subdir in ("features", "checkpoints", "logs", "metrics", "confusion_matrices", "raw"):
         (out / subdir).mkdir(parents=True, exist_ok=True)
+
+
+def _parse_args() -> argparse.Namespace:
+    bootstrap = argparse.ArgumentParser(add_help=False)
+    bootstrap.add_argument("--config", default=DEFAULT_CONFIG)
+    known, _ = bootstrap.parse_known_args()
+    parser = _build_parser()
+    parser.add_argument("--config", default=known.config)
+    if known.config:
+        parser.set_defaults(**_load_arg_defaults(known.config))
+    return parser.parse_args()
+
+
+def _load_arg_defaults(path: str) -> dict[str, Any]:
+    config_path = Path(path)
+    if not config_path.exists():
+        return {}
+    config = load_yaml(config_path)
+    defaults = config.get("args", config)
+    allowed = {action.dest for action in _build_parser()._actions}
+    return {key: value for key, value in defaults.items() if key in allowed}
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -842,6 +1068,11 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--metric_weight", type=float, default=0.2)
     parser.add_argument("--temperature", type=float, default=0.2)
     parser.add_argument("--gate_mode", choices=["scalar", "classwise"], default="classwise")
+    parser.add_argument("--spectral_branch_type", choices=["qnn", "mlp", "fourier", "rff"], default="qnn")
+    parser.add_argument("--mlp_hidden_dim", type=int, default=6)
+    parser.add_argument("--mlp_output_dim", type=int, default=6)
+    parser.add_argument("--fourier_dim", type=int, default=6)
+    parser.add_argument("--fourier_scale", type=float, default=1.0)
     parser.add_argument("--qnn_variant", choices=["standard", "reupload_multiobs"], default="standard")
     parser.add_argument("--residual_scale_mode", choices=["none", "learnable_sigmoid"], default="none")
     parser.add_argument("--residual_alpha_init", type=float, default=-4.0)
@@ -862,6 +1093,13 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--monitor", choices=["macro_f1", "oa"], default="macro_f1")
     parser.add_argument("--device", default="auto")
     parser.add_argument("--seed", type=int, default=42, help="Unsupervised full-image PCA seed.")
+    parser.add_argument("--preprocess_scope", choices=["full_image", "train_only"], default="full_image")
+    parser.add_argument(
+        "--baseline_runs_files",
+        nargs="*",
+        default=[],
+        help="HybridSN-small all_runs.csv files used for comparison tables.",
+    )
     parser.add_argument("--rebuild_features", action="store_true")
     parser.add_argument("--resume", action="store_true", help="Skip dataset/shot/seed runs with completed metric and confusion files.")
     return parser
